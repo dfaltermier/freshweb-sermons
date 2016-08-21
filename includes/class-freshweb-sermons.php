@@ -78,7 +78,7 @@ class Freshweb_Sermons {
 		require_once FWS_PLUGIN_DIR . 'class-meta-box.php';
 		$meta_boxes = new FWS_Meta_Box;
 
-		require_once FWS_PLUGIN_DIR . 'class-term-meta.php';
+		require_once FWS_PLUGIN_DIR . 'class-series.php';
 		$term_meta = new FreshWeb_Sermons_Series;
 
 	}

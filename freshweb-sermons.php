@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: Freshweb Studios Sermons
- * Plugin URI: http://www.endocreative.com
- * Description: Save and display your sermons
- * Version: 1.0.0
- * Author: Freshweb
+ * Plugin Name: Freshweb Studio Sermons
+ * Plugin URI: http://www.endocreative.com/
+ * Description: Create sermon series containing video, audio, and other related materials.
+ * Version: 1.0.1
+ * Author: Freshweb Studio
  * Author URI: http://freshwebstudio.com/
  * Text Domain: mytextdomain
  * License: GPL2
@@ -22,7 +22,11 @@ if ( ! defined( 'WPINC' ) ) {
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-freshweb-sermons.php';
 
-
+/* 
+ * If the site uses custom permalinks, we will need to flush the permalink 
+ * structure after making changes to our taxonomies, or else the user may
+ * see a "Page Not Found" error.
+ */
 register_activation_hook( __FILE__, 'fws_flush_rewrites' );
 function fws_flush_rewrites() {
 	// call your CPT registration function here (it should also be hooked into 'init')

@@ -163,10 +163,7 @@ class FWS_Post_Types {
 
 
 	public function sermon_columns($columns) {
-
-
-
-		   
+  
 	    $columns = array(
     		'cb' => '<input type="checkbox" />',
     		'title' => __( 'Title' ),

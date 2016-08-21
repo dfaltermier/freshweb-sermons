@@ -32,8 +32,6 @@ class Freshweb_Sermons {
 
 	}
 
-
-	
 	/**
 	 * Setup plugin constants.
 	 *
@@ -81,7 +79,7 @@ class Freshweb_Sermons {
 		$meta_boxes = new FWS_Meta_Box;
 
 		require_once FWS_PLUGIN_DIR . 'class-term-meta.php';
-		$term_meta = new FWS_Term_Meta;
+		$term_meta = new FreshWeb_Sermons_Series;
 
 	}
 

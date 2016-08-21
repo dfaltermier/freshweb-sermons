@@ -54,7 +54,7 @@ class FWS_Meta_Box {
 			<td><label>Audio File</label></td>
 			<td><input type="text" id="fws_audio_file" class="widefat" name="_fws_audio_file" value="<?php echo $audio_file; ?>" />
 	    <input id="upload_audio_file_button" type="button" class="button" value="Upload Audio" /><br>
-	        <span class="description">Upload an mp3 file</span></td>
+	        <p class="description">Upload an mp3 file</p></td>
 	        </tr>
 	        <tr>
 	        	<td><label>Video URL</label></td>

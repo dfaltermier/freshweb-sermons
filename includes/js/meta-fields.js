@@ -57,6 +57,7 @@
          * contains a reference to an active media dialog from which the media file
          * may be uploaded and selected.
          *
+         * @param   object.string  args.mediaType   'image', 'audio', or 'video'
          * @param   object.string  args.buttonText  Button text in media uploader window. 
          * @return  Callback function.
          */
@@ -79,6 +80,9 @@
                     title: args.buttonText,
                     button: {
                         text: args.buttonText
+                    },
+                    library: {
+                        type: args.mediaType
                     },
                     multiple: false
                 });
@@ -109,11 +113,13 @@
         function activateMediaUploadButtons() {
             // Activate audio upload buttons.
             $('.fw-sermons-audio-upload-button').on('click', uploadMedia({
+                mediaType: 'audio',
                 buttonText: 'Choose Audio File'  
             }));
 
             // Activate image upload buttons.
             $('.fw-sermons-image-upload-button').on('click', uploadMedia({
+                mediaType: 'image',
                 buttonText: 'Choose Image'  
             }));
         }

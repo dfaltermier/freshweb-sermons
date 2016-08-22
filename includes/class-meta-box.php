@@ -63,14 +63,15 @@ class FWS_Meta_Box {
 			           value="<?php echo $audio_file; ?>" />
 	            <input type="button" class="button fw-sermons-audio-upload-button"
 	                   value="Upload Audio" />
-	            <p class="description">Upload an mp3 audio file</p></td>
+	            <p class="description">Url to an mp3 audio file</p></td>
 	        </tr>
 	        <tr>
 	        	<th><label>Video URL</label></th>
 				<td><input type="text" id="fws_video_url" class="widefat" name="_fws_video_url"
-				     value="<?php echo $video_url; ?>" /></td>
+				     value="<?php echo $video_url; ?>" />
+				     <p class="description">Url to a video file</p></td>
 	    </table>
-		<?php 
+		<?php
 	}
 
 	
@@ -99,8 +100,8 @@ class FWS_Meta_Box {
 
 		foreach( $fields as $field ) {
 			
-			if ( ! empty( $_POST[ $field ] ) ) {
-				$value = sanitize_text_field( $_POST[ $field ] ); 
+			if ( isset( $_POST[ $field ] ) ) {
+				$value = sanitize_text_field( trim( $_POST[ $field ] ) ); 
 				update_post_meta( $post_id, $field, $value );
 			}
 

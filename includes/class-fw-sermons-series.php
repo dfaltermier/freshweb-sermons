@@ -1,8 +1,6 @@
 <?php 
 
 /**
- * Add additional meta fields to the sermon series.
- *
  * This class adds additonal fields to the sermon series taxonomy, allowing you to edit
  * and save their values.
  */

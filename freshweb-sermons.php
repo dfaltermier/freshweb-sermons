@@ -19,7 +19,7 @@ if ( ! defined( 'WPINC' ) ) {
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-freshweb-sermons.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-fw-sermons.php';
 
 /* 
  * If the site uses custom permalinks, we will need to flush the permalink 
@@ -31,7 +31,7 @@ register_activation_hook( __FILE__, 'fw_sermons_flush_rewrites' );
 function fw_sermons_flush_rewrites() {
     
 	// call your CPT registration function here (it should also be hooked into 'init')
-	require_once FW_SERMONS_PLUGIN_DIR . 'class-post-types.php';
+	require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-post-types.php';
 	$post_types = new FW_Sermons_Post_Types;
 
 	flush_rewrite_rules();
@@ -49,7 +49,7 @@ function fw_sermons_flush_rewrites() {
  */
 function run_freshweb_sermons() {
 
-	$plugin = new Freshweb_Sermons();
+	$plugin = new FW_Sermons();
 	$plugin->run();
 
 }

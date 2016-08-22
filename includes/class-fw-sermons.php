@@ -3,7 +3,7 @@
 /**
 * Load the base class
 */
-class Freshweb_Sermons {
+class FW_Sermons {
 	
 	function __construct()	{
 		
@@ -84,13 +84,13 @@ class Freshweb_Sermons {
 	 */
 	private function includes() {
 
-		require_once FW_SERMONS_PLUGIN_DIR . 'class-post-types.php';
+		require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-post-types.php';
 		$post_types = new FW_Sermons_Post_Types;
 
-		require_once FW_SERMONS_PLUGIN_DIR . 'class-meta-box.php';
+		require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-meta-box.php';
 		$meta_boxes = new FW_Sermons_Meta_Box;
 
-		require_once FW_SERMONS_PLUGIN_DIR . 'class-series.php';
+		require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-series.php';
 		$term_meta = new FW_Sermons_Series;
 
 	}

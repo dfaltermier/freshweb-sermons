@@ -1,9 +1,9 @@
 <?php 
 
 /**
- * Add additional meta fields to the sermon series .
+ * Add additional meta fields to the sermon series.
  *
- * This class adds additonal fields to the sermon series taxonimy, allowing you to edit
+ * This class adds additonal fields to the sermon series taxonomy, allowing you to edit
  * and save their values.
  */
 class FreshWeb_Sermons_Series {
@@ -12,7 +12,7 @@ class FreshWeb_Sermons_Series {
 		
 		add_action( 'init', array( $this, 'register_meta' ) );
 
-		add_action( 'sermon_series_add_form_fields', array( $this, 'add_sermon_fields' ) );
+		add_action( 'sermon_series_add_form_fields',  array( $this, 'add_sermon_fields' ) );
 		add_action( 'sermon_series_edit_form_fields', array( $this, 'edit_sermon_fields' ) );
 
 		add_action( 'edit_sermon_series',   array( $this, 'save_sermon_fields' ) );
@@ -45,11 +45,13 @@ class FreshWeb_Sermons_Series {
 
 	    <div class="form-field ">
 	        <label for="sermon_series_dates">Sermon Series Dates</label>
-	        <input type="text" name="sermon_series_dates" id="sermon_series_dates" value="" />
+	        <input type="text" name="sermon_series_dates" id="sermon_series_dates"
+                   class="fw-sermons-datepicker" value="" />
 	        <p class="description">Enter the date the sermon series began.</p>
 
 	        <label for="sermon_series_image">Sermon Image</label>
-	        <input type="text" name="sermon_series_image" id="sermon_series_image" value="" /> <input id="upload_sermon_image_button" type="button" class="button" value="Upload Image" />
+	        <input type="text" name="sermon_series_image" id="sermon_series_image" value="" />
+            <input id="upload_sermon_image_button" type="button" class="button" value="Upload Image" />
 	        <p class="description">Enter the url of an image to be associated with this sermon series.</p>
 	    </div>
 	    <?php 
@@ -70,14 +72,18 @@ class FreshWeb_Sermons_Series {
 	        <th scope="row"><label for="sermon_series_dates">Sermon Series Dates</label></th>
 	        <td>
 	            <?php wp_nonce_field( basename( __FILE__ ), 'fws_series_meta_nonce' ); ?>
-	            <input type="text" name="sermon_series_dates" id="sermon_series_dates" value="<?php echo esc_attr( $sermon_dates ); ?>" " />
+	            <input type="text" name="sermon_series_dates" id="sermon_series_dates" 
+                       class="fw-sermons-datepicker"
+                       value="<?php echo esc_attr( $sermon_dates ); ?>" />
     	        <p class="description">Enter the date the sermon series began.</p>
 	        </td>
 	    </tr>
 	    <tr class="form-field">
 	        <th scope="row"><label for="sermon_series_image">Sermon Series Image</label></th>
 	        <td>
-	            <input type="text" name="sermon_series_image" id="sermon_series_image" value="<?php echo esc_attr( $sermon_image ); ?>" " /> <input id="upload_sermon_image_button" type="button" class="button" value="Upload Image" />
+	            <input type="text" name="sermon_series_image" id="sermon_series_image" 
+                       value="<?php echo esc_attr( $sermon_image ); ?>" />
+                <input id="upload_sermon_image_button" type="button" class="button" value="Upload Image" />
     	        <p class="description">Enter the url of an image to be associated with this sermon series.</p>
 	        </td>
 	    </tr>

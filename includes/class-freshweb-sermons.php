@@ -28,7 +28,12 @@ class Freshweb_Sermons {
 	 */
 	public function load_admin_scripts() {
 
-		wp_enqueue_script( 'fw-file-import', FWS_PLUGIN_URL . 'js/file-import.js' );
+		wp_enqueue_script(
+			'fw-sermons-meta-fields',
+			FWS_PLUGIN_URL . 'js/meta-fields.js',
+			array( 'jquery-ui-datepicker' ),
+			'1.0.0'
+		);
 
 	}
 

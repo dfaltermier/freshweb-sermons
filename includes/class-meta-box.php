@@ -18,7 +18,14 @@ class FWS_Meta_Box {
 	 */
 	public function add_sermon_meta_box() {
 
-		add_meta_box( 'fws_details', 'Sermon Details', array( $this, 'render_sermon_meta_box' ), 'sermon', 'normal', 'high' );
+		add_meta_box(
+			'fws_details',
+			'Sermon Details',
+			array( $this, 'render_sermon_meta_box' ),
+			'sermon',
+			'normal',
+			'high'
+		);
 
 	}
 
@@ -44,21 +51,24 @@ class FWS_Meta_Box {
 	private function meta_box_detail_fields( $post_id ) {
 
 		$audio_file = get_post_meta( $post_id, '_fws_audio_file', true );
-		$video_url = get_post_meta( $post_id, '_fws_video_url', true );
+		$video_url  = get_post_meta( $post_id, '_fws_video_url', true );
 
 		?>
 		<?php wp_nonce_field( 'fws_sermon_save', 'fws_sermon_meta_box_nonce' ); ?>
 
 		<table class="form-table">
 			<tr>
-			<td><label>Audio File</label></td>
-			<td><input type="text" id="fws_audio_file" class="widefat" name="_fws_audio_file" value="<?php echo $audio_file; ?>" />
-	    <input id="upload_audio_file_button" type="button" class="button" value="Upload Audio" /><br>
-	        <p class="description">Upload an mp3 file</p></td>
+			<th><label>Audio File</label></th>
+			<td><input type="text" class="widefat" id="fws_audio_file" name="_fws_audio_file" 
+			           value="<?php echo $audio_file; ?>" />
+	            <input type="button" class="button fw-sermons-audio-upload-button"
+	                   value="Upload Audio" />
+	            <p class="description">Upload an mp3 audio file</p></td>
 	        </tr>
 	        <tr>
-	        	<td><label>Video URL</label></td>
-				<td><input type="text" id="fws_video_url" class="widefat" name="_fws_video_url" value="<?php echo $video_url; ?>" /></td>
+	        	<th><label>Video URL</label></th>
+				<td><input type="text" id="fws_video_url" class="widefat" name="_fws_video_url"
+				     value="<?php echo $video_url; ?>" /></td>
 	    </table>
 		<?php 
 	}
@@ -66,11 +76,14 @@ class FWS_Meta_Box {
 	
 	public function sermon_meta_box_save( $post_id, $post ) {
 
-		if ( ! isset( $_POST['fws_sermon_meta_box_nonce'] ) || ! wp_verify_nonce( $_POST['fws_sermon_meta_box_nonce'], 'fws_sermon_save' ) ) {
+		if ( ! isset( $_POST['fws_sermon_meta_box_nonce'] ) ||
+		     ! wp_verify_nonce( $_POST['fws_sermon_meta_box_nonce'], 'fws_sermon_save' ) ) {
 			return;
 		}
 
-		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( defined( 'DOING_AJAX') && DOING_AJAX ) || isset( $_REQUEST['bulk_edit'] ) ) {
+		if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ||
+		     ( defined( 'DOING_AJAX') && DOING_AJAX ) ||
+		       isset( $_REQUEST['bulk_edit'] ) ) {
 			return;
 		}
 
@@ -93,8 +106,6 @@ class FWS_Meta_Box {
 
 		}
 
-
-
-
 	}
+
 }

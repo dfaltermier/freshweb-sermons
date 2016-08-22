@@ -6,7 +6,6 @@
  
 	    var user_custom_uploader;
 	 
-	 
 	    $('#upload_audio_file_button').click(function(e) {
 	 
 	        e.preventDefault();

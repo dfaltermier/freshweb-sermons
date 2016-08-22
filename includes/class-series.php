@@ -6,7 +6,7 @@
  * This class adds additonal fields to the sermon series taxonomy, allowing you to edit
  * and save their values.
  */
-class FreshWeb_Sermons_Series {
+class FW_Sermons_Series {
 	
 	function __construct()	{
 		
@@ -41,7 +41,7 @@ class FreshWeb_Sermons_Series {
      */
 	public function add_sermon_fields() {
 
-		wp_nonce_field( basename( __FILE__ ), 'fws_series_meta_nonce' ); ?>
+		wp_nonce_field( basename( __FILE__ ), 'fw_sermons_series_meta_nonce' ); ?>
 
 	    <div class="form-field ">
 	        <label for="sermon_series_dates">Sermon Series Dates</label>
@@ -71,7 +71,7 @@ class FreshWeb_Sermons_Series {
 	    <tr class="form-field">
 	        <th scope="row"><label for="sermon_series_dates">Sermon Series Dates</label></th>
 	        <td>
-	            <?php wp_nonce_field( basename( __FILE__ ), 'fws_series_meta_nonce' ); ?>
+	            <?php wp_nonce_field( basename( __FILE__ ), 'fw_sermons_series_meta_nonce' ); ?>
 	            <input type="text" name="sermon_series_dates" id="sermon_series_dates" 
                        class="fw-sermons-datepicker"
                        value="<?php echo esc_attr( $sermon_dates ); ?>" />
@@ -95,8 +95,8 @@ class FreshWeb_Sermons_Series {
      */
 	public function save_sermon_fields( $term_id ) {
 
-	    if ( ! isset( $_POST['fws_series_meta_nonce'] ) || 
-	    	 ! wp_verify_nonce( $_POST['fws_series_meta_nonce'], basename( __FILE__ ) ) ) {
+	    if ( ! isset( $_POST['fw_sermons_series_meta_nonce'] ) || 
+	    	 ! wp_verify_nonce( $_POST['fw_sermons_series_meta_nonce'], basename( __FILE__ ) ) ) {
 	        return;
 		}
 

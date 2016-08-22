@@ -3,7 +3,7 @@
 /**
 * Load the base class
 */
-class FWS_Post_Types {
+class FW_Sermons_Post_Types {
 	
 	function __construct()	{
 		

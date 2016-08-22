@@ -10,7 +10,6 @@
  * License: GPL2
  */
 
-
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -27,14 +26,18 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-freshweb-sermons.php';
  * structure after making changes to our taxonomies, or else the user may
  * see a "Page Not Found" error.
  */
-register_activation_hook( __FILE__, 'fws_flush_rewrites' );
-function fws_flush_rewrites() {
+register_activation_hook( __FILE__, 'fw_sermons_flush_rewrites' );
+
+function fw_sermons_flush_rewrites() {
+    
 	// call your CPT registration function here (it should also be hooked into 'init')
-	require_once FWS_PLUGIN_DIR . 'class-post-types.php';
-	$post_types = new FWS_Post_Types;
+	require_once FW_SERMONS_PLUGIN_DIR . 'class-post-types.php';
+	$post_types = new FW_Sermons_Post_Types;
 
 	flush_rewrite_rules();
+
 }
+
 /**
  * Begins execution of the plugin.
  *
@@ -45,7 +48,9 @@ function fws_flush_rewrites() {
  * @since    1.0.0
  */
 function run_freshweb_sermons() {
+
 	$plugin = new Freshweb_Sermons();
 	$plugin->run();
+
 }
 run_freshweb_sermons();

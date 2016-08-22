@@ -1,0 +1,35 @@
+/**
+ * All of the CSS for our admin-specific functionality is included in this file.
+ */
+
+/*
+ * Style Sermon Details section on Sermon edit page.
+ */
+#fw-sermons-details input[type="button"] {
+    margin: 5px 2px 0;
+}
+#fw-sermons-details .fw-sermons-document-meta-fields {
+    padding: 5px 0 0;
+}
+#fw-sermons-details .fw-sermons-document-meta-fields th,
+#fw-sermons-details .fw-sermons-document-meta-fields td {
+    padding: 0 15px 0 0;
+    vertical-align: top;
+    width: 40%;
+}
+#fw-sermons-details .fw-sermons-document-meta-fields th {
+    padding-bottom: 5px;
+}
+#fw-sermons-details .fw-sermons-document-meta-fields td:last-child {
+    width: 20%;
+}
+#fw-sermons-details .fw-sermons-document-meta-fields input[type="text"] {
+    width: 100%;
+}
+#fw-sermons-details .fw-sermons-document-meta-fields p.description {
+    margin: 5px 0 10px;
+}
+
+
+
+

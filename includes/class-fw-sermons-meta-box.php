@@ -88,7 +88,10 @@ class FW_Sermons_Meta_Box {
 				           placeholder="<?php echo esc_attr('e.g. https://vimeo.com/123456789'); ?>" />
      	            <input type="button" class="button fw-sermons-video-upload-button"
 	                       value="Upload Video File" />
-				    <p class="description">Url to playable sermon video file</p></td>
+				    <p class="description">Url to playable sermon video file. <br />Ideally, you'll want to 
+				           host your video files on Vimeo, YouTube, or equivalent video hosting service.
+				           Your web hosting provider may not approve streaming videos from their web server
+				           and may disrupt your service if this becomes abused.</p></td>
 		     </tr>
 	        <tr>
 	        	<th><label>Video Download URL</label></th>

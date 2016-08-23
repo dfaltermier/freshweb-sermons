@@ -1,8 +1,8 @@
 <?php 
 
 /**
-* Load the base class
-*/
+ * This class initializes the environment in which we'll run.
+ */
 class FW_Sermons {
 	
 	function __construct()	{

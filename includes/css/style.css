@@ -1,9 +1,9 @@
 /**
- * All of the CSS for our admin-specific functionality is included in this file.
+ * CSS for our admin-specific functionality.
  */
 
 /*
- * Style Sermon Details section on Sermon edit page.
+ * Sermon Edit Page: Sermon Details meta box.
  */
 #fw-sermons-details input[type="button"] {
     margin: 5px 2px 0;

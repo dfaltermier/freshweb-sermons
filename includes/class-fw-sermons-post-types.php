@@ -1,8 +1,9 @@
 <?php 
 
 /**
-* Load the base class
-*/
+ * This class creates the Sermons custom post type and registers the associated
+ * taxonomies.
+ */
 class FW_Sermons_Post_Types {
 	
 	function __construct()	{

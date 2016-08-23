@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name: Freshweb Studio Sermons
- * Plugin URI: http://www.endocreative.com/
- * Description: Create sermon series containing video, audio, and other related materials.
+ * Plugin URI: https://github.com/dfaltermier/freshweb-sermons
+ * Description: Create sermon series containing video, audio, and other associated materials.
  * Version: 1.0.1
- * Author: Freshweb Studio
- * Author URI: http://freshwebstudio.com/
- * Text Domain: mytextdomain
- * License: GPL2
+ * Author: Freshweb Studio and Endo Creative
+ * Author URI: https://freshwebstudio.com/
+ * Text Domain: fw-sermons
+ * License: GPL3
  */
 
 // If this file is called directly, abort.
@@ -22,15 +22,15 @@ if ( ! defined( 'WPINC' ) ) {
 require plugin_dir_path( __FILE__ ) . 'includes/class-fw-sermons.php';
 
 /* 
- * If the site uses custom permalinks, we will need to flush the permalink 
- * structure after making changes to our taxonomies, or else the user may
- * see a "Page Not Found" error.
+ * When adding custom post types and taxonomies, we must flush the 
+ * rewrite rules or else the user may see a "Page Not Found" error.
+ * Be sure to register the CPT and taxonomies before flushing!
+ * Why do this? See https://codex.wordpress.org/Function_Reference/flush_rewrite_rules
  */
 register_activation_hook( __FILE__, 'fw_sermons_flush_rewrites' );
 
 function fw_sermons_flush_rewrites() {
     
-	// call your CPT registration function here (it should also be hooked into 'init')
 	require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-post-types.php';
 	$post_types = new FW_Sermons_Post_Types;
 
@@ -44,8 +44,6 @@ function fw_sermons_flush_rewrites() {
  * Since everything within the plugin is registered via hooks,
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
- *
- * @since    1.0.0
  */
 function run_freshweb_sermons() {
 

@@ -2,7 +2,8 @@
  * This script adds the dynamic behavior we need for meta input fields.  
  *
  * @Dependencies
- *   1. jquery-ui-datepicker.js.
+ *   1. jquery
+ *   2. jquery-ui-datepicker
  */
 (function($) {
 
@@ -51,57 +52,42 @@
     $(function() {
      
         /**
-         * Returns a callback function for the 'click' event on a media upload button.
-         * We wrap the callback function within a closure to ensure that each function
-         * instance has access to it's own fileFrame handle. The fileFrame handle
-         * contains a reference to an active media dialog from which the media file
-         * may be uploaded and selected.
+         * Callback function for the 'click' event on a media upload button.
          *
-         * @param   object.string  args.mediaType   'image', 'audio', or 'video'
-         * @param   object.string  args.buttonText  Button text in media uploader window. 
-         * @return  Callback function.
+         * @param   event.data.mediaType   'image', 'audio', or 'video' media type.
+         * @param   event.data.buttonText  Button text in media uploader window. 
          */
-        function uploadMedia(args) {
-            var fileFrame = null;
+        function uploadMedia(event) {
+            event.preventDefault();
 
-            return function(event) {
-                var $button = $(this);
+            var $button = $(this);
+     
+            // Create a new media file frame.
+            var fileFrame = wp.media.frames.file_frame = wp.media({
+                title: event.data.buttonText,
+                button: {
+                    text: event.data.buttonText
+                },
+                library: {
+                    type: event.data.mediaType
+                },
+                multiple: false
+            });
+     
+            // When a file is selected, grab the URL and set it as the text
+            // field's value. 
+            fileFrame.on('select', function() {
+                // Get media attachment details from the fileFrame state.
+                var attachment = fileFrame.state().get('selection').first().toJSON();
 
-                event.preventDefault();
-         
-                // If the frame object has already been created, reopen the dialog.
-                if (fileFrame) {
-                    fileFrame.open();
-                    return;
-                }
-         
-                // Create a new media file frame.
-                fileFrame = wp.media.frames.file_frame = wp.media({
-                    title: args.buttonText,
-                    button: {
-                        text: args.buttonText
-                    },
-                    library: {
-                        type: args.mediaType
-                    },
-                    multiple: false
-                });
-         
-                // When a file is selected, grab the URL and set it as the text
-                // field's value. 
-                fileFrame.on('select', function() {
-                    // Get media attachment details from the fileFrame state.
-                    var attachment = fileFrame.state().get('selection').first().toJSON();
-
-                    // Set the attachment URL in our input text field. We make the 
-                    // assumption that the previous sibling is the input text field
-                    // we want to stuff. Ensure this is the case in our html!
-                    $button.prev().val(attachment.url);
-                });
-         
-                // Open the file frame dialog.
-                fileFrame.open();
-            };
+                // Set the attachment URL in our input text field. We make the 
+                // assumption that the previous sibling is the input text field
+                // we want to stuff. Ensure this is the case in our html!
+                $button.prev().val(attachment.url);
+            });
+     
+            // Open the file frame dialog.
+            fileFrame.open();
         }
 
         /**
@@ -112,16 +98,24 @@
          */
         function activateMediaUploadButtons() {
             // Activate audio upload buttons.
-            $('.fw-sermons-audio-upload-button').on('click', uploadMedia({
-                mediaType: 'audio',
-                buttonText: 'Choose Audio File'  
-            }));
+            $('.fw-sermons-audio-upload-button').on(
+                'click',
+                {
+                    mediaType:  'audio',
+                    buttonText: 'Choose Audio File'
+                },
+                uploadMedia
+            );
 
             // Activate image upload buttons.
-            $('.fw-sermons-image-upload-button').on('click', uploadMedia({
-                mediaType: 'image',
-                buttonText: 'Choose Image'  
-            }));
+            $('.fw-sermons-image-upload-button').on(
+                'click', 
+                {
+                    mediaType:  'image',
+                    buttonText: 'Choose Image File'  
+                },
+                uploadMedia
+            );
         }
 
         activateMediaUploadButtons();
@@ -135,42 +129,26 @@
     $(function() {
      
         /**
-         * Returns a callback function for the 'click' event on a media upload button.
-         * We wrap the callback function within a closure to ensure that each function
-         * instance has access to it's own fileFrame handle. The fileFrame handle
-         * contains a reference to an active media dialog from which the media file
-         * may be uploaded and selected.
-         *
-         * @param   object.string  args.mediaType   'image', 'audio', or 'video'
-         * @param   object.string  args.buttonText  Button text in media uploader window. 
-         * @return  Callback function.
+         * Callback function for the 'click' event on a [document] media upload button
          */
         function uploadMedia(args) {
             event.preventDefault();
 
-            var fileFrame = null;
             var $button = $(this);
      
-            // If the frame object has already been created, reopen the dialog.
-            if (fileFrame) {
-                fileFrame.open();
-                return;
-            }
-     
             // Create a new media file frame.
-            fileFrame = wp.media.frames.file_frame = wp.media({
+            var fileFrame = wp.media.frames.file_frame = wp.media({
                 title: args.buttonText,
                 button: {
                     text: 'Choose Document File'
                 },
                 library: {
-                    type: ''
+                    type: '' // There is currently no 'document' type to filter by.
                 },
                 multiple: false
             });
      
-            // When a file is selected, grab the URL and set it as the text
-            // field's value. 
+            // When a file is selected, grab the URL and set the text field value. 
             fileFrame.on('select', function() {
                 // Get media attachment details from the fileFrame state.
                 var attachment = fileFrame.state().get('selection').first().toJSON();

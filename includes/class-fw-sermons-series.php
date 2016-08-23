@@ -41,19 +41,22 @@ class FW_Sermons_Series {
 
 		wp_nonce_field( basename( __FILE__ ), 'fw_sermons_series_meta_nonce' ); ?>
 
-	    <div class="form-field ">
-	        <label for="sermon_series_dates">Sermon Series Dates</label>
-	        <input type="text" name="sermon_series_dates" id="sermon_series_dates"
+        <div class="form-field ">
+            <label for="fw_sermons_series_date">Sermon Series Date</label>
+            <input type="text" name="fw_sermons_series_date" 
+                   id="fw_sermons_series_date"
                    class="fw-sermons-datepicker" value="" />
-	        <p class="description">Enter the date the sermon series began</p>
-
-	        <label for="sermon_series_image">Sermon Image</label>
-	        <input type="text" name="sermon_series_image" id="sermon_series_image" value="" />
-            <input id="upload_sermon_image_button" type="button" 
-                   class="button fw-sermons-image-upload-button" value="Upload Image" />
-	        <p class="description">Enter the url of an image for this sermon series</p>
-	    </div>
+            <p class="description">Enter the sermon series start date</p>
+        </div>
+        <div class="form-field ">
+            <label for="fw_sermon_series_image">Sermon Series Image</label>
+            <input type="text" name="fw_sermons_series_image" 
+                   id="fw_sermons_series_image" value="" />
+            <input type="button" class="button fw-sermons-image-upload-button" value="Upload Image" />
+            <p class="description">Enter the url of an image for this sermon series</p>
+        </div>
 	    <?php 
+
 	}
 
     /**
@@ -62,35 +65,36 @@ class FW_Sermons_Series {
      */
 	public function edit_sermon_fields( $term ) {
 
-		$sermon_dates = get_term_meta( $term->term_id, 'sermon_series_dates', true );
-		$sermon_image = get_term_meta( $term->term_id, 'sermon_series_image', true );
+		$series_date  = get_term_meta( $term->term_id, 'fw_sermons_series_date', true );
+		$series_image = get_term_meta( $term->term_id, 'fw_sermons_series_image', true );
 
 	    ?>
 
 	    <tr class="form-field">
-	        <th scope="row"><label for="sermon_series_dates">Sermon Series Dates</label></th>
+	        <th scope="row"><label for="fw_sermons_series_date">Sermon Series Date</label></th>
 	        <td>
 	            <?php wp_nonce_field( basename( __FILE__ ), 'fw_sermons_series_meta_nonce' ); ?>
-	            <input type="text" name="sermon_series_dates" id="sermon_series_dates" 
+	            <input type="text" name="fw_sermons_series_date" id="fw_sermons_series_date" 
                        class="fw-sermons-datepicker"
-                       value="<?php echo esc_attr( $sermon_dates ); ?>" />
-    	        <p class="description">Enter the date the sermon series began.</p>
+                       value="<?php echo esc_attr( $series_date ); ?>" />
+    	        <p class="description">Enter the sermon series start date</p>
 	        </td>
 	    </tr>
 	    <tr class="form-field">
-	        <th scope="row"><label for="sermon_series_image">Sermon Series Image</label></th>
+	        <th scope="row"><label for="fw_sermons_series_image">Sermon Series Image</label></th>
 	        <td>
-	            <input type="text" name="sermon_series_image" id="sermon_series_image" 
-                       value="<?php echo esc_attr( $sermon_image ); ?>" />
-                <input id="upload_sermon_image_button" type="button" class="button" value="Upload Image" />
-    	        <p class="description">Enter the url of an image to be associated with this sermon series.</p>
+	            <input type="text" name="fw_sermons_series_image" id="fw_sermons_series_image" 
+                       value="<?php echo esc_attr( $series_image ); ?>" />
+                <input type="button" class="button fw-sermons-image-upload-button" value="Upload Image" />
+                <p class="description">Enter the url of an image for this sermon series</p>
 	        </td>
 	    </tr>
 	    <?php 
+
 	}
 
     /**
-     * Save the meta field values from either of the forms above.
+     * Save the meta field values from both of the forms above.
      */
 	public function save_sermon_fields( $term_id ) {
 
@@ -99,17 +103,17 @@ class FW_Sermons_Series {
 	        return;
 		}
 
-	    $series_dates = isset( $_POST['sermon_series_dates'] ) 
-	        ? $this->sanitize_input( ( $_POST['sermon_series_dates'] ) ) 
+	    $series_date = isset( $_POST['fw_sermons_series_date'] ) 
+	        ? $this->sanitize_input( ( $_POST['fw_sermons_series_date'] ) ) 
 	        : '';
 
-	    $series_image = isset( $_POST['sermon_series_image'] ) 
-	        ? $this->sanitize_input( ( $_POST['sermon_series_image'] ) ) 
+	    $series_image = isset( $_POST['fw_sermons_series_image'] ) 
+	        ? $this->sanitize_input( ( $_POST['fw_sermons_series_image'] ) ) 
 	        : '';
 
         // Allow the values to be empty.
-    	update_term_meta( $term_id, 'sermon_series_dates', $series_dates );
-    	update_term_meta( $term_id, 'sermon_series_image', $series_image );
+    	update_term_meta( $term_id, 'fw_sermons_series_date',  $series_date );
+    	update_term_meta( $term_id, 'fw_sermons_series_image', $series_image );
 	
 	}
 

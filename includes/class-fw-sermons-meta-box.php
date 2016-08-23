@@ -75,7 +75,7 @@ class FW_Sermons_Meta_Box {
 			               value="<?php echo $audio_player_url; ?>"
    				           placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
 	                <input type="button" class="button fw-sermons-audio-upload-button"
-	                       value="Upload Audio File" />
+	                       value="Upload Audio" />
 	                <p class="description">Url to playable sermon mp3 audio file</p></td>
 	        </tr> 
 			<tr>
@@ -85,7 +85,7 @@ class FW_Sermons_Meta_Box {
 			               value="<?php echo $audio_download_url; ?>"
    				           placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
 	                <input type="button" class="button fw-sermons-audio-upload-button"
-	                       value="Upload Audio File" />
+	                       value="Upload Audio" />
 	                <p class="description">Url to downloadable sermon mp3 audio file (may be same as above)</p></td>
 	        </tr>   
 	        <tr>
@@ -95,7 +95,7 @@ class FW_Sermons_Meta_Box {
 				           value="<?php echo $video_player_url; ?>"
 				           placeholder="<?php echo esc_attr('e.g. https://vimeo.com/123456789'); ?>" />
      	            <input type="button" class="button fw-sermons-video-upload-button"
-	                       value="Upload Video File" />
+	                       value="Upload Video" />
 				    <p class="description">Url to playable sermon video file. <br />Ideally, you'll want to 
 				           host your video files on Vimeo, YouTube, or equivalent video hosting service.
 				           Your web hosting provider may not approve streaming videos from their web server
@@ -108,7 +108,7 @@ class FW_Sermons_Meta_Box {
 				           value="<?php echo $video_download_url; ?>" 
  				           placeholder="<?php echo esc_attr('e.g. https://player.vimeo.com/external/123456789.hd.mp4?download=1'); ?>" />
       	            <input type="button" class="button fw-sermons-video-upload-button"
-	                       value="Upload Video File" />
+	                       value="Upload Video" />
 				    <p class="description">Url to downloadable sermon video file (may be same as above)</p></td>
 		     </tr>
 	        <tr>

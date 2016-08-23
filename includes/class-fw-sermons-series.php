@@ -45,12 +45,13 @@ class FW_Sermons_Series {
 	        <label for="sermon_series_dates">Sermon Series Dates</label>
 	        <input type="text" name="sermon_series_dates" id="sermon_series_dates"
                    class="fw-sermons-datepicker" value="" />
-	        <p class="description">Enter the date the sermon series began.</p>
+	        <p class="description">Enter the date the sermon series began</p>
 
 	        <label for="sermon_series_image">Sermon Image</label>
 	        <input type="text" name="sermon_series_image" id="sermon_series_image" value="" />
-            <input id="upload_sermon_image_button" type="button" class="button" value="Upload Image" />
-	        <p class="description">Enter the url of an image to be associated with this sermon series.</p>
+            <input id="upload_sermon_image_button" type="button" 
+                   class="button fw-sermons-image-upload-button" value="Upload Image" />
+	        <p class="description">Enter the url of an image for this sermon series</p>
 	    </div>
 	    <?php 
 	}

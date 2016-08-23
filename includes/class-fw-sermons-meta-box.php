@@ -39,6 +39,7 @@ class FW_Sermons_Meta_Box {
 
 	private function meta_box_detail_fields( $post_id ) {
 
+		$date               = get_post_meta( $post_id, '_fw_sermons_date', true );
 		$audio_player_url   = get_post_meta( $post_id, '_fw_sermons_audio_player_url', true );
 		$audio_download_url = get_post_meta( $post_id, '_fw_sermons_audio_download_url', true );
 		$video_player_url   = get_post_meta( $post_id, '_fw_sermons_video_player_url', true );
@@ -61,6 +62,13 @@ class FW_Sermons_Meta_Box {
 
 		<table class="form-table">
 			<tr>
+			    <th><label>Sermon Date</label></th>
+			    <td><input type="text" class="widefat fw-sermons-datepicker" 
+			               id="fw_sermons_date" name="fw_sermons_date"
+			               value="<?php echo esc_attr( $date ); ?>" />
+	                <p class="description">Date when sermon was given</p></td>
+	        </tr>
+			<tr>
 			    <th><label>Audio Player Url</label></th>
 			    <td><input type="text" class="widefat" id="fw_sermons_audio_player_url"
 			               name="fw_sermons_audio_player_url" 
@@ -68,7 +76,7 @@ class FW_Sermons_Meta_Box {
    				           placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
 	                <input type="button" class="button fw-sermons-audio-upload-button"
 	                       value="Upload Audio File" />
-	            <p class="description">Url to playable sermon mp3 audio file</p></td>
+	                <p class="description">Url to playable sermon mp3 audio file</p></td>
 	        </tr> 
 			<tr>
 			    <th><label>Audio Download Url</label></th>
@@ -78,7 +86,7 @@ class FW_Sermons_Meta_Box {
    				           placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
 	                <input type="button" class="button fw-sermons-audio-upload-button"
 	                       value="Upload Audio File" />
-	            <p class="description">Url to downloadable sermon mp3 audio file (may be same as above)</p></td>
+	                <p class="description">Url to downloadable sermon mp3 audio file (may be same as above)</p></td>
 	        </tr>   
 	        <tr>
 	        	<th><label>Video Player URL</label></th>
@@ -121,7 +129,7 @@ class FW_Sermons_Meta_Box {
 	                            <tr class="fw-sermons-document-row">
 	                                <td><input type="text" class="fw-sermons-document-link-label"
 	                                           name="fw_sermons_document_link_label[]" 
-	                                           value="<?php echo $document_link['label'] ?>"
+	                                           value="<?php echo esc_attr( $document_link['label'] ); ?>"
 	                                           placeholder="e.g. Notes on Romans"
 	                                           maxlength="300" />
 							            <input type="button" class="button fw-sermons-document-upload-button"
@@ -130,7 +138,7 @@ class FW_Sermons_Meta_Box {
 	                                </td>
 	                                <td><input type="text" class="fw-sermons-document-link-url"
 	                                           name="fw_sermons_document_link_url[]"
-	                                           value="<?php echo $document_link['url'] ?>"
+	                                           value="<?php echo esc_attr( $document_link['url'] ); ?>"
 	                                           placeholder="e.g. https://mydomain.com/sermon.pdf"
 	                                           maxlength="300" /></td>
 	                                <td><a href="#" class="fw-sermons-document-delete-link" style="display:none;">Delete</a></td>
@@ -150,7 +158,6 @@ class FW_Sermons_Meta_Box {
 		<?php
 	}
 
-	
 	public function sermon_meta_box_save( $post_id, $post ) {
 
 		if ( ! isset( $_POST['fw_sermons_meta_box_nonce'] ) ||
@@ -172,24 +179,21 @@ class FW_Sermons_Meta_Box {
 			return;
 		}
 
-		if ( isset( $_POST[ 'fw_sermons_audio_player_url' ] ) ) {
-			$value = sanitize_text_field( trim( $_POST[ 'fw_sermons_audio_player_url' ] ) ); 
-			update_post_meta( $post_id, '_fw_sermons_audio_player_url', $value );
-        }
+        $fields = array(
+			'fw_sermons_date',
+			'fw_sermons_audio_player_url',
+			'fw_sermons_audio_download_url',
+			'fw_sermons_video_player_url',
+			'fw_sermons_video_download_url'
+        );
 
-		if ( isset( $_POST[ 'fw_sermons_audio_download_url' ] ) ) {
-			$value = sanitize_text_field( trim( $_POST[ 'fw_sermons_audio_download_url' ] ) ); 
-			update_post_meta( $post_id, '_fw_sermons_audio_download_url', $value );
-        }
+        foreach( $fields as $field ) {
 
-		if ( isset( $_POST[ 'fw_sermons_video_player_url' ] ) ) {
-			$value = sanitize_text_field( trim( $_POST[ 'fw_sermons_video_player_url' ] ) ); 
-			update_post_meta( $post_id, '_fw_sermons_video_player_url', $value );
-        }
+			if ( isset( $_POST[ $field ] ) ) {
+				$value = sanitize_text_field( trim( $_POST[ $field ] ) ); 
+				update_post_meta( $post_id, '_'.$field, $value );
+	        }
 
-		if ( isset( $_POST[ 'fw_sermons_video_download_url' ] ) ) {
-			$value = sanitize_text_field( trim( $_POST[ 'fw_sermons_video_download_url' ] ) ); 
-			update_post_meta( $post_id, '_fw_sermons_video_download_url', $value );
         }
 
  		if ( isset( $_POST[ 'fw_sermons_document_link_label' ] ) &&

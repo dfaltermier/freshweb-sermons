@@ -28,7 +28,7 @@
          */
         function activateDatepicker() {
             $('.fw-sermons-datepicker')
-                .attr('placeholder', 'Example: January 12, 2016')
+                .attr('placeholder', 'e.g. January 12, 2016')
                 .datepicker({
                     dateFormat: 'MM d, yy', // Example: January 1, 2016
                     changeMonth: true,
@@ -103,6 +103,16 @@
                 {
                     mediaType:  'audio',
                     buttonText: 'Choose Audio File'
+                },
+                uploadMedia
+            );
+
+            // Activate video upload buttons.
+            $('.fw-sermons-video-upload-button').on(
+                'click', 
+                {
+                    mediaType:  'video',
+                    buttonText: 'Choose Video File'  
                 },
                 uploadMedia
             );

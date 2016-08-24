@@ -12,7 +12,7 @@
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
-	die;
+    die;
 }
 
 /**
@@ -31,10 +31,10 @@ register_activation_hook( __FILE__, 'fw_sermons_flush_rewrites' );
 
 function fw_sermons_flush_rewrites() {
     
-	require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-post-types.php';
-	$post_types = new FW_Sermons_Post_Types;
+    require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-post-types.php';
+    $post_types = new FW_Sermons_Post_Types;
 
-	flush_rewrite_rules();
+    flush_rewrite_rules();
 
 }
 
@@ -47,8 +47,8 @@ function fw_sermons_flush_rewrites() {
  */
 function run_freshweb_sermons() {
 
-	$plugin = new FW_Sermons();
-	$plugin->run();
+    $plugin = new FW_Sermons();
+    $plugin->run();
 
 }
 run_freshweb_sermons();

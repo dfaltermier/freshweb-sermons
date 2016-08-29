@@ -181,7 +181,7 @@
                 'click',
                 {
                     mediaType:  'audio',
-                    buttonText: 'Choose Audio File'
+                    buttonText: 'Choose Audio'
                 },
                 uploadMedia
             );
@@ -191,7 +191,7 @@
                 'click', 
                 {
                     mediaType:  'video',
-                    buttonText: 'Choose Video File'  
+                    buttonText: 'Choose Video'  
                 },
                 uploadMedia
             );
@@ -201,7 +201,7 @@
                 'click', 
                 {
                     mediaType:  'image',
-                    buttonText: 'Choose Image File'  
+                    buttonText: 'Choose Image'  
                 },
                 uploadMedia
             );
@@ -346,9 +346,12 @@
 
             // Clear the cloned inputs.
             $clonedLinkRow.find('input[type="text"]').val('');
+            $clonedLinkRow.hide();
 
             // Append the cloned link after the last link.
             $lastLinkRow.after($clonedLinkRow);
+
+            $clonedLinkRow.fadeIn();
 
             // Now that we have two or more links, show the 'Delete' link for all of them.
             // Be sure to fetch our new set of links and not use the previous set.
@@ -362,15 +365,17 @@
             // Get enclosing table.
             var $table = $(this).closest('.fw-sermons-document-meta-fields');
 
-            // Delete the selected row.
-            $(this).closest('.fw-sermons-document-row').remove();
-
-            // if we have only one row remaining, hide the 'Delete' link.
+            // if we have two rows remaining, hide the 'Delete' link for the row
+            // we're now removing AND the row that will remain.
             var $linkRows = $('.fw-sermons-document-row',  $table);
-
-            if ($linkRows.length <= 1) {
+            if ($linkRows.length <= 2) {
                 $('.fw-sermons-document-delete-link', $table).hide();
             }
+
+            // Delete the selected row.
+            $(this).closest('.fw-sermons-document-row').fadeOut(800, function() {
+                $(this).remove();
+            });
         }
 
         /**

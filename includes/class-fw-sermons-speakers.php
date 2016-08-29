@@ -28,7 +28,6 @@ class FW_Sermons_Speakers {
     public function sanitize_input( $input ) {
 
         $input = sanitize_text_field( $input );
-
         return $input;
 
     }

@@ -55,7 +55,8 @@ class FW_Sermons_Speakers {
                    value="Upload Image" />
             <input type="button" class="button fw-sermons-image-remove-button"
                    value="Remove Image" style="display:none;" />
-            <img class="fw-sermons-image-upload" src="" style="display:none;" />
+            <div class="fw-sermons-image-upload-wrapper"><img 
+                 class="fw-sermons-image-upload" src="" style="display:none;" /></div>
         </div>
         <?php 
 

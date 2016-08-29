@@ -38,10 +38,11 @@
 .post-type-sermon .form-field.term-parent-wrap {
     display: none;
 }
-/* Images for the 'Add New Speaker' page and any other taxonomy
-   that desires to load/view an image on the admin page. */
-.post-type-sermon .form-field .fw-sermons-image-upload {
-    display: block;
+/* Images for the 'Add New Speaker' page and any other taxonomy pages
+   that desires to load/view an image. */
+.post-type-sermon .form-field .fw-sermons-image-upload-wrapper {
     margin: 1em 0;
+}
+.post-type-sermon .form-field .fw-sermons-image-upload-wrapper img {
     max-width: 100%;
 }

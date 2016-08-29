@@ -1,5 +1,6 @@
 /**
- * This script adds the dynamic behavior we need for meta input fields.  
+ * This script adds the dynamic behavior we need for our post and
+ * taxonomy form fields.
  *
  * @Dependencies
  *   1. jquery
@@ -10,7 +11,7 @@
     'use strict';
 
     /**
-     * Add a datepicker to date meta fields.
+     * Add a datepicker to post and taxonomy date form fields.
      * There is no limit to the number of datepickers you may have per page.
      * Just attach the class name 'fw-sermons-datepicker' to a input[type="text"]
      * field.
@@ -47,12 +48,15 @@
     });
 
     /**
-     * Activate the media upload buttons for audio, video, or image urls.
+     * Activate the media upload buttons for audio, video, or images. These
+     * are form blocks where a media upload button accompanies a text input
+     * field (for audio and video urls) and images and hidden text fields
+     * for images.
      */
     $(function() {
 
         /**
-         * Callback function for the 'click' event on a media upload button.
+         * Callback function for the 'click' event on a upload media button.
          *
          * @param   event.data.mediaType   'image', 'audio', or 'video' media type.
          * @param   event.data.buttonText  Button text in media uploader window. 
@@ -60,7 +64,20 @@
         function uploadMedia(event) {
             event.preventDefault();
 
-            var $uploadButton = $(this);
+            var $uploadButton = $(this).show();
+
+            // Get the element containing the upload/remove buttons and the
+            // associatedd media form fields.
+            var $container = $uploadButton.parent();
+
+            var $removeButton = $(
+                '.fw-sermons-'+ event.data.mediaType +'-remove-button',
+                 $container
+            )
+
+            if ($removeButton.length) {
+                $removeButton.hide();
+            }
 
             // Create a new media file frame.
             var fileFrame = wp.media.frames.file_frame = wp.media({
@@ -69,99 +86,82 @@
                     text: event.data.buttonText
                 },
                 library: {
-                    type: event.data.mediaType
+                    type: event.data.mediaType // Filter library by mediaType
                 },
                 multiple: false
             });
      
-            // When a file is selected, grab the URL and set it as the text
-            // field's value. 
             fileFrame.on('select', function() {
                 var attachment = fileFrame.state().get('selection').first().toJSON();
 
-                // If we have an input text field as a sibling of our upload button,
-                // then set the text field value with the attachment url.
-                var $input = $uploadButton.siblings('input[type="text"]');
+                switch (event.data.mediaType) {
+                    case 'audio':
+                    case 'video':
+                        // We expect an input text form field for these media types
+                        // since the audio and video urls can be to external sites.
+                        // Set the text field value with the attachment url.
+                        var $input = $('input[type="text"]', $container);
+                        if ($input.length) {
+                            $input.val(attachment.url);
+                        }
+                        break;
 
-                if ($input.length) {
-                    $input.val(attachment.url);
+                    case 'image':
+                        // Display our image.
+                        var $image = $('img', $container);
+                        if ($image.length) {
+                            $image.attr('src', attachment.url).fadeIn();
+                        }
+
+                        // We expect a hidden form field to store our image attachment id.
+                        var $hidden = $('input[type="hidden"]', $container);
+                        if ($hidden.length) {
+                            $hidden.val(attachment.id);
+                        }
+                        break;
+
+                    default:
+                        return;
+                        break;
                 }
-
-                // If we have an img tag as a sibling of our upload button,
-                // then set the src attribute value with the attachment url.
-                // We only do this for images since it makes no sense for 
-                // other media types.
-                var $image = null;
-                if (event.data.mediaType === 'image') {
-                    $image = $uploadButton.siblings('img');
-
-                    if ($image.length) {
-                        $image.attr('src', attachment.url).fadeIn();
-                    }
-                }
-
-                // If we have a hidden field as a sibling of our upload button,
-                // then set the hidden input field value with the attachment url.
-                var $hidden = $uploadButton.siblings('input[type="hidden"]');
-
-                if ($hidden.length) {
-                    $hidden.val(attachment.url);
-                }
-
-                // Now that we have the values set, replace the 'upload' button
-                // with the 'remove' button.
-                var $removeButton = $uploadButton.siblings(
-                    '.fw-sermons-'+ event.data.mediaType +'-remove-button'
-                );
 
                 if ($removeButton.length) {
                     $uploadButton.hide();
                     $removeButton.show();
                 }
             });
-     
-            // Open the file frame dialog.
+
             fileFrame.open();
         }
 
-
+        /**
+         * Callback function for the 'click' event on a remove media button.
+         *
+         * @param   event.data.mediaType   'image', 'audio', or 'video' media type.
+         */
         function removeMedia(event) {
             event.preventDefault();
 
             var $removeButton = $(this);
-            console.log("removeMedia(): ", $removeButton);
+            var $container = $removeButton.parent();
+            var $uploadButton = $(
+                '.fw-sermons-'+ event.data.mediaType +'-upload-button',
+                $container
+            );
 
-            // If we have an input text field as a sibling of our remove button,
-            // then remove the text field value.
-            var $input = $removeButton.siblings('input[type="text"]');
-
+            // Clear any input text and hidden form field values
+            var $input = $('input[type="text"], input[type="hidden"]', $container);
             if ($input.length) {
                 $input.val('');
             }
 
-            // If we have an img tag as a sibling of our remove button,
-            // then remove the src attribute value. 
-            var $image = $removeButton.siblings('img');
-
+            // Clear our image.
+            var $image = $('img', $container);
             if ($image.length) {
                 $image.fadeOut(800, function() {
                     $(this).attr('src', '');
                 });
             }
-
-            // If we have a hidden field as a sibling of our remove button,
-            // then remove the hidden input field value.
-            var $hidden = $removeButton.siblings('input[type="hidden"]');
-
-            if ($hidden.length) {
-                $hidden.val('');
-            }
-
-            // Now that we have the values removed, replace the 'remove' button
-            // with the 'upload' button.
-            var $uploadButton = $removeButton.siblings(
-                '.fw-sermons-'+ event.data.mediaType +'-upload-button'
-            );
 
             if ($uploadButton.length) {
                 $removeButton.hide();
@@ -170,13 +170,12 @@
         }
 
         /**
-         * Activate the media upload buttons for audio, video, or image urls, as needed.
+         * Activate the media upload buttons for audio, video, and images.
          * There is no limit to the number of media buttons you may have per page.
          * Just attach the class names shown below to input[type="button"] fields.
-         * This button must follow an input[type="text"] field.
+         * See the Speaker taxonomy and Add Sermon page for html layout.
          */
         function activateMediaUploadButtons() {
-            // Activate audio upload buttons.
             $('.fw-sermons-audio-upload-button').on(
                 'click',
                 {
@@ -186,7 +185,6 @@
                 uploadMedia
             );
 
-            // Activate video upload buttons.
             $('.fw-sermons-video-upload-button').on(
                 'click', 
                 {
@@ -196,7 +194,6 @@
                 uploadMedia
             );
 
-            // Activate image upload buttons.
             $('.fw-sermons-image-upload-button').on(
                 'click', 
                 {
@@ -207,8 +204,13 @@
             );
         }
 
+        /**
+         * Activate the media remove buttons for audio, video, and images.
+         * There is no limit to the number of media buttons you may have per page.
+         * Just attach the class names shown below to input[type="button"] fields.
+         * See the Speaker taxonomy and Add Sermon page for html layout.
+         */
         function activateMediaRemoveButtons() {
-            // Activate audio remove buttons.
             $('.fw-sermons-audio-remove-button').on(
                 'click',
                 {
@@ -217,7 +219,6 @@
                 removeMedia
             );
 
-            // Activate video remove buttons.
             $('.fw-sermons-video-remove-button').on(
                 'click', 
                 {
@@ -226,7 +227,6 @@
                 removeMedia
             );
 
-            // Activate image remove buttons.
             $('.fw-sermons-image-remove-button').on(
                 'click', 
                 {
@@ -236,36 +236,66 @@
             );
         }
 
-        function clearMediaFormFieldsAfterSubmission($form, submitButtonId) {
-            console.log('clearMediaFormFieldsAfterSubmission() ', $form, ' submitButtonId: ' + submitButtonId);
+        /**
+         * On the 'Add New Taxonomy' pages (e.g. Add New Speaker, etc.), clicking 
+         * WordPress's submit button does not refresh the page when it submits
+         * the form fields. It submits the fields via an Ajax call and then displays
+         * the newly created taxonomy in the table to the right of the form.
+         * After the form is submitted, WordPress only clears the text and text 
+         * area form fields. Our image and hidden form fields are not cleared as
+         * a result. We must do this ourselves. Again, this only applies to the 
+         * 'Add New Taxonomy' page.
+         */
+        function activateClearMediaFormFieldsAfterSubmission() {
+            var $form = $('form#addtag', 'body.post-type-sermon');
 
             if ($form && $form.length === 1) {
+                // Note: WordPress does not allow the click event to propagate
+                // when the submit button is clicked. This was the only way I
+                // could find to get notified when the form was submitted so I
+                // could then reset the image/hidden fields. Perhaps there is
+                // a better way, but I couldn't find it.
                 $(document).ajaxComplete(function(event, jqXHR, obj) {
-                    console.log('clearMediaFormFieldsAfterSubmission(): ajaxcomplete(): ', event);
-
                     if (event &&
                         event.currentTarget &&
                         event.currentTarget.activeElement &&
-                        event.currentTarget.activeElement.id === submitButtonId) {
-
-                        $('.fw-sermons-audio-remove-button', $form).trigger('click');
-                        $('.fw-sermons-video-remove-button', $form).trigger('click');
-                        $('.fw-sermons-image-remove-button', $form).trigger('click');
+                        event.currentTarget.activeElement.id === 'submit') {
+                        $('.fw-sermons-audio-remove-button, ' +
+                          '.fw-sermons-video-remove-button, ' +
+                          '.fw-sermons-image-remove-button', $form).trigger('click');
                     }
                 });
-
-                return true;
             }
-
-            return false;
         }
 
-        function activateClearMediaFormFieldsAfterSubmission() {
-            return (
-                clearMediaFormFieldsAfterSubmission( $('form#addtag', 'body.post-type-sermon'), 'submit' )
-            );   
-        }
-
+        /*
+         * The below functions activate the behavior on our Post and Taxonomy form
+         * sections where we are using media upload buttons to add audio, video,
+         * and image files to the form.
+         *
+         * We assume the html for image uploading looks something like this:
+         *
+         *  <label for="fw_sermons_speaker_image">Sermon Speaker Image</label>
+         *  <input type="hidden" name="fw_sermons_speaker_image"
+         *         id="fw_sermons_speaker_image" value="" />
+         *  <input type="button"
+         *         class="button fw-sermons-image-upload-button"
+         *         value="Upload Image" />
+         *  <input type="button" class="button fw-sermons-image-remove-button"
+         *         value="Remove Image" style="display:none;" />
+         *  <div class="fw-sermons-image-upload-wrapper"><img 
+         *       class="fw-sermons-image-upload" src="" style="display:none;" /></div>
+         *
+         * We assume the html for video (and audio) uploading looks something like this:
+         *
+         *  <label for="fw_sermons_video_download_url">Video Download Url</label>
+         *  <input type="text" name="fw_sermons_video_download_url"
+         *         id="fw_sermons_video_download_url" value="" />
+         *  <input type="button"
+         *         class="button fw-sermons-video-upload-button"
+         *         value="Upload Video" />
+         *  <p class="description">Url to downloadable sermon video file</p>
+         */
         activateMediaUploadButtons();
         activateMediaRemoveButtons();
         activateClearMediaFormFieldsAfterSubmission();

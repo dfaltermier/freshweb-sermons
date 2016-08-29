@@ -69,9 +69,23 @@ class FW_Sermons {
         }
 
         wp_enqueue_script(
-            'fw_sermons_meta_fields',
-            FW_SERMONS_PLUGIN_URL . 'js/meta-fields.js',
-            array( 'jquery-ui-datepicker' ),
+            'fw_sermons_datepicker',
+            FW_SERMONS_PLUGIN_URL . 'js/datepicker.js',
+            array( 'jquery', 'jquery-ui-datepicker' ),
+            FW_SERMONS_VERSION
+        );
+
+        wp_enqueue_script(
+            'fw_sermons_media_uploader',
+            FW_SERMONS_PLUGIN_URL . 'js/media-uploader.js',
+            array( 'jquery' ),
+            FW_SERMONS_VERSION
+        );
+
+        wp_enqueue_script(
+            'fw_sermons_document_uploader',
+            FW_SERMONS_PLUGIN_URL . 'js/document-uploader.js',
+            array( 'jquery' ),
             FW_SERMONS_VERSION
         );
 

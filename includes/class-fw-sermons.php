@@ -23,10 +23,50 @@ class FW_Sermons {
     }
 
     /**
-     * Load scripts for admin
-     * 
+     * Returns true if we're on one of our plugin admin pages.
+     */
+    public function is_plugin_admin_page() {
+
+        global $pagenow, $typenow;
+
+        // print_r($pagenow);
+        // print_r($typenow);
+
+        /*
+        Page: Sermons
+        pagenow: "edit.php"
+        typenow: "sermon"
+
+        Page: Add New Sermon
+        pagenow: "post-new.php"
+        typenow: "sermon"
+
+        Page: Edit Sermon
+        pagenow: "post.php"
+        typenow: "sermon"
+
+        Page: Series
+        pagenow: "edit.tags"
+        typenow: "sermon"
+
+        Page: Edit Series
+        pagenow: "term.php"
+        typenow: "sermon"
+        */
+
+        return ( 'sermon' === $typenow ? true : false );
+
+    }
+
+    /**
+     * Enqueue our scripts and stylesheets.
      */
     public function load_admin_scripts() {
+
+        // Only enqueue if we're on our plugin pages.
+        if ( ! $this->is_plugin_admin_page() ) {
+            return;
+        }
 
         wp_enqueue_script(
             'fw_sermons_meta_fields',
@@ -46,10 +86,6 @@ class FW_Sermons {
 
     /**
      * Setup plugin constants.
-     *
-     * @access private
-     * @since 1.0
-     * @return void
      */
     private function setup_constants() {
 
@@ -77,10 +113,6 @@ class FW_Sermons {
 
     /**
      * Include required files.
-     *
-     * @access private
-     * @since 1.0
-     * @return void
      */
     private function includes() {
 

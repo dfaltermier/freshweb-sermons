@@ -3,7 +3,7 @@
  */
 
 /*
- * Sermon Edit Page: Sermon Details meta box.
+ * Edit Sermon Page: Sermon Details meta box.
  */
 #fw-sermons-details input[type="button"] {
     margin: 5px 2px 0;
@@ -30,6 +30,18 @@
     margin: 5px 0 10px;
 }
 
-
-
-
+/*
+ * Taxonomy Page(s)
+ */
+/* Hide the 'Parent' form field. We don't want our taxonomies to
+   have sub-taxonomies. */
+.post-type-sermon .form-field.term-parent-wrap {
+    display: none;
+}
+/* Images for the 'Add New Speaker' page and any other taxonomy
+   that desires to load/view an image on the admin page. */
+.post-type-sermon .form-field .fw-sermons-image-upload {
+    display: block;
+    margin: 1em 0;
+    max-width: 100%;
+}

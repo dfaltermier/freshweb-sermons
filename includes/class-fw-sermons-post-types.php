@@ -11,8 +11,8 @@ class FW_Sermons_Post_Types {
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_action( 'init', array( $this, 'register_taxonomies' ) );
 
-        add_filter('manage_edit-sermon_columns' , array( $this, 'sermon_columns') );
-        add_action('manage_sermon_posts_custom_column' , array( $this, 'sermon_custom_columns' ), 10, 2 );
+        add_filter( 'manage_edit-sermon_columns' , array( $this, 'sermon_columns') );
+        add_action( 'manage_sermon_posts_custom_column' , array( $this, 'sermon_custom_columns' ), 10, 2 );
 
     }
 
@@ -162,15 +162,14 @@ class FW_Sermons_Post_Types {
 
     }
 
-
     public function sermon_columns($columns) {
   
         $columns = array(
-            'cb' => '<input type="checkbox" />',
-            'title' => __( 'Title' ),
-            'series' => __( 'Series' ),
-            'speaker' => __( 'Speaker' ),
-            'date' => __( 'Date' )
+            'cb'      => '<input type="checkbox" />',
+            'title'   => 'Title',
+            'series'  => 'Series',
+            'speaker' => 'Speaker',
+            'date'    => 'Date'
         );
 
         return $columns;

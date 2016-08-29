@@ -50,7 +50,7 @@
      * Activate the media upload buttons for audio, video, or image urls.
      */
     $(function() {
-     
+
         /**
          * Callback function for the 'click' event on a media upload button.
          *
@@ -60,8 +60,8 @@
         function uploadMedia(event) {
             event.preventDefault();
 
-            var $button = $(this);
-     
+            var $uploadButton = $(this);
+
             // Create a new media file frame.
             var fileFrame = wp.media.frames.file_frame = wp.media({
                 title: event.data.buttonText,
@@ -77,17 +77,96 @@
             // When a file is selected, grab the URL and set it as the text
             // field's value. 
             fileFrame.on('select', function() {
-                // Get media attachment details from the fileFrame state.
                 var attachment = fileFrame.state().get('selection').first().toJSON();
 
-                // Set the attachment URL in our input text field. We make the 
-                // assumption that the previous sibling is the input text field
-                // we want to stuff. Ensure this is the case in our html!
-                $button.prev().val(attachment.url);
+                // If we have an input text field as a sibling of our upload button,
+                // then set the text field value with the attachment url.
+                var $input = $uploadButton.siblings('input[type="text"]');
+
+                if ($input.length) {
+                    $input.val(attachment.url);
+                }
+
+                // If we have an img tag as a sibling of our upload button,
+                // then set the src attribute value with the attachment url.
+                // We only do this for images since it makes no sense for 
+                // other media types.
+                var $image = null;
+                if (event.data.mediaType === 'image') {
+                    $image = $uploadButton.siblings('img');
+
+                    if ($image.length) {
+                        $image.attr('src', attachment.url).fadeIn();
+                    }
+                }
+
+                // If we have a hidden field as a sibling of our upload button,
+                // then set the hidden input field value with the attachment url.
+                var $hidden = $uploadButton.siblings('input[type="hidden"]');
+
+                if ($hidden.length) {
+                    $hidden.val(attachment.url);
+                }
+
+                // Now that we have the values set, replace the 'upload' button
+                // with the 'remove' button.
+                var $removeButton = $uploadButton.siblings(
+                    '.fw-sermons-'+ event.data.mediaType +'-remove-button'
+                );
+
+                if ($removeButton.length) {
+                    $uploadButton.hide();
+                    $removeButton.show();
+                }
             });
      
             // Open the file frame dialog.
             fileFrame.open();
+        }
+
+
+        function removeMedia(event) {
+            event.preventDefault();
+
+            var $removeButton = $(this);
+            console.log("removeMedia(): ", $removeButton);
+
+            // If we have an input text field as a sibling of our remove button,
+            // then remove the text field value.
+            var $input = $removeButton.siblings('input[type="text"]');
+
+            if ($input.length) {
+                $input.val('');
+            }
+
+            // If we have an img tag as a sibling of our remove button,
+            // then remove the src attribute value. 
+            var $image = $removeButton.siblings('img');
+
+            if ($image.length) {
+                $image.fadeOut(800, function() {
+                    $(this).attr('src', '');
+                });
+            }
+
+            // If we have a hidden field as a sibling of our remove button,
+            // then remove the hidden input field value.
+            var $hidden = $removeButton.siblings('input[type="hidden"]');
+
+            if ($hidden.length) {
+                $hidden.val('');
+            }
+
+            // Now that we have the values removed, replace the 'remove' button
+            // with the 'upload' button.
+            var $uploadButton = $removeButton.siblings(
+                '.fw-sermons-'+ event.data.mediaType +'-upload-button'
+            );
+
+            if ($uploadButton.length) {
+                $removeButton.hide();
+                $uploadButton.show();
+            }
         }
 
         /**
@@ -128,10 +207,69 @@
             );
         }
 
+        function activateMediaRemoveButtons() {
+            // Activate audio remove buttons.
+            $('.fw-sermons-audio-remove-button').on(
+                'click',
+                {
+                    mediaType: 'audio'
+                },
+                removeMedia
+            );
+
+            // Activate video remove buttons.
+            $('.fw-sermons-video-remove-button').on(
+                'click', 
+                {
+                    mediaType: 'video'  
+                },
+                removeMedia
+            );
+
+            // Activate image remove buttons.
+            $('.fw-sermons-image-remove-button').on(
+                'click', 
+                {
+                    mediaType: 'image'
+                },
+                removeMedia
+            );
+        }
+
+        function clearMediaFormFieldsAfterSubmission($form, submitButtonId) {
+            console.log('clearMediaFormFieldsAfterSubmission() ', $form, ' submitButtonId: ' + submitButtonId);
+
+            if ($form && $form.length === 1) {
+                $(document).ajaxComplete(function(event, jqXHR, obj) {
+                    console.log('clearMediaFormFieldsAfterSubmission(): ajaxcomplete(): ', event);
+
+                    if (event &&
+                        event.currentTarget &&
+                        event.currentTarget.activeElement &&
+                        event.currentTarget.activeElement.id === submitButtonId) {
+
+                        $('.fw-sermons-audio-remove-button', $form).trigger('click');
+                        $('.fw-sermons-video-remove-button', $form).trigger('click');
+                        $('.fw-sermons-image-remove-button', $form).trigger('click');
+                    }
+                });
+
+                return true;
+            }
+
+            return false;
+        }
+
+        function activateClearMediaFormFieldsAfterSubmission() {
+            return (
+                clearMediaFormFieldsAfterSubmission( $('form#addtag', 'body.post-type-sermon'), 'submit' )
+            );   
+        }
+
         activateMediaUploadButtons();
-
+        activateMediaRemoveButtons();
+        activateClearMediaFormFieldsAfterSubmission();
     });
-
 
     /**
      * Activate the media upload button for [multiple] documents.

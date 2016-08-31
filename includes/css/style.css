@@ -1,5 +1,5 @@
 /**
- * CSS for our admin-specific functionality.
+ * CSS for our admin pages.
  */
 
 /*
@@ -46,3 +46,4 @@
 .post-type-sermon .form-field .fw-sermons-image-upload-wrapper img {
     max-width: 100%;
 }
+

@@ -1,5 +1,4 @@
 <?php 
-
 /**
  * This class creates the Sermons custom post type and registers the associated
  * taxonomies.
@@ -17,7 +16,7 @@ class FW_Sermons_Post_Types {
     }
 
     /**
-     * Register post types
+     * Register post types.
      * 
      */
     public function register_post_types() {
@@ -162,7 +161,14 @@ class FW_Sermons_Post_Types {
 
     }
 
-    public function sermon_columns($columns) {
+    /**
+     * Override the given list of columns displayed in the sermon
+     * table with our own.
+     *
+     * @param    array   List of column ids and labels.
+     * @return   array   Same list.
+     */
+    public function sermon_columns( $columns ) {
   
         $columns = array(
             'cb'      => '<input type="checkbox" />',
@@ -176,6 +182,14 @@ class FW_Sermons_Post_Types {
 
     }
 
+    /**
+     * Switch on the given column id and return the string to be displayed
+     * in our Sermon table. 
+     *
+     * @param    string   Column id.
+     * @param    int      Poar id.
+     * @return   string   Value to display in the Sermon table.
+     */
     public function sermon_custom_columns( $column, $post_id  ) {
 
         switch ( $column ) {
@@ -190,6 +204,12 @@ class FW_Sermons_Post_Types {
         }
     }
 
+    /**
+     * Returns the series name associated with the given Sermon post id. 
+     *
+     * @param    int      Post id.
+     * @return   string   Series name.
+     */
     public function get_sermon_series( $post_id ) {
 
         $terms = get_the_terms( $post_id, 'sermon_series' );
@@ -204,6 +224,12 @@ class FW_Sermons_Post_Types {
         
     }
 
+    /**
+     * Returns the speaker name associated with the given Sermon post id. 
+     *
+     * @param    int      Post id.
+     * @return   string   Speaker name.
+     */
     public function get_sermon_speaker( $post_id ) {
 
         $terms = get_the_terms( $post_id, 'sermon_speaker' );

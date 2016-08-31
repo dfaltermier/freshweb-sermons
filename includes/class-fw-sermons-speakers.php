@@ -1,5 +1,4 @@
 <?php 
-
 /**
  * This class adds additonal fields to the sermon speakers taxonomy, allowing you to edit
  * and save their values.
@@ -10,14 +9,23 @@ class FW_Sermons_Speakers {
         
         add_action( 'init', array( $this, 'register_meta' ) );
 
+        // Display the 'Add Speakers' and 'Edit Speakers' pages.
         add_action( 'sermon_speaker_add_form_fields',  array( $this, 'add_speaker_fields' ) );
         add_action( 'sermon_speaker_edit_form_fields', array( $this, 'edit_speaker_fields' ) );
 
+        // Save the form data submitted from the 'Add Speakers' and 'Edit Speakers' pages.
         add_action( 'edit_sermon_speaker',   array( $this, 'save_speaker_fields' ) );
         add_action( 'create_sermon_speaker', array( $this, 'save_speaker_fields' ) );
 
+        // Add term column labels and populate the columns with data.
+        add_filter( 'manage_edit-sermon_speaker_columns' , array( $this, 'speaker_columns') );
+        add_filter( 'manage_sermon_speaker_custom_column' , array( $this, 'speaker_custom_columns' ), 10, 3 );
+
     }
 
+    /**
+     * Register the terms meta.
+     */
     public function register_meta() {
 
          register_meta( 'term', 'speaker_url',   array( $this, 'sanitize_input' ) );
@@ -25,16 +33,25 @@ class FW_Sermons_Speakers {
 
     }
 
-    public function sanitize_input( $input ) {
+    /*
+     * Sanitize callback for our register_meta() method.
+     *
+     * @param  mixed  $meta_value The meta value.
+     * @param  string $meta_key   The meta key.
+     * @param  string $meta_type  The meta type.
+     * @return string             The meta value.
+     */
+    public function sanitize_input( $meta_value, $meta_key, $meta_type ) {
 
-        $input = sanitize_text_field( $input );
-        return $input;
+        $meta_value = sanitize_text_field( $meta_value );
+        return $meta_value;
 
     }
 
     /**
      * Add additional meta fields to our default sermon speaker fields. These fields only
-     * appear on the Sermons -> Add Speakers taxonomy page.
+     * appear on the Sermons -> Add Speakers taxonomy page. Be carefull with class names;
+     * JavaScript event handlers are attached to some.
      */
     public function add_speaker_fields() {
 
@@ -47,9 +64,9 @@ class FW_Sermons_Speakers {
             <p class="description">Sermon speaker's biography page url</p>
         </div>
         <div class="form-field">
-            <label for="fw_sermons_speaker_image">Sermon Speaker Image</label>
-            <input type="hidden" name="fw_sermons_speaker_image"
-                   id="fw_sermons_speaker_image" value="" />
+            <label for="fw_sermons_speaker_image_id">Sermon Speaker Image</label>
+            <input type="hidden" name="fw_sermons_speaker_image_id"
+                   id="fw_sermons_speaker_image_id" value="" />
             <input type="button"
                    class="button fw-sermons-image-upload-button"
                    value="Upload Image" />
@@ -64,14 +81,16 @@ class FW_Sermons_Speakers {
 
     /**
      * Add additional meta fields to our default sermon speaker fields. These fields only
-     * appear on the Sermons -> Edit Speakers taxonomy page.
+     * appear on the Sermons -> Edit Speakers taxonomy page. Be carefull with class names;
+     * JavaScript event handlers are attached to some.
      */
     public function edit_speaker_fields( $term ) {
 
-        $speaker_url   = get_term_meta( $term->term_id, 'fw_sermons_speaker_url', true );
-        $speaker_image = get_term_meta( $term->term_id, 'fw_sermons_speaker_image', true );
+        $speaker_url       = get_term_meta( $term->term_id, 'fw_sermons_speaker_url', true );
+        $speaker_image_id  = get_term_meta( $term->term_id, 'fw_sermons_speaker_image_id', true );
+        $speaker_image_url = empty( $speaker_image_id ) ? '' : wp_get_attachment_url( $speaker_image_id );
 
-        if ( empty( $speaker_image ) ) {
+        if ( empty( $speaker_image_id ) ) {
             $upload_button_style = 'display:inline-block;';
             $remove_button_style = 'display:none;';
             $image_style = 'display:none;';
@@ -79,7 +98,7 @@ class FW_Sermons_Speakers {
         else {
             $upload_button_style = 'display:none;';
             $remove_button_style = 'display:inline-block;';
-            $image_style = 'display:block;';
+            $image_style = 'display:inline;';
         }
 
         ?>
@@ -95,20 +114,21 @@ class FW_Sermons_Speakers {
             </td>
         </tr>
         <tr class="form-field">
-            <th scope="row"><label for="fw_sermons_speaker_image">Sermon Speaker Image</label></th>
+            <th scope="row"><label for="fw_sermons_speaker_image_id">Sermon Speaker Image</label></th>
             <td>
-                <input type="hidden" name="fw_sermons_speaker_image" 
-                       id="fw_sermons_speaker_image"
-                       value="<?php echo esc_attr( $speaker_image ); ?>" />
+                <input type="hidden" name="fw_sermons_speaker_image_id" 
+                       id="fw_sermons_speaker_image_id"
+                       value="<?php echo esc_attr( $speaker_image_id ); ?>" />
                 <input type="button" class="button fw-sermons-image-upload-button" 
                        value="Upload Image" 
                        style="<?php echo $upload_button_style; ?>" />
                 <input type="button" class="button fw-sermons-image-remove-button"
                        value="Remove Image"
                        style="<?php echo $remove_button_style; ?>" />
-                <img class="fw-sermons-image-upload" 
-                       src="<?php echo esc_attr($speaker_image); ?>"
-                       style="<?php echo $image_style; ?>" />
+                <div class="fw-sermons-image-upload-wrapper"><img
+                     class="fw-sermons-image-upload" 
+                     src="<?php echo esc_attr($speaker_image_url); ?>"
+                     style="<?php echo $image_style; ?>" /></div>
             </td>
         </tr>
         <?php 
@@ -126,17 +146,88 @@ class FW_Sermons_Speakers {
         }
 
         $speaker_url = isset( $_POST['fw_sermons_speaker_url'] ) 
-            ? $this->sanitize_input( ( $_POST['fw_sermons_speaker_url'] ) )
+            ? $this->sanitize_input( ( trim( $_POST['fw_sermons_speaker_url'] ) ) )
             : '';
 
-        $speaker_image = isset( $_POST['fw_sermons_speaker_image'] ) 
-            ? $this->sanitize_input( ( $_POST['fw_sermons_speaker_image'] ) ) 
+        $speaker_image_id = isset( $_POST['fw_sermons_speaker_image_id'] ) 
+            ? $this->sanitize_input( ( trim( $_POST['fw_sermons_speaker_image_id'] ) ) ) 
             : '';
 
         // Allow the values to be empty.
-        update_term_meta( $term_id, 'fw_sermons_speaker_url',  $speaker_url );
-        update_term_meta( $term_id, 'fw_sermons_speaker_image', $speaker_image );
+        update_term_meta( $term_id, 'fw_sermons_speaker_url', $speaker_url );
+        update_term_meta( $term_id, 'fw_sermons_speaker_image_id', $speaker_image_id );
     
+    }
+
+    /**
+     * Override the given list of columns displayed in the speakers terms
+     * table with our own.
+     *
+     * @param    array   List of column ids and labels.
+     * @return   array   Same list.
+     */
+    public function speaker_columns( $columns ) {
+  
+        $columns = array(
+            'cb'    => '<input type="checkbox" />',
+            'name'  => 'Name',
+            // We won't include a 'Description' column as it's annoying.
+            'fw_sermons_thumbnail' => 'Photo',
+            'slug'  => 'Slug',
+            'posts' => 'Count'
+        );
+
+        return $columns;
+
+    }
+
+    /**
+     * Switch on the given column id and return the string to be displayed
+     * in our speakers table. 
+     *
+     * @param    null     Deprecated field.
+     * @param    string   Column id.
+     * @param    int      Term id.
+     * @return   string   Value to display in the speakers table.
+     */
+    public function speaker_custom_columns( $out = null, $column, $term_id  ) {
+
+        switch ( $column ) {
+        
+           case 'fw_sermons_thumbnail' :
+               $out = $this->get_thumbnail_image_html( $term_id );
+               break;
+
+           default:
+               $out = '';
+               break;
+
+        }
+
+        return $out;
+
+    }
+
+    /**
+     * Builds and returns an html string representing an image dom element. 
+     *
+     * @param    int      Term id.
+     * @param    string   Space separated list of classes to attach to image html.
+     * @return   string   Image html associated with the given term id or empty string.
+     */
+    public function get_thumbnail_image_html( $term_id, $classes = "" ) {
+
+        require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-images.php';
+
+        $image_id = get_term_meta( $term_id, 'fw_sermons_speaker_image_id', true );
+
+        if ( !empty( $image_id ) ) {
+            $img_html = FW_Sermons_Images::get_image_html( $image_id, $classes );
+            return $img_html;
+        }
+
+        return '';
+
     }
 
 }

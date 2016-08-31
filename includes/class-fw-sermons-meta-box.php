@@ -13,7 +13,7 @@ class FW_Sermons_Meta_Box {
     }
     
     /**
-     * Load meta box
+     * Load meta box.
      * 
      */
     public function add_sermon_meta_box() {
@@ -29,6 +29,10 @@ class FW_Sermons_Meta_Box {
 
     }
 
+    /**
+     * Callback from add_meta_box() to render our meta box.
+     * 
+     */
     public function render_sermon_meta_box() {
 
         global $post;
@@ -37,6 +41,11 @@ class FW_Sermons_Meta_Box {
 
     }
 
+    /**
+     * Display our meta box fields.
+     *
+     * @param   int     Post id.
+     */
     private function meta_box_detail_fields( $post_id ) {
 
         $date               = get_post_meta( $post_id, '_fw_sermons_date', true );
@@ -72,7 +81,7 @@ class FW_Sermons_Meta_Box {
                 <th><label>Audio Player Url</label></th>
                 <td><input type="text" class="widefat" id="fw_sermons_audio_player_url"
                            name="fw_sermons_audio_player_url" 
-                           value="<?php echo $audio_player_url; ?>"
+                           value="<?php echo esc_attr( $audio_player_url ); ?>"
                            placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
                     <input type="button" class="button fw-sermons-audio-upload-button"
                            value="Upload Audio" />
@@ -82,7 +91,7 @@ class FW_Sermons_Meta_Box {
                 <th><label>Audio Download Url</label></th>
                 <td><input type="text" class="widefat" id="fw_sermons_audio_download_url"
                            name="fw_sermons_audio_download_url" 
-                           value="<?php echo $audio_download_url; ?>"
+                           value="<?php echo esc_attr( $audio_download_url ); ?>"
                            placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
                     <input type="button" class="button fw-sermons-audio-upload-button"
                            value="Upload Audio" />
@@ -92,7 +101,7 @@ class FW_Sermons_Meta_Box {
                 <th><label>Video Player URL</label></th>
                 <td><input type="text" id="fw_sermons_video_player_url" class="widefat" 
                            name="fw_sermons_video_player_url"
-                           value="<?php echo $video_player_url; ?>"
+                           value="<?php echo esc_attr( $video_player_url ); ?>"
                            placeholder="<?php echo esc_attr('e.g. https://vimeo.com/123456789'); ?>" />
                     <input type="button" class="button fw-sermons-video-upload-button"
                            value="Upload Video" />
@@ -105,7 +114,7 @@ class FW_Sermons_Meta_Box {
                 <th><label>Video Download URL</label></th>
                 <td><input type="text" id="fw_sermons_video_download_url" class="widefat" 
                            name="fw_sermons_video_download_url"
-                           value="<?php echo $video_download_url; ?>" 
+                           value="<?php echo esc_attr( $video_download_url ); ?>" 
                            placeholder="<?php echo esc_attr('e.g. https://player.vimeo.com/external/123456789.hd.mp4?download=1'); ?>" />
                     <input type="button" class="button fw-sermons-video-upload-button"
                            value="Upload Video" />
@@ -146,9 +155,7 @@ class FW_Sermons_Meta_Box {
                             <?php endforeach; ?>
 
                             <tr>
-                                <td><a href="#" class="fw-sermons-document-add-link">Add New</a></td>
-                                <td></td>
-                                <td></td>
+                                <td colspan="3"><a href="#" class="fw-sermons-document-add-link">Add New</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -158,6 +165,12 @@ class FW_Sermons_Meta_Box {
         <?php
     }
 
+    /**
+     * Save our meta box fields.
+     *
+     * @param   int       Post id.
+     * @param   WP_Post   Post object (https://developer.wordpress.org/reference/classes/wp_post/)
+     */
     public function sermon_meta_box_save( $post_id, $post ) {
 
         if ( ! isset( $_POST['fw_sermons_meta_box_nonce'] ) ||

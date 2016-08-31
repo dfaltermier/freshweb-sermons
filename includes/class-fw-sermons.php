@@ -1,5 +1,4 @@
 <?php 
-
 /**
  * This class initializes the environment in which we'll run.
  */
@@ -11,7 +10,6 @@ class FW_Sermons {
 
     /**
      * Kick it off
-     * 
      */
     public function run() {
 
@@ -23,16 +21,13 @@ class FW_Sermons {
     }
 
     /**
-     * Returns true if we're on one of our plugin admin pages.
+     * @return    bool    Returns true if we're on one of our plugin's admin pages. 
      */
     public function is_plugin_admin_page() {
 
-        global $pagenow, $typenow;
+        global $typenow;
 
-        // print_r($pagenow);
-        // print_r($typenow);
-
-        /*
+        /* This is what we can expect:
         Page: Sermons
         pagenow: "edit.php"
         typenow: "sermon"
@@ -53,7 +48,6 @@ class FW_Sermons {
         pagenow: "term.php"
         typenow: "sermon"
         */
-
         return ( 'sermon' === $typenow ? true : false );
 
     }
@@ -141,6 +135,10 @@ class FW_Sermons {
 
         require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-speakers.php';
         $term_meta = new FW_Sermons_Speakers;
+
+        require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-images.php';
+        $images = new FW_Sermons_Images;
+        $images->init();
 
     }
 

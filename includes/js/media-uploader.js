@@ -227,11 +227,10 @@
             var $form = $('form#addtag', 'body.post-type-sermon');
 
             if ($form && $form.length === 1) {
-                // Note: WordPress does not allow the click event to propagate
-                // when the submit button is clicked. This was the only way I
-                // could find to get notified when the form was submitted so I
-                // could then reset the image/hidden fields. Perhaps there is
-                // a better way, but I couldn't find it.
+                // The WordPress JavaScript for submitting the Add Taxonomy
+                // form does not propagate the button's click event. We'll
+                // attach to the ajaxComplete hook instead so we're notified
+                // when the submission is complete.
                 $(document).ajaxComplete(function(event, jqXHR, obj) {
                     if (event &&
                         event.currentTarget &&

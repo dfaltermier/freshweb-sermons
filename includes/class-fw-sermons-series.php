@@ -170,13 +170,13 @@ class FW_Sermons_Series {
     public function series_columns( $columns ) {
   
         $columns = array(
-            'cb'    => '<input type="checkbox" />',
-            'name'  => 'Name',
+            'cb'                      => '<input type="checkbox" />',
+            'name'                    => 'Name',
+            'sermon_series_date'      => 'Start Date',
+            'sermon_series_thumbnail' => 'image',
+            'slug'                    => 'Slug',
+            'posts'                   => 'Sermon Count'
             // We won't include a 'Description' column as it's annoying.
-            'fw_sermons_thumbnail' => 'image',
-            'fw_sermons_taxonomy_date' => 'Start Date',
-            'slug'  => 'Slug',
-            'posts' => 'Count'
         );
 
         return $columns;
@@ -196,12 +196,12 @@ class FW_Sermons_Series {
 
         switch ( $column ) {
         
-           case 'fw_sermons_thumbnail' :
-               $out = $this->get_thumbnail_image_html( $term_id );
+           case 'sermon_series_date' :
+               $out = $this->get_start_date( $term_id );
                break;
 
-           case 'fw_sermons_taxonomy_date' :
-               $out = $this->get_start_date( $term_id );
+           case 'sermon_series_thumbnail' :
+               $out = $this->get_thumbnail_image_html( $term_id );
                break;
 
            default:

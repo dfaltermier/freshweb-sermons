@@ -167,12 +167,12 @@ class FW_Sermons_Speakers {
     public function speaker_columns( $columns ) {
   
         $columns = array(
-            'cb'    => '<input type="checkbox" />',
-            'name'  => 'Name',
+            'cb'                       => '<input type="checkbox" />',
+            'name'                     => 'Name',
+            'sermon_speaker_thumbnail' => 'Photo',
+            'slug'                     => 'Slug',
+            'posts'                    => 'Sermon Count'
             // We won't include a 'Description' column as it's annoying.
-            'fw_sermons_thumbnail' => 'Photo',
-            'slug'  => 'Slug',
-            'posts' => 'Count'
         );
 
         return $columns;
@@ -192,7 +192,7 @@ class FW_Sermons_Speakers {
 
         switch ( $column ) {
         
-           case 'fw_sermons_thumbnail' :
+           case 'sermon_speaker_thumbnail' :
                $out = $this->get_thumbnail_image_html( $term_id );
                break;
 

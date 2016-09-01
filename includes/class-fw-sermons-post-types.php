@@ -10,7 +10,7 @@ class FW_Sermons_Post_Types {
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_action( 'init', array( $this, 'register_taxonomies' ) );
 
-        add_filter( 'manage_edit-sermon_columns' , array( $this, 'sermon_columns') );
+        add_filter( 'manage_sermon_posts_columns' , array( $this, 'sermon_columns') );
         add_action( 'manage_sermon_posts_custom_column' , array( $this, 'sermon_custom_columns' ), 10, 2 );
 
     }
@@ -170,12 +170,16 @@ class FW_Sermons_Post_Types {
      */
     public function sermon_columns( $columns ) {
   
-        $columns = array(
-            'cb'      => '<input type="checkbox" />',
-            'title'   => 'Title',
-            'date_string' => 'Date',
-            'series'  => 'Series',
-            'speaker' => 'Speaker'
+        unset( $columns['author'] );
+        unset( $columns['date'] );
+
+        $columns = array_merge(
+            $columns,
+            array(
+                'sermon_date'    => 'Date',
+                'sermon_series'  => 'Series',
+                'sermon_speaker' => 'Speaker'
+            )
         );
 
         return $columns;
@@ -194,15 +198,15 @@ class FW_Sermons_Post_Types {
 
         switch ( $column ) {
 
-           case 'date_string' :
+           case 'sermon_date' :
                echo $this->get_sermon_date( $post_id );
                break;
 
-           case 'series' :
+           case 'sermon_series' :
                echo $this->get_sermon_series( $post_id );
                break;
 
-           case 'speaker' :
+           case 'sermon_speaker' :
                echo $this->get_sermon_speaker( $post_id );
                break;
 

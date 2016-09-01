@@ -178,7 +178,8 @@ class FW_Sermons_Post_Types {
             array(
                 'sermon_date'    => 'Date',
                 'sermon_series'  => 'Series',
-                'sermon_speaker' => 'Speaker'
+                'sermon_speaker' => 'Speaker',
+                'featured_image' => 'Image'
             )
         );
 
@@ -187,28 +188,35 @@ class FW_Sermons_Post_Types {
     }
 
     /**
-     * Switch on the given column id and return the string to be displayed
-     * in our Sermon table. 
+     * Switch on the given column id and display an appropriate string
+     * in our Sermon table.
      *
      * @param    string   Column id.
-     * @param    int      Poar id.
-     * @return   string   Value to display in the Sermon table.
+     * @param    int      Post id.
      */
     public function sermon_custom_columns( $column, $post_id  ) {
 
         switch ( $column ) {
 
-           case 'sermon_date' :
-               echo $this->get_sermon_date( $post_id );
-               break;
+            case 'sermon_date' :
+                echo $this->get_sermon_date( $post_id );
+                break;
 
-           case 'sermon_series' :
-               echo $this->get_sermon_series( $post_id );
-               break;
+            case 'sermon_series' :
+                echo $this->get_sermon_series( $post_id );
+                break;
 
-           case 'sermon_speaker' :
-               echo $this->get_sermon_speaker( $post_id );
-               break;
+            case 'sermon_speaker' :
+                echo $this->get_sermon_speaker( $post_id );
+                break;
+            
+            case 'featured_image' :
+                echo $this->get_thumbnail_image_html( $post_id );
+                break;
+
+            default:
+                echo '';
+                break;
 
         }
     }
@@ -265,4 +273,29 @@ class FW_Sermons_Post_Types {
         }
         
     }
+
+    /**
+     * Builds and returns an image html string with a thumbnail view of the post's
+     * featured image. 
+     *
+     * @param    int      Post id.
+     * @param    string   Space separated list of classes to attach to image html.
+     * @return   string   Image html associated with the given post id or empty string.
+     */
+    public function get_thumbnail_image_html( $post_id, $classes = "" ) {
+
+        $image_id = get_post_thumbnail_id( $post_id );
+
+        if ( !empty( $image_id ) ) {
+
+            require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-images.php';
+            $img_html = FW_Sermons_Images::get_image_html( $image_id, $classes );
+            return $img_html;
+
+        }
+
+        return '';
+
+    }
+
 }

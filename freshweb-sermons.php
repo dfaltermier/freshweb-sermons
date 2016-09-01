@@ -10,7 +10,7 @@
  * Plugin Name:    Freshweb Studio Sermons
  * Plugin URI:     https://github.com/dfaltermier/freshweb-sermons
  * Description:    Create sermon series containing video, audio, and other associated materials.
- * Version:        0.1.5
+ * Version:        1.0.0
  * Author:         Freshweb Studio
  * Author URI:     https://github.com/dfaltermier
  * Text Domain:    fw-sermons
@@ -54,7 +54,7 @@ register_activation_hook( __FILE__, 'fw_sermons_flush_rewrites' );
 
 function fw_sermons_flush_rewrites() {
     
-    require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-post-types.php';
+    require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-post-types.php';
     $post_types = new FW_Sermons_Post_Types;
 
     flush_rewrite_rules();

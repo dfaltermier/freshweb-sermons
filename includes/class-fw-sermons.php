@@ -57,35 +57,35 @@ class FW_Sermons {
      */
     public function load_admin_scripts() {
 
-        // Only enqueue if we're on our plugin pages.
+        // Only enqueue if we're in our plugin pages.
         if ( ! $this->is_plugin_admin_page() ) {
             return;
         }
 
         wp_enqueue_script(
             'fw_sermons_datepicker',
-            FW_SERMONS_PLUGIN_URL . 'js/datepicker.js',
+            FW_SERMONS_PLUGIN_URL . 'admin/js/datepicker.js',
             array( 'jquery', 'jquery-ui-datepicker' ),
             FW_SERMONS_VERSION
         );
 
         wp_enqueue_script(
             'fw_sermons_media_uploader',
-            FW_SERMONS_PLUGIN_URL . 'js/media-uploader.js',
+            FW_SERMONS_PLUGIN_URL . 'admin/js/media-uploader.js',
             array( 'jquery' ),
             FW_SERMONS_VERSION
         );
 
         wp_enqueue_script(
             'fw_sermons_document_uploader',
-            FW_SERMONS_PLUGIN_URL . 'js/document-uploader.js',
+            FW_SERMONS_PLUGIN_URL . 'admin/js/document-uploader.js',
             array( 'jquery' ),
             FW_SERMONS_VERSION
         );
 
         wp_enqueue_style(
             'fw_sermons_styles',
-            FW_SERMONS_PLUGIN_URL . 'css/style.css', 
+            FW_SERMONS_PLUGIN_URL . 'admin/css/style.css', 
             array(), 
             FW_SERMONS_VERSION
         );
@@ -102,19 +102,14 @@ class FW_Sermons {
             define( 'FW_SERMONS_VERSION', '1.0.0' );
         }
 
-        // Plugin Folder Path.
+        // Plugin Folder Path (without trailing slash)
         if ( ! defined( 'FW_SERMONS_PLUGIN_DIR' ) ) {
-            define( 'FW_SERMONS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+            define( 'FW_SERMONS_PLUGIN_DIR', dirname( __DIR__ ) );
         }
 
-        // Plugin Folder URL.
+        // Plugin Folder URL (with trailing slash)
         if ( ! defined( 'FW_SERMONS_PLUGIN_URL' ) ) {
-            define( 'FW_SERMONS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-        }
-
-        // Plugin Root File.
-        if ( ! defined( 'FW_SERMONS_PLUGIN_FILE' ) ) {
-            define( 'FW_SERMONS_PLUGIN_FILE', __FILE__ );
+            define( 'FW_SERMONS_PLUGIN_URL', plugin_dir_url( __DIR__ ) );
         }
 
     }
@@ -124,19 +119,19 @@ class FW_Sermons {
      */
     private function includes() {
 
-        require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-post-types.php';
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-post-types.php';
         $post_types = new FW_Sermons_Post_Types;
 
-        require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-meta-box.php';
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-meta-box.php';
         $meta_boxes = new FW_Sermons_Meta_Box;
 
-        require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-series.php';
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-series.php';
         $term_meta = new FW_Sermons_Series;
 
-        require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-speakers.php';
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-speakers.php';
         $term_meta = new FW_Sermons_Speakers;
 
-        require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-images.php';
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-images.php';
         $images = new FW_Sermons_Images;
         $images->init();
 

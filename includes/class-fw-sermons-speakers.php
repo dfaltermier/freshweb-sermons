@@ -36,15 +36,13 @@ class FW_Sermons_Speakers {
     /*
      * Sanitize callback for our register_meta() method.
      *
-     * @param  mixed  $meta_value The meta value.
-     * @param  string $meta_key   The meta key.
-     * @param  string $meta_type  The meta type.
-     * @return string             The meta value.
+     * @param  string   Unclean value.
+     * @return string   Cleaned value.
      */
-    public function sanitize_input( $meta_value, $meta_key, $meta_type ) {
+    public function sanitize_input( $input ) {
 
-        $meta_value = sanitize_text_field( $meta_value );
-        return $meta_value;
+        $input = sanitize_text_field( $input );
+        return $input;
 
     }
 
@@ -146,11 +144,11 @@ class FW_Sermons_Speakers {
         }
 
         $speaker_url = isset( $_POST['fw_sermons_speaker_url'] ) 
-            ? $this->sanitize_input( ( trim( $_POST['fw_sermons_speaker_url'] ) ) )
+            ? $this->sanitize_input( trim( $_POST['fw_sermons_speaker_url'] ) )
             : '';
 
         $speaker_image_id = isset( $_POST['fw_sermons_speaker_image_id'] ) 
-            ? $this->sanitize_input( ( trim( $_POST['fw_sermons_speaker_image_id'] ) ) ) 
+            ? $this->sanitize_input( trim( $_POST['fw_sermons_speaker_image_id'] ) )
             : '';
 
         // Allow the values to be empty.
@@ -190,7 +188,7 @@ class FW_Sermons_Speakers {
      * @param    int      Term id.
      * @return   string   Value to display in the speakers table.
      */
-    public function speaker_custom_columns( $out = null, $column, $term_id  ) {
+    public function speaker_custom_columns( $out = null, $column, $term_id ) {
 
         switch ( $column ) {
         
@@ -217,7 +215,7 @@ class FW_Sermons_Speakers {
      */
     public function get_thumbnail_image_html( $term_id, $classes = "" ) {
 
-        require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-images.php';
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-images.php';
 
         $image_id = get_term_meta( $term_id, 'fw_sermons_speaker_image_id', true );
 

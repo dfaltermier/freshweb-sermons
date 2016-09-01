@@ -35,17 +35,15 @@ class FW_Sermons_Series {
     }
 
     /*
-     * Sanitization callback for our register_meta() method.
+     * Sanitize callback for our register_meta() method.
      *
-     * @param  mixed    The meta value.
-     * @param  string   The meta key.
-     * @param  string   The meta type.
-     * @return string   The meta value.
+     * @param  string   Unclean value.
+     * @return string   Cleaned value.
      */
-    public function sanitize_input( $meta_value, $meta_key, $meta_type ) {
+    public function sanitize_input( $input ) {
 
-        $meta_value = sanitize_text_field( $meta_value );
-        return $meta_value;
+        $input = sanitize_text_field( $input );
+        return $input;
 
     }
 
@@ -143,17 +141,17 @@ class FW_Sermons_Series {
      */
     public function save_series_fields( $term_id ) {
 
-        if ( ! isset( $_POST['fw_sermons_series_meta_nonce'] ) || 
+        if ( ! isset( $_POST['fw_sermons_series_meta_nonce'] ) ||
              ! wp_verify_nonce( $_POST['fw_sermons_series_meta_nonce'], basename( __FILE__ ) ) ) {
             return;
         }
 
-        $series_date = isset( $_POST['fw_sermons_series_date'] ) 
-            ? $this->sanitize_input( ( trim( $_POST['fw_sermons_series_date'] ) ) )
+        $series_date = isset( $_POST['fw_sermons_series_date'] )
+            ? $this->sanitize_input( trim( $_POST['fw_sermons_series_date'] ) )
             : '';
 
-        $series_image_id = isset( $_POST['fw_sermons_series_image_id'] ) 
-            ? $this->sanitize_input( ( trim( $_POST['fw_sermons_series_image_id'] ) ) ) 
+        $series_image_id = isset( $_POST['fw_sermons_series_image_id'] )
+            ? $this->sanitize_input( trim( $_POST['fw_sermons_series_image_id'] ) )
             : '';
 
         // Allow the values to be empty.
@@ -225,7 +223,7 @@ class FW_Sermons_Series {
      */
     public function get_thumbnail_image_html( $term_id, $classes = "" ) {
 
-        require_once FW_SERMONS_PLUGIN_DIR . 'class-fw-sermons-images.php';
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-images.php';
 
         $image_id = get_term_meta( $term_id, 'fw_sermons_series_image_id', true );
 

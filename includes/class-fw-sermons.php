@@ -13,8 +13,8 @@ class FW_Sermons {
      */
     public function run() {
 
-        self::setup_constants();
-        self::includes();
+        $this->setup_constants();
+        $this->includes();
 
         add_action( 'admin_enqueue_scripts', array( $this, 'load_admin_scripts' ) );
     

@@ -35,6 +35,9 @@
         /**
          * Callback function for the 'click' event on a upload media button.
          *
+         * @todo    We should be caching the handle to the wp.media object so we're
+         *          not recreating it before every open().
+         *
          * @param   event.data.mediaType   'image', 'audio', or 'video' media type.
          * @param   event.data.buttonText  Button text in media uploader window. 
          */

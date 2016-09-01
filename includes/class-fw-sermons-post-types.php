@@ -173,9 +173,9 @@ class FW_Sermons_Post_Types {
         $columns = array(
             'cb'      => '<input type="checkbox" />',
             'title'   => 'Title',
+            'date_string' => 'Date',
             'series'  => 'Series',
-            'speaker' => 'Speaker',
-            'date'    => 'Date'
+            'speaker' => 'Speaker'
         );
 
         return $columns;
@@ -193,15 +193,33 @@ class FW_Sermons_Post_Types {
     public function sermon_custom_columns( $column, $post_id  ) {
 
         switch ( $column ) {
-        
+
+           case 'date_string' :
+               echo $this->get_sermon_date( $post_id );
+               break;
+
            case 'series' :
                echo $this->get_sermon_series( $post_id );
                break;
+
            case 'speaker' :
                echo $this->get_sermon_speaker( $post_id );
                break;
 
         }
+    }
+
+    /**
+     * Returns the date associated with the given Sermon post id. 
+     *
+     * @param    int      Post id.
+     * @return   string   Date string.
+     */
+    public function get_sermon_date( $post_id ) {
+
+        $date = get_post_meta( $post_id, '_fw_sermons_date', true );
+        return $date;
+
     }
 
     /**

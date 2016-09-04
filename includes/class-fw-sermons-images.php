@@ -1,6 +1,6 @@
 <?php 
 /**
- * This class provides the intereface for retrieving small thumbnail images
+ * This class provides the interface for retrieving small thumbnail images
  * for use on the taxonomy and sermon pages.
  *
  * This class incorporates portions of code from the "Taxonomy Images"

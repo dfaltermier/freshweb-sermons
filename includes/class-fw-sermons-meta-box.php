@@ -44,11 +44,17 @@ class FW_Sermons_Meta_Box {
     /**
      * Display our meta box fields.
      *
-     * @param   int     Post id.
+     * @param   int   $post_id   Post id.
      */
     private function meta_box_detail_fields( $post_id ) {
 
-        $date               = get_post_meta( $post_id, '_fw_sermons_date', true );
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
+
+        // Convert the date string from the format that we save on the backend to
+        // the format expected on the frontend.
+        $date = get_post_meta( $post_id, '_fw_sermons_date', true );
+        $date = FW_Sermons_Date::format_backend_to_frontend( $date );
+
         $audio_player_url   = get_post_meta( $post_id, '_fw_sermons_audio_player_url', true );
         $audio_download_url = get_post_meta( $post_id, '_fw_sermons_audio_download_url', true );
         $video_player_url   = get_post_meta( $post_id, '_fw_sermons_video_player_url', true );
@@ -168,10 +174,12 @@ class FW_Sermons_Meta_Box {
     /**
      * Save our meta box fields.
      *
-     * @param   int       Post id.
-     * @param   WP_Post   Post object (https://developer.wordpress.org/reference/classes/wp_post/)
+     * @param   int       $post_id   Post id.
+     * @param   WP_Post   $post      Post object (https://developer.wordpress.org/reference/classes/wp_post/)
      */
     public function sermon_meta_box_save( $post_id, $post ) {
+        
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
 
         if ( ! isset( $_POST['fw_sermons_meta_box_nonce'] ) ||
              ! wp_verify_nonce( $_POST['fw_sermons_meta_box_nonce'], 'fw_sermons_save' ) ) {
@@ -200,15 +208,23 @@ class FW_Sermons_Meta_Box {
             'fw_sermons_video_download_url'
         );
 
+        // Update each field. For the date field, convert the string format collected on
+        // the frontend to the format we save on the backend.
         foreach( $fields as $field ) {
 
             if ( isset( $_POST[ $field ] ) ) {
                 $value = sanitize_text_field( trim( $_POST[ $field ] ) ); 
+
+                if ( $field === 'fw_sermons_date' ) {
+                    $value = FW_Sermons_Date::format_frontend_to_backend( $value );
+                }
+
                 update_post_meta( $post_id, '_'.$field, $value );
             }
 
         }
 
+        // Update the document links.
         if ( isset( $_POST[ 'fw_sermons_document_link_label' ] ) &&
              isset( $_POST[ 'fw_sermons_document_link_url' ] ) ) {
             $document_link_labels = array_map( 'sanitize_text_field', $_POST['fw_sermons_document_link_label'] );

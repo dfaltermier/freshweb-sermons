@@ -229,7 +229,13 @@ class FW_Sermons_Post_Types {
      */
     public function get_sermon_date( $post_id ) {
 
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
+
+        // Convert the date string from the format that we save on the backend to
+        // the format expected on the frontend.
         $date = get_post_meta( $post_id, '_fw_sermons_date', true );
+        $date = FW_Sermons_Date::format_backend_to_frontend( $date );
+
         return $date;
 
     }

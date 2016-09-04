@@ -86,7 +86,12 @@ class FW_Sermons_Series {
      */
     public function edit_series_fields( $term ) {
 
-        $series_date  = get_term_meta( $term->term_id, 'fw_sermons_series_date', true );
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
+        
+        // Convert the date string from the format that we save on the backend to
+        // the format expected on the frontend.
+        $series_date = get_term_meta( $term->term_id, 'fw_sermons_series_date', true );
+        $series_date = FW_Sermons_Date::format_backend_to_frontend( $series_date );
 
         $series_image_id  = get_term_meta( $term->term_id, 'fw_sermons_series_image_id', true );
         $series_image_url = empty( $series_image_id ) ? '' : wp_get_attachment_url( $series_image_id );
@@ -141,14 +146,22 @@ class FW_Sermons_Series {
      */
     public function save_series_fields( $term_id ) {
 
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
+
         if ( ! isset( $_POST['fw_sermons_series_meta_nonce'] ) ||
              ! wp_verify_nonce( $_POST['fw_sermons_series_meta_nonce'], basename( __FILE__ ) ) ) {
             return;
         }
 
-        $series_date = isset( $_POST['fw_sermons_series_date'] )
-            ? $this->sanitize_input( trim( $_POST['fw_sermons_series_date'] ) )
-            : '';
+        // For the date field, convert the string format collected on the frontend
+        // to the format we save on the backend.
+        $series_date = '';
+        if ( isset( $_POST['fw_sermons_series_date'] ) ) {
+
+            $series_date = $this->sanitize_input( trim( $_POST['fw_sermons_series_date'] ) );
+            $series_date = $series_date ? FW_Sermons_Date::format_frontend_to_backend( $series_date ) : '';
+
+        }
 
         $series_image_id = isset( $_POST['fw_sermons_series_image_id'] )
             ? $this->sanitize_input( trim( $_POST['fw_sermons_series_image_id'] ) )
@@ -244,7 +257,14 @@ class FW_Sermons_Series {
      */
     public function get_start_date( $term_id ) {
 
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
+
         $date = get_term_meta( $term_id, 'fw_sermons_series_date', true );
+
+        // For the date field, convert the string format saved on the backend
+        // to the format we display on the frontend.
+        $date = $date ? FW_Sermons_Date::format_backend_to_frontend( $date ) : '';
+
         return $date;
 
     }

@@ -10,9 +10,13 @@ class FW_Sermons_Post_Types {
         add_action( 'init', array( $this, 'register_post_types' ) );
         add_action( 'init', array( $this, 'register_taxonomies' ) );
 
+        // Add additional columns to our table.
         add_filter( 'manage_sermon_posts_columns' , array( $this, 'sermon_columns') );
         add_action( 'manage_sermon_posts_custom_column' , array( $this, 'sermon_custom_columns' ), 10, 2 );
 
+        // Make some columns sortable.
+        add_filter( 'manage_edit-sermon_sortable_columns' , array( $this, 'sermon_sort_columns') );
+        add_filter( 'request', array( $this, 'sermon_sort_columns_orderby' ) );
     }
 
     /**
@@ -301,6 +305,72 @@ class FW_Sermons_Post_Types {
         }
 
         return '';
+
+    }
+
+    /**
+     * Filter for sorting the date column. Add our column id and the associated 
+     * meta key name to the given list of columns. The method that will actually
+     * sort these columns is sermon_sort_columns_orderby() and will be called
+     * later by WordPress.
+     *
+     * @param    array   List of column ids and the query 'orderby' value.
+     * @return   array   Same list.
+     */
+    public function sermon_sort_columns( $columns ) {
+
+        $columns['sermon_date'] = '_fw_sermons_date';
+        return $columns;
+
+    }
+
+    /**
+     * Filter for making some columns sortable. Here we receive query parameters
+     * and we'll manipulate them so our columns will sort.
+     *
+     * Using the date column as an example, we'll modify this incoming $vars structure:
+     *
+     * Array (
+     *     'order' => 'asc',
+     *     'orderby' => '_fw_sermons_date',
+     *     'post_type' => 'sermon',
+     *     'posts_per_page' => 20
+     * )
+     *
+     * to this:
+     *
+     * Array (
+     *     'order' => 'asc',
+     *     'orderby' => 'meta_value',
+     *     'post_type' => 'sermon',
+     *     'posts_per_page' => 20,
+     *     'meta_key' => '_fw_sermons_date'
+     * )
+     *
+     * @param    array  $vars  WordPress query parameters
+     * @return   array         Modified query parameters.
+     */
+    public function sermon_sort_columns_orderby( $vars ) {
+
+        if ( isset( $vars['orderby'] ) ) {
+
+            switch( $vars['orderby'] ) {
+
+                case '_fw_sermons_date':
+                    $vars = array_merge( $vars, array(
+                        'meta_key' => '_fw_sermons_date',
+                        'orderby'  => 'meta_value' // Sort alphanumerically!
+                    ) );
+                    break;
+
+                default:
+                    break;
+
+            }
+
+        }
+
+        return $vars;
 
     }
 

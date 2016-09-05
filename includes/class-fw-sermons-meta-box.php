@@ -208,13 +208,14 @@ class FW_Sermons_Meta_Box {
             'fw_sermons_video_download_url'
         );
 
-        // Update each field. For the date field, convert the string format collected on
-        // the frontend to the format we save on the backend.
+        // Update each field. 
         foreach( $fields as $field ) {
 
             if ( isset( $_POST[ $field ] ) ) {
                 $value = sanitize_text_field( trim( $_POST[ $field ] ) ); 
 
+                // For the date field, convert the string format collected on
+                // the frontend to the format we save on the backend.
                 if ( $field === 'fw_sermons_date' ) {
                     $value = FW_Sermons_Date::format_frontend_to_backend( $value );
                 }

@@ -17,6 +17,9 @@ class FW_Sermons_Post_Types {
         // Make some columns sortable.
         add_filter( 'manage_edit-sermon_sortable_columns' , array( $this, 'sermon_sort_columns') );
         add_filter( 'request', array( $this, 'sermon_sort_columns_orderby' ) );
+
+        // Add a select menu at the top of the CPT table so posts can be filtered by taxonomies.
+        add_action( 'restrict_manage_posts', array( $this, 'add_taxonomy_filters' ) );
     }
 
     /**
@@ -83,7 +86,7 @@ class FW_Sermons_Post_Types {
             'hierarchical' => true,
             'labels'       => $series_labels,
             'show_ui'      => true,
-            'query_var'    => 'series',
+            'query_var'    => 'sermon_series',
             'rewrite'      => array('slug' => 'series', 'with_front' => false, 'hierarchical' => true ),
         );
         register_taxonomy( 'sermon_series', array('sermon'), $series_args );
@@ -108,7 +111,7 @@ class FW_Sermons_Post_Types {
             'hierarchical' => true,
             'labels'       => $speaker_labels,
             'show_ui'      => true,
-            'query_var'    => 'speaker',
+            'query_var'    => 'sermon_speaker',
             'rewrite'      => array('slug' => 'speaker', 'with_front' => false, 'hierarchical' => true ),
         );
         register_taxonomy( 'sermon_speaker', array('sermon'), $speaker_args );
@@ -133,7 +136,7 @@ class FW_Sermons_Post_Types {
             'hierarchical' => true,
             'labels'       => $topic_labels,
             'show_ui'      => true,
-            'query_var'    => 'topic',
+            'query_var'    => 'sermon_topic',
             'rewrite'      => array('slug' => 'topic', 'with_front' => false, 'hierarchical' => false ),
         );
         register_taxonomy( 'sermon_topic', array('sermon'), $topic_args );
@@ -158,7 +161,7 @@ class FW_Sermons_Post_Types {
             'hierarchical' => true,
             'labels'       => $book_labels,
             'show_ui'      => true,
-            'query_var'    => 'topic',
+            'query_var'    => 'sermon_book',
             'rewrite'      => array('slug' => 'book', 'with_front' => false, 'hierarchical' => false ),
         );
         register_taxonomy( 'sermon_book', array('sermon'), $book_args );
@@ -372,6 +375,43 @@ class FW_Sermons_Post_Types {
 
         return $vars;
 
+    }
+
+    /**
+     * Action for displaying one or more select menus on our 'All Sermons' page.
+     * Each menu contains the list of terms for one taxonomy. The selected term
+     * will act as a filter when the [WordPress] Filter button is clicked.
+     *
+     * Portions of code taken from Mike Hemberger's example at:
+     * http://thestizmedia.com/custom-post-type-filter-admin-custom-taxonomy/
+     */
+    public function add_taxonomy_filters() {
+        global $typenow;
+
+        if ( $typenow === 'sermon' ) {
+
+            // An array of all the taxonomies you want to display. Use the taxonomy slug.
+            $taxonomy_slugs = array( 'sermon_series', 'sermon_speaker' );
+
+            foreach ( $taxonomy_slugs as $taxonomy_slug ) {
+
+                $selected  = isset($_GET[$taxonomy_slug]) ? $_GET[$taxonomy_slug] : '';
+                $taxonomy_obj   = get_taxonomy( $taxonomy_slug );
+                $taxonomy_label = strtolower( $taxonomy_obj->label );
+
+                wp_dropdown_categories(array(
+                    'show_option_all' => __("All $taxonomy_label" ),
+                    'taxonomy'        => $taxonomy_slug,
+                    'name'            => $taxonomy_slug,
+                    'orderby'         => 'name',
+                    'selected'        => $selected,
+                    'show_count'      => true,
+                    'hide_empty'      => true,
+                    'value_field'     => 'slug'
+                ));
+
+            }
+        };
     }
 
 }

@@ -20,6 +20,11 @@ class FW_Sermons_Post_Types {
 
         // Add a select menu at the top of the CPT table so posts can be filtered by taxonomies.
         add_action( 'restrict_manage_posts', array( $this, 'add_taxonomy_filters' ) );
+
+        // Remove the [publish] date select menu from the 'All Sermons' page. Not needed
+        // since we don't display the publish date.
+        add_filter( 'months_dropdown_results', array( $this, 'remove_date_filter' ), 10, 2 );
+
     }
 
     /**
@@ -412,6 +417,21 @@ class FW_Sermons_Post_Types {
 
             }
         };
+    }
+
+    /**
+     * Action for removing the date select menu from the 'All Sermons' page.
+     * It's not useful to us since we are not displaying the publishing dates.
+     *
+     * @param  mixed   $months      Array of month objects.
+     * @param  string  $post_type   Post type of which we expect 'sermon'.
+     * @return mixed                $months array.
+     */
+    public function remove_date_filter( $months, $post_type ) {
+
+        // Returning an empty array will remove the select menu.
+        return ( $post_type === 'sermon' ) ? array() : $months;
+
     }
 
 }

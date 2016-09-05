@@ -126,10 +126,16 @@ class FW_Sermons {
         $meta_boxes = new FW_Sermons_Meta_Box;
 
         require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-series.php';
-        $term_meta = new FW_Sermons_Series;
+        $sermon_series = new FW_Sermons_Series;
 
         require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-speakers.php';
-        $term_meta = new FW_Sermons_Speakers;
+        $sermon_speakers = new FW_Sermons_Speakers;
+
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-topics.php';
+        $sermon_topics = new FW_Sermons_Topics;
+
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-books.php';
+        $sermon_books = new FW_Sermons_Books;        
 
         require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-images.php';
         $images = new FW_Sermons_Images;

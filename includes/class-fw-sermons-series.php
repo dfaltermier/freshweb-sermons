@@ -1,8 +1,8 @@
 <?php 
 
 /**
- * This class adds additonal fields to the sermon series taxonomy, allowing you to edit
- * and save their values.
+ * This class provides methods for manipulating the sermon series taxonomy.
+ *
  */
 class FW_Sermons_Series {
     
@@ -87,7 +87,7 @@ class FW_Sermons_Series {
     public function edit_series_fields( $term ) {
 
         require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
-        
+
         // Convert the date string from the format that we save on the backend to
         // the format expected on the frontend.
         $series_date = get_term_meta( $term->term_id, 'fw_sermons_series_date', true );
@@ -186,7 +186,7 @@ class FW_Sermons_Series {
             'cb'                      => '<input type="checkbox" />',
             'name'                    => 'Name',
             'sermon_series_date'      => 'Start Date',
-            'sermon_series_thumbnail' => 'image',
+            'sermon_series_thumbnail' => 'Image',
             'slug'                    => 'Slug',
             'posts'                   => 'Sermon Count'
             // We won't include a 'Description' column as it's annoying.

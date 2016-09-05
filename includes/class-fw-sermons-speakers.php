@@ -1,7 +1,7 @@
 <?php 
 /**
- * This class adds additonal fields to the sermon speakers taxonomy, allowing you to edit
- * and save their values.
+ * This class provides methods for manipulating the sermon speaker taxonomy.
+ *
  */
 class FW_Sermons_Speakers {
     

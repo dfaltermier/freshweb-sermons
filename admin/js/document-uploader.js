@@ -88,6 +88,11 @@
             // Now that we have two or more links, show the 'Delete' link for all of them.
             // Be sure to fetch our new set of links and not use the previous set.
             $('.fw-sermons-document-delete-link', $table).show();
+
+            // This will prevent the page from scrolling to the top every time
+            // the user adds a row. Ugh!
+            event.preventDefault();
+            return false;
         }
 
         /**
@@ -107,6 +112,12 @@
             $(this).closest('.fw-sermons-document-row').fadeOut(800, function() {
                 $(this).remove();
             });
+
+
+            // This will prevent the page from scrolling to the top every time
+            // the user deletes a row. Ugh!
+            event.preventDefault();
+            return false;
         }
 
         /**

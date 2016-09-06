@@ -14,11 +14,11 @@ This plugin is a product of [FreshWeb Studio](https://freshwebstudio.com).
 
 ### Listing of all sermons
 
-![Listing of all sermons](https://cloud.githubusercontent.com/assets/3323104/18175067/20ce69ea-702d-11e6-992f-ee1a42e7474a.png)
+![Listing of all sermons](https://cloud.githubusercontent.com/assets/3323104/18280559/b35bc982-7416-11e6-8a51-f17e0074a630.png)
 
 ### Editing a sermon
 
-![Editing a sermon](https://cloud.githubusercontent.com/assets/3323104/18175107/3fac7c58-702d-11e6-8f40-f03e421c86b1.png)
+![Editing a sermon](https://cloud.githubusercontent.com/assets/3323104/18280622/e5871e5c-7416-11e6-9889-180e132a4402.png)
 
 ### Adding a new sermon series
 
@@ -30,9 +30,8 @@ This plugin is a product of [FreshWeb Studio](https://freshwebstudio.com).
 
 ### Adding a new sermon topic
 
-![Adding a new sermon topic](https://cloud.githubusercontent.com/assets/3323104/18175125/4c8cee08-702d-11e6-970c-d7c8b70a7051.png)
+![Adding a new sermon topic](https://cloud.githubusercontent.com/assets/3323104/18280652/0950c57c-7417-11e6-8c03-3f4ff292d790.png)
 
 ### Adding a new sermon Bible book
 
-![Adding a new sermon Bible book](https://cloud.githubusercontent.com/assets/3323104/18175127/4f15d5b8-702d-11e6-91dd-5acc532291b9.png)
-
+![Adding a new sermon Bible book](https://cloud.githubusercontent.com/assets/3323104/18280681/1e721c44-7417-11e6-9c48-ee5503ee7dde.png)

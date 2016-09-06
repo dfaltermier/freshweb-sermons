@@ -19,8 +19,8 @@ class FW_Sermons_Series {
         add_action( 'create_sermon_series', array( $this, 'save_series_fields' ) );
 
         // Add term column labels and populate the columns with data.
-        add_filter( 'manage_edit-sermon_series_columns' , array( $this, 'series_columns') );
-        add_filter( 'manage_sermon_series_custom_column' , array( $this, 'series_custom_columns' ), 10, 3 );
+        add_filter( 'manage_edit-sermon_series_columns' , array( $this, 'add_series_columns') );
+        add_filter( 'manage_sermon_series_custom_column' , array( $this, 'populate_series_columns' ), 10, 3 );
 
     }
 
@@ -34,11 +34,11 @@ class FW_Sermons_Series {
 
     }
 
-    /*
+    /**
      * Sanitize callback for our register_meta() method.
      *
-     * @param  string   Unclean value.
-     * @return string   Cleaned value.
+     * @param   string  $input  Unclean string.
+     * @return  string          Cleaned string.
      */
     public function sanitize_input( $input ) {
 
@@ -50,7 +50,9 @@ class FW_Sermons_Series {
     /**
      * Add additional meta fields to our default sermon series fields. These fields only
      * appear on the Sermons -> Add Series taxomony page. Be carefull with class names;
-     * JavaScript event handlers are attached to some.
+     * JavaScript event handlers are attached to some!
+     *
+     * @see /js/media-uploader.js
      */
     public function add_series_fields() {
 
@@ -82,7 +84,10 @@ class FW_Sermons_Series {
     /**
      * Add additional meta fields to our default sermon series fields. These fields only
      * appear on the Sermons -> Edit Series taxonomy page. Be carefull with class names;
-     * JavaScript event handlers are attached to some.
+     * JavaScript event handlers are attached to some!
+     *
+     * @see /js/media-uploader.js 
+     * @param  object  $term   Taxonomy term object. 
      */
     public function edit_series_fields( $term ) {
 
@@ -143,6 +148,8 @@ class FW_Sermons_Series {
 
     /**
      * Save the meta field values from both of the forms above.
+     *
+     * @param  int  $term_id  Taxonomy term id.
      */
     public function save_series_fields( $term_id ) {
 
@@ -174,13 +181,12 @@ class FW_Sermons_Series {
     }
 
     /**
-     * Override the given list of columns displayed in the series terms
-     * table with our own.
+     * Configure the given list of table columns with our own.
      *
-     * @param    array   List of column ids and labels.
-     * @return   array   Same list.
+     * @param   array  $columns  List of column ids and labels.
+     * @return  array            Same list.
      */
-    public function series_columns( $columns ) {
+    public function add_series_columns( $columns ) {
   
         $columns = array(
             'cb'                      => '<input type="checkbox" />',
@@ -200,12 +206,12 @@ class FW_Sermons_Series {
      * Switch on the given column id and return the string to be displayed
      * in our series table. 
      *
-     * @param    null     Deprecated field.
-     * @param    string   Column id.
-     * @param    int      Term id.
-     * @return   string   Value to display in the series table.
+     * @param    null     $out      Deprecated field.
+     * @param    string   $column   Column id for the value to fetch. See add_series_columns().
+     * @param    int      $term_id  Taxonomy term id.
+     * @return   string             Value to display in column; default to empty string.
      */
-    public function series_custom_columns( $out = null, $column, $term_id  ) {
+    public function populate_series_columns( $out = null, $column, $term_id  ) {
 
         switch ( $column ) {
         
@@ -228,11 +234,11 @@ class FW_Sermons_Series {
     }
 
     /**
-     * Builds and returns an html string representing an image dom element. 
+     * Builds and returns an html string representing an image DOM element.
      *
-     * @param    int      Term id.
-     * @param    string   Space separated list of classes to attach to image html.
-     * @return   string   Image html associated with the given term id or empty string.
+     * @param    int      $term_id   Term id.
+     * @param    string   $classes   Space separated list of classes to attach to image html.
+     * @return   string              Image html associated with the given term id or empty string.
      */
     public function get_thumbnail_image_html( $term_id, $classes = "" ) {
 
@@ -252,8 +258,8 @@ class FW_Sermons_Series {
     /**
      * Returns a date string suitable for display in our series table.
      *
-     * @param    int      Term id.
-     * @return   string   Date string or empty string.
+     * @param    int      $term_id  Taxonomy term id.
+     * @return   string             Date string or empty string.
      */
     public function get_start_date( $term_id ) {
 

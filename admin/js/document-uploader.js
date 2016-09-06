@@ -63,6 +63,8 @@
 
         /**
          * Adds another link row to the bottom of our current rows of links.
+         *
+         * @param  object  event  jQuery event.
          */
         function addLink(event) {
             var $table = $(this).closest('.fw-sermons-document-meta-fields');
@@ -97,6 +99,8 @@
 
         /**
          * Deletes a link when the user clicks the associated 'Delete' link.
+         *
+         * @param  object  event  jQuery event.
          */
         function deleteLink(event) {
             var $table = $(this).closest('.fw-sermons-document-meta-fields');

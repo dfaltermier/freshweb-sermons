@@ -21,33 +21,14 @@ class FW_Sermons {
     }
 
     /**
-     * @return    bool    Returns true if we're on one of our plugin's admin pages. 
+     * Determines if we're on one of our plugin's admin pages.
+     *
+     * @return  bool  Returns true if this is so.
      */
     public function is_plugin_admin_page() {
 
         global $typenow;
 
-        /* This is what we can expect:
-        Page: Sermons
-        pagenow: "edit.php"
-        typenow: "sermon"
-
-        Page: Add New Sermon
-        pagenow: "post-new.php"
-        typenow: "sermon"
-
-        Page: Edit Sermon
-        pagenow: "post.php"
-        typenow: "sermon"
-
-        Page: Series
-        pagenow: "edit.tags"
-        typenow: "sermon"
-
-        Page: Edit Series
-        pagenow: "term.php"
-        typenow: "sermon"
-        */
         return ( 'sermon' === $typenow ? true : false );
 
     }

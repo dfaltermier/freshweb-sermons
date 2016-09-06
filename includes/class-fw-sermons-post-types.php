@@ -11,12 +11,12 @@ class FW_Sermons_Post_Types {
         add_action( 'init', array( $this, 'register_taxonomies' ) );
 
         // Add additional columns to our table.
-        add_filter( 'manage_sermon_posts_columns' , array( $this, 'sermon_columns') );
-        add_action( 'manage_sermon_posts_custom_column' , array( $this, 'sermon_custom_columns' ), 10, 2 );
+        add_filter( 'manage_sermon_posts_columns' , array( $this, 'add_sermon_columns' ) );
+        add_action( 'manage_sermon_posts_custom_column' , array( $this, 'populate_sermon_columns' ), 10, 2 );
 
         // Make some columns sortable.
-        add_filter( 'manage_edit-sermon_sortable_columns' , array( $this, 'sermon_sort_columns') );
-        add_filter( 'request', array( $this, 'sermon_sort_columns_orderby' ) );
+        add_filter( 'manage_edit-sermon_sortable_columns' , array( $this, 'configure_sortable_columns' ) );
+        add_filter( 'request', array( $this, 'configure_sortable_columns_orderby_keys' ) );
 
         // Add a select menu at the top of the CPT table so posts can be filtered by taxonomies.
         add_action( 'restrict_manage_posts', array( $this, 'add_taxonomy_filters' ) );
@@ -28,24 +28,23 @@ class FW_Sermons_Post_Types {
     }
 
     /**
-     * Register post types.
-     * 
+     * Register our Sermon post type.
      */
     public function register_post_types() {
 
         $sermon_labels =  array(
-            'name'                  => 'Sermons',
-            'singular_name'         => 'Sermon',
-            'add_new'               => 'Add New',
-            'add_new_item'          => 'Add New Sermon',
-            'edit_item'             => 'Edit Sermon',
-            'new_item'              => 'New Sermon',
-            'all_items'             => 'All Sermons',
-            'view_item'             => 'View Sermon',
-            'search_items'          => 'Search Sermons',
-            'not_found'             => 'No Sermons Found',
-            'not_found_in_trash'    => 'No Sermons Found In Trash',
-            'menu_name'             => 'Sermons',
+            'name'               => 'Sermons',
+            'singular_name'      => 'Sermon',
+            'add_new'            => 'Add New',
+            'add_new_item'       => 'Add New Sermon',
+            'edit_item'          => 'Edit Sermon',
+            'new_item'           => 'New Sermon',
+            'all_items'          => 'All Sermons',
+            'view_item'          => 'View Sermon',
+            'search_items'       => 'Search Sermons',
+            'not_found'          => 'No Sermons Found',
+            'not_found_in_trash' => 'No Sermons Found In Trash',
+            'menu_name'          => 'Sermons'
         );
 
         $sermon_args = array(
@@ -59,7 +58,7 @@ class FW_Sermons_Post_Types {
             'rewrite'            => 'sermons',
             'has_archive'        => 'true',
             'hierarchical'       => true,
-            'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions', 'author' ),
+            'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions', 'author' )
         );
 
         register_post_type( 'sermon', $sermon_args );
@@ -74,17 +73,17 @@ class FW_Sermons_Post_Types {
 
         /** Series */
         $series_labels = array(
-            'name'              => 'Series',
-            'singular_name'     => 'Series',
-            'search_items'      => 'Search Series',
-            'all_items'         => 'All Series',
-            'parent_item'       => 'Parent Series',
-            'edit_item'         => 'Edit Series',
-            'update_item'       => 'Update Series',
-            'add_new_item'      => 'Add New Series',
-            'new_item_name'     => 'New Series',
-            'menu_name'         => 'Series',
-            'not_found'         => 'No series found.'
+            'name'          => 'Series',
+            'singular_name' => 'Series',
+            'search_items'  => 'Search Series',
+            'all_items'     => 'All Series',
+            'parent_item'   => 'Parent Series',
+            'edit_item'     => 'Edit Series',
+            'update_item'   => 'Update Series',
+            'add_new_item'  => 'Add New Series',
+            'new_item_name' => 'New Series',
+            'menu_name'     => 'Series',
+            'not_found'     => 'No series found.'
         );
 
         $series_args = array(
@@ -92,24 +91,24 @@ class FW_Sermons_Post_Types {
             'labels'       => $series_labels,
             'show_ui'      => true,
             'query_var'    => 'sermon_series',
-            'rewrite'      => array('slug' => 'series', 'with_front' => false, 'hierarchical' => true ),
+            'rewrite'      => array( 'slug' => 'series', 'with_front' => false, 'hierarchical' => true )
         );
-        register_taxonomy( 'sermon_series', array('sermon'), $series_args );
 
+        register_taxonomy( 'sermon_series', array( 'sermon' ), $series_args );
 
         /** Speaker */
         $speaker_labels = array(
-            'name'              => 'Speakers',
-            'singular_name'     => 'Speaker',
-            'search_items'      => 'Search Speakers',
-            'all_items'         => 'All Speakers',
-            'parent_item'       => 'Parent Speaker',
-            'edit_item'         => 'Edit Speaker',
-            'update_item'       => 'Update Speaker',
-            'add_new_item'      => 'Add New Speaker',
-            'new_item_name'     => 'New Speaker',
-            'menu_name'         => 'Speakers',
-            'not_found'         => 'No speakers found.'
+            'name'          => 'Speakers',
+            'singular_name' => 'Speaker',
+            'search_items'  => 'Search Speakers',
+            'all_items'     => 'All Speakers',
+            'parent_item'   => 'Parent Speaker',
+            'edit_item'     => 'Edit Speaker',
+            'update_item'   => 'Update Speaker',
+            'add_new_item'  => 'Add New Speaker',
+            'new_item_name' => 'New Speaker',
+            'menu_name'     => 'Speakers',
+            'not_found'     => 'No speakers found.'
         );
 
         $speaker_args = array(
@@ -117,24 +116,24 @@ class FW_Sermons_Post_Types {
             'labels'       => $speaker_labels,
             'show_ui'      => true,
             'query_var'    => 'sermon_speaker',
-            'rewrite'      => array('slug' => 'speaker', 'with_front' => false, 'hierarchical' => true ),
+            'rewrite'      => array( 'slug' => 'speaker', 'with_front' => false, 'hierarchical' => true )
         );
-        register_taxonomy( 'sermon_speaker', array('sermon'), $speaker_args );
 
+        register_taxonomy( 'sermon_speaker', array( 'sermon' ), $speaker_args );
 
         /** Topic */
         $topic_labels = array(
-            'name'              => 'Topics',
-            'singular_name'     => 'Topic',
-            'search_items'      => 'Search Topics',
-            'all_items'         => 'All Topics',
-            'parent_item'       => 'Parent Topic',
-            'edit_item'         => 'Edit Topic',
-            'update_item'       => 'Update Topic',
-            'add_new_item'      => 'Add New Topic',
-            'new_item_name'     => 'New Topic',
-            'menu_name'         => 'Topics',
-            'not_found'         => 'No topics found.'
+            'name'          => 'Topics',
+            'singular_name' => 'Topic',
+            'search_items'  => 'Search Topics',
+            'all_items'     => 'All Topics',
+            'parent_item'   => 'Parent Topic',
+            'edit_item'     => 'Edit Topic',
+            'update_item'   => 'Update Topic',
+            'add_new_item'  => 'Add New Topic',
+            'new_item_name' => 'New Topic',
+            'menu_name'     => 'Topics',
+            'not_found'     => 'No topics found.'
         );
 
         $topic_args = array(
@@ -142,24 +141,24 @@ class FW_Sermons_Post_Types {
             'labels'       => $topic_labels,
             'show_ui'      => true,
             'query_var'    => 'sermon_topic',
-            'rewrite'      => array('slug' => 'topic', 'with_front' => false, 'hierarchical' => false ),
+            'rewrite'      => array( 'slug' => 'topic', 'with_front' => false, 'hierarchical' => false )
         );
-        register_taxonomy( 'sermon_topic', array('sermon'), $topic_args );
 
+        register_taxonomy( 'sermon_topic', array( 'sermon' ), $topic_args );
 
         /** Book */
         $book_labels = array(
-            'name'              => 'Books',
-            'singular_name'     => 'Book',
-            'search_items'      => 'Search Books',
-            'all_items'         => 'All Books',
-            'parent_item'       => 'Parent Book',
-            'edit_item'         => 'Edit Book',
-            'update_item'       => 'Update Book',
-            'add_new_item'      => 'Add New Book',
-            'new_item_name'     => 'New Book',
-            'menu_name'         => 'Books',
-            'not_found'         => 'No books found.'
+            'name'          => 'Books',
+            'singular_name' => 'Book',
+            'search_items'  => 'Search Books',
+            'all_items'     => 'All Books',
+            'parent_item'   => 'Parent Book',
+            'edit_item'     => 'Edit Book',
+            'update_item'   => 'Update Book',
+            'add_new_item'  => 'Add New Book',
+            'new_item_name' => 'New Book',
+            'menu_name'     => 'Books',
+            'not_found'     => 'No books found.'
         );
 
         $book_args = array(
@@ -167,20 +166,20 @@ class FW_Sermons_Post_Types {
             'labels'       => $book_labels,
             'show_ui'      => true,
             'query_var'    => 'sermon_book',
-            'rewrite'      => array('slug' => 'book', 'with_front' => false, 'hierarchical' => false ),
+            'rewrite'      => array( 'slug' => 'book', 'with_front' => false, 'hierarchical' => false )
         );
-        register_taxonomy( 'sermon_book', array('sermon'), $book_args );
+
+        register_taxonomy( 'sermon_book', array( 'sermon' ), $book_args );
 
     }
 
     /**
-     * Override the given list of columns displayed in the sermon
-     * table with our own.
+     * Configure the given list of table columns with our own.
      *
-     * @param    array   List of column ids and labels.
-     * @return   array   Same list.
+     * @param   array  $columns  List of column ids and labels.
+     * @return  array            Same list.
      */
-    public function sermon_columns( $columns ) {
+    public function add_sermon_columns( $columns ) {
   
         unset( $columns['author'] );
         unset( $columns['date'] );
@@ -203,10 +202,10 @@ class FW_Sermons_Post_Types {
      * Switch on the given column id and display an appropriate string
      * in our Sermon table.
      *
-     * @param    string   Column id.
-     * @param    int      Post id.
+     * @param   string  $column    Column id for the value to fetch. See add_sermon_columns().
+     * @param   int     $post_id   Post id.
      */
-    public function sermon_custom_columns( $column, $post_id  ) {
+    public function populate_sermon_columns( $column, $post_id  ) {
 
         switch ( $column ) {
 
@@ -236,8 +235,8 @@ class FW_Sermons_Post_Types {
     /**
      * Returns the date associated with the given Sermon post id. 
      *
-     * @param    int      Post id.
-     * @return   string   Date string.
+     * @param   int      $post_id   Post id.
+     * @return  string              Date string.
      */
     public function get_sermon_date( $post_id ) {
 
@@ -255,8 +254,8 @@ class FW_Sermons_Post_Types {
     /**
      * Returns the series name associated with the given Sermon post id. 
      *
-     * @param    int      Post id.
-     * @return   string   Series name.
+     * @param   int      $post_id   Post id.
+     * @return  string              Series name.
      */
     public function get_sermon_series( $post_id ) {
 
@@ -275,8 +274,8 @@ class FW_Sermons_Post_Types {
     /**
      * Returns the speaker name associated with the given Sermon post id. 
      *
-     * @param    int      Post id.
-     * @return   string   Speaker name.
+     * @param   int      $post_id   Post id.
+     * @return  string              Speaker name.
      */
     public function get_sermon_speaker( $post_id ) {
 
@@ -296,9 +295,9 @@ class FW_Sermons_Post_Types {
      * Builds and returns an image html string with a thumbnail view of the post's
      * featured image. 
      *
-     * @param    int      Post id.
-     * @param    string   Space separated list of classes to attach to image html.
-     * @return   string   Image html associated with the given post id or empty string.
+     * @param    int      $post_id  Post id.
+     * @param    string   $classes  Space separated list of classes to attach to image html.
+     * @return   string             Image html associated with the given post id or empty string.
      */
     public function get_thumbnail_image_html( $post_id, $classes = "" ) {
 
@@ -319,13 +318,13 @@ class FW_Sermons_Post_Types {
     /**
      * Filter for sorting the date column. Add our column id and the associated 
      * meta key name to the given list of columns. The method that will actually
-     * sort these columns is sermon_sort_columns_orderby() and will be called
+     * sort these columns is configure_sortable_columns_orderby_keys() and will be called
      * later by WordPress.
      *
-     * @param    array   List of column ids and the query 'orderby' value.
-     * @return   array   Same list.
+     * @param    array  $columns  List of column ids and the query 'orderby' value.
+     * @return   array            Same list.
      */
-    public function sermon_sort_columns( $columns ) {
+    public function configure_sortable_columns( $columns ) {
 
         $columns['sermon_date'] = '_fw_sermons_date';
         return $columns;
@@ -358,7 +357,7 @@ class FW_Sermons_Post_Types {
      * @param    array  $vars  WordPress query parameters
      * @return   array         Modified query parameters.
      */
-    public function sermon_sort_columns_orderby( $vars ) {
+    public function configure_sortable_columns_orderby_keys( $vars ) {
 
         if ( isset( $vars['orderby'] ) ) {
 
@@ -423,9 +422,9 @@ class FW_Sermons_Post_Types {
      * Action for removing the date select menu from the 'All Sermons' page.
      * It's not useful to us since we are not displaying the publishing dates.
      *
-     * @param  mixed   $months      Array of month objects.
+     * @param  array   $months      Array of month objects.
      * @param  string  $post_type   Post type of which we expect 'sermon'.
-     * @return mixed                $months array.
+     * @return array                $months array.
      */
     public function remove_date_filter( $months, $post_type ) {
 

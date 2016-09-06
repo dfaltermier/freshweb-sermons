@@ -8,13 +8,12 @@ class FW_Sermons_Meta_Box {
     function __construct()  {
         
         add_action( 'add_meta_boxes', array( $this, 'add_sermon_meta_box' ) );
-        add_action( 'save_post', array( $this, 'sermon_meta_box_save' ), 10, 2 );
+        add_action( 'save_post', array( $this, 'save_sermon_meta_box' ), 10, 2 );
 
     }
     
     /**
      * Load meta box.
-     * 
      */
     public function add_sermon_meta_box() {
 
@@ -31,7 +30,6 @@ class FW_Sermons_Meta_Box {
 
     /**
      * Callback from add_meta_box() to render our meta box.
-     * 
      */
     public function render_sermon_meta_box() {
 
@@ -127,7 +125,7 @@ class FW_Sermons_Meta_Box {
                     <p class="description">Url to downloadable sermon video file (may be same url as above)</p></td>
              </tr>
             <tr>
-                <th><label>Sermon Notes</label></th>
+                <th><label>Sermon Documents</label></th>
                 <td>
                     <!-- Don't change the class names in this table. JavaScript events are
                          attached to them. -->
@@ -177,7 +175,7 @@ class FW_Sermons_Meta_Box {
      * @param   int       $post_id   Post id.
      * @param   WP_Post   $post      Post object (https://developer.wordpress.org/reference/classes/wp_post/)
      */
-    public function sermon_meta_box_save( $post_id, $post ) {
+    public function save_sermon_meta_box( $post_id, $post ) {
         
         require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
 

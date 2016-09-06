@@ -18,8 +18,8 @@ class FW_Sermons_Speakers {
         add_action( 'create_sermon_speaker', array( $this, 'save_speaker_fields' ) );
 
         // Add term column labels and populate the columns with data.
-        add_filter( 'manage_edit-sermon_speaker_columns' , array( $this, 'speaker_columns') );
-        add_filter( 'manage_sermon_speaker_custom_column' , array( $this, 'speaker_custom_columns' ), 10, 3 );
+        add_filter( 'manage_edit-sermon_speaker_columns' , array( $this, 'add_speaker_columns') );
+        add_filter( 'manage_sermon_speaker_custom_column' , array( $this, 'populate_speaker_columns' ), 10, 3 );
 
     }
 
@@ -33,11 +33,11 @@ class FW_Sermons_Speakers {
 
     }
 
-    /*
+    /**
      * Sanitize callback for our register_meta() method.
      *
-     * @param  string   Unclean value.
-     * @return string   Cleaned value.
+     * @param   string  $input  Unclean string.
+     * @return  string          Cleaned string.
      */
     public function sanitize_input( $input ) {
 
@@ -48,8 +48,10 @@ class FW_Sermons_Speakers {
 
     /**
      * Add additional meta fields to our default sermon speaker fields. These fields only
-     * appear on the Sermons -> Add Speakers taxonomy page. Be carefull with class names;
-     * JavaScript event handlers are attached to some.
+     * appear on the Sermons -> Add Speakers taxonomy page. Be carefull with class names:
+     * JavaScript event handlers are attached to some!
+     *
+     * @see /js/media-uploader.js
      */
     public function add_speaker_fields() {
 
@@ -79,8 +81,11 @@ class FW_Sermons_Speakers {
 
     /**
      * Add additional meta fields to our default sermon speaker fields. These fields only
-     * appear on the Sermons -> Edit Speakers taxonomy page. Be carefull with class names;
-     * JavaScript event handlers are attached to some.
+     * appear on the Sermons -> Edit Speakers taxonomy page. Be carefull with class names:
+     * JavaScript event handlers are attached to some!
+     *
+     * @see /js/media-uploader.js 
+     * @param  object  $term   Taxonomy term object.  
      */
     public function edit_speaker_fields( $term ) {
 
@@ -134,7 +139,9 @@ class FW_Sermons_Speakers {
     }
 
     /**
-     * Save the meta field values from both of the forms above.
+     * Save the taxonomy term field values from both of the forms above.
+     *
+     * @param  int  $term_id  Taxonomy term id.
      */
     public function save_speaker_fields( $term_id ) {
 
@@ -158,13 +165,12 @@ class FW_Sermons_Speakers {
     }
 
     /**
-     * Override the given list of columns displayed in the speakers terms
-     * table with our own.
+     * Configure the given list of table columns with our own.
      *
-     * @param    array   List of column ids and labels.
-     * @return   array   Same list.
+     * @param   array  $columns  List of column ids and labels.
+     * @return  array            Same list.
      */
-    public function speaker_columns( $columns ) {
+    public function add_speaker_columns( $columns ) {
   
         $columns = array(
             'cb'                       => '<input type="checkbox" />',
@@ -183,12 +189,12 @@ class FW_Sermons_Speakers {
      * Switch on the given column id and return the string to be displayed
      * in our speakers table. 
      *
-     * @param    null     Deprecated field.
-     * @param    string   Column id.
-     * @param    int      Term id.
-     * @return   string   Value to display in the speakers table.
+     * @param    null     $out      Deprecated field.
+     * @param    string   $column   Column id for the value to fetch. See add_speaker_columns().
+     * @param    int      $term_id  Taxonomy term id.
+     * @return   string             Value to display in column; default to empty string.
      */
-    public function speaker_custom_columns( $out = null, $column, $term_id ) {
+    public function populate_speaker_columns( $out = null, $column, $term_id ) {
 
         switch ( $column ) {
         
@@ -207,11 +213,11 @@ class FW_Sermons_Speakers {
     }
 
     /**
-     * Builds and returns an html string representing an image dom element. 
+     * Builds and returns an html string representing an image DOM element.
      *
-     * @param    int      Term id.
-     * @param    string   Space separated list of classes to attach to image html.
-     * @return   string   Image html associated with the given term id or empty string.
+     * @param    int      $term_id   Term id.
+     * @param    string   $classes   Space separated list of classes to attach to image html.
+     * @return   string              Image html associated with the given term id or empty string.
      */
     public function get_thumbnail_image_html( $term_id, $classes = "" ) {
 

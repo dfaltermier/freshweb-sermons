@@ -16,6 +16,7 @@ class FW_Sermons_Date {
      * Converts a formatted date string from one format to another. This is
      * useful for converting the date string received from the frontend and
      * converting it to the format we desire on the backend before saving.
+     * Or, vice-versa.
      *
      * @param   string  $date_string  Date string to convert.
      * @param   string  $in_format    Date format string expected by PHP DateTime::createFromFormat().

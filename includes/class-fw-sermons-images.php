@@ -24,9 +24,11 @@ class FW_Sermons_Images {
     }
 
     /**
-     * Detail Image Size.
+     * Return an array suitable for configuring WordPress's add_image_size().
+     * This image size is intended to generate thumbnail images for our
+     * taxonomy tables.
      *
-     * @return    array   Configuration for 'small-thumbnail' image size.
+     * @return   array  Configuration for 'small-thumbnail' image size.
      */
     private static function get_image_size() {
 
@@ -63,8 +65,8 @@ class FW_Sermons_Images {
      * If size doesn't exist, attempt to create a resized version.
      * The output of this function should be escaped before printing to the browser.
      *
-     * @param     int       Image id.
-     * @return    string    Url of custom image on success; empty string otherwise.   
+     * @param     int      $image_id   Image id.
+     * @return    string               Url of custom image on success; empty string otherwise.   
      */
     public static function get_image_url( $image_id ) {
         $image_attrs = self::get_image_size();

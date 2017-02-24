@@ -197,10 +197,10 @@ class FW_Sermons_Post_Types {
         $columns = array_merge(
             $columns,
             array(
-                'date'           => 'Publish Date',
                 'sermon_series'  => 'Series',
                 'sermon_speaker' => 'Speaker',
-                'featured_image' => 'Image'
+                'featured_image' => 'Image',
+                'date'           => 'Publish Date'
             )
         );
 

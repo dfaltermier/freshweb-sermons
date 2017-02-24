@@ -2,9 +2,9 @@
  * CSS for our admin pages.
  */
 
-/*
+/*************************************
  * Edit Sermon Page: Sermon Details meta box.
- */
+ *************************************/
 #fw-sermons-details input[type="button"] {
     margin: 5px 2px 0;
 }
@@ -30,9 +30,9 @@
     margin: 5px 0 10px;
 }
 
-/*
+/*************************************
  * Taxonomy Page(s)
- */
+ *************************************/
 /* Hide the 'Parent' form field. We don't want our taxonomies to
    have sub-taxonomies. */
 .post-type-sermon .form-field.term-parent-wrap {
@@ -47,3 +47,29 @@
     max-width: 100%;
 }
 
+/*************************************
+ * Sermon's Listing Page
+ *************************************/
+/* The sermon images in the Sermons table should be no larger than this. */
+.post-type-sermon  .fw-sermons-featured-thumbnail {
+    max-width: 75px;
+    height: auto;
+}
+
+/*************************************
+ * Series Listing Page
+ *************************************/
+/* The series images in the Series table should be no larger than this. */
+.post-type-sermon  .fw-sermons-series-thumbnail {
+    max-width: 75px;
+    height: auto;
+}
+
+/*************************************
+ * Speaker's Listing Page
+ *************************************/
+/* The speaker images in the Speakers table should be no larger than this. */
+.post-type-sermon  .fw-sermons-speakers-thumbnail {
+    max-width: 75px;
+    height: auto;
+}

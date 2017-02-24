@@ -222,13 +222,19 @@ class FW_Sermons_Series {
      */
     public function get_thumbnail_image_html( $term_id, $classes = "" ) {
 
-        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-images.php';
-
         $image_id = get_term_meta( $term_id, 'fw_sermons_series_image_id', true );
 
-        if ( !empty( $image_id ) ) {
-            $img_html = FW_Sermons_Images::get_image_html( $image_id, $classes );
+        if ( ! empty( $image_id ) ) {
+
+            $img_html = wp_get_attachment_image(
+                $image_id, 
+                'thumbnail', 
+                false, 
+                array( 'class' => 'fw-sermons-series-thumbnail ' . esc_attr( $classes ) )
+            );
+
             return $img_html;
+
         }
 
         return '';

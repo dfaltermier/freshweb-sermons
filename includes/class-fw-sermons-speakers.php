@@ -66,7 +66,8 @@ class FW_Sermons_Speakers {
      */
     public function add_speaker_fields() {
 
-        wp_nonce_field( basename( __FILE__ ), 'fw_sermons_speaker_meta_nonce' ); ?>
+        wp_nonce_field( basename( __FILE__ ), 'fw_sermons_speaker_meta_nonce' ); 
+        ?>
 
         <div class="form-field">
             <label for="fw_sermons_speaker_url">Sermon Speaker Url</label>
@@ -86,6 +87,7 @@ class FW_Sermons_Speakers {
             <div class="fw-sermons-image-upload-wrapper"><img 
                  class="fw-sermons-image-upload" src="" style="display:none;" /></div>
         </div>
+
         <?php 
 
     }
@@ -241,12 +243,15 @@ class FW_Sermons_Speakers {
      */
     public function get_thumbnail_image_html( $term_id, $classes = "" ) {
 
-        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-images.php';
-
         $image_id = get_term_meta( $term_id, 'fw_sermons_speaker_image_id', true );
 
-        if ( !empty( $image_id ) ) {
-            $img_html = FW_Sermons_Images::get_image_html( $image_id, $classes );
+        if ( ! empty( $image_id ) ) {
+            $img_html = wp_get_attachment_image(
+                $image_id, 
+                'thumbnail', 
+                false, 
+                array( 'class' => 'fw-sermons-speakers-thumbnail ' . esc_attr( $classes ) )
+            );
             return $img_html;
         }
 

@@ -137,11 +137,7 @@ class FW_Sermons {
         $sermon_topics = new FW_Sermons_Topics;
 
         require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-books.php';
-        $sermon_books = new FW_Sermons_Books;        
-
-        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-images.php';
-        $images = new FW_Sermons_Images;
-        $images->init();
+        $sermon_books = new FW_Sermons_Books;
 
     }
 

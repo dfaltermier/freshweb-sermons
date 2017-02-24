@@ -291,19 +291,21 @@ class FW_Sermons_Post_Types {
      * @since   1.1.0
      *
      * @param   int      $post_id  Post id.
-     * @param   string   $classes  Space separated list of classes to attach to image html.
+     * @param   string   $classes  Optional. Space separated list of classes to attach to image html.
      * @return  string             Image html associated with the given post id or empty string.
      */
     public function get_thumbnail_image_html( $post_id, $classes = "" ) {
 
         $image_id = get_post_thumbnail_id( $post_id );
 
-        if ( !empty( $image_id ) ) {
-
-            require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-images.php';
-            $img_html = FW_Sermons_Images::get_image_html( $image_id, $classes );
+        if ( ! empty( $image_id ) ) {
+            $img_html = wp_get_attachment_image(
+                $image_id, 
+                'thumbnail', 
+                false, 
+                array( 'class' => 'fw-sermons-featured-thumbnail ' . esc_attr( $classes ) )
+            );
             return $img_html;
-
         }
 
         return '';

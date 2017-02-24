@@ -1,7 +1,13 @@
 /**
- * Activate the behavior on our Post and Taxonomy form sections
- * where we are using document upload buttons to add documents
- * to the form.
+ * Activate the behavior on our Post and Taxonomy form sections where we are using
+ * document upload buttons to add documents to the form.
+ *
+ * @package    FreshWeb_Church_Sermons
+ * @subpackage JavaScript
+ * @copyright  Copyright (c) 2017, freshwebstudio.com
+ * @link       https://freshwebstudio.com
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @since      1.1.0
  */
 (function($) {
 
@@ -12,10 +18,11 @@
         /**
          * Callback function for the 'click' event on a [document] media upload button.
          *
-         * @todo    We should be caching the handle to the wp.media object so we're
-         *          not recreating it before every open().
+         * @since  1.1.0
+         * @todo   We should be caching the handle to the wp.media object so we're
+         *         not recreating it before every open(). How?
          *
-         * @param   event.data.buttonText  Button text in media uploader window. 
+         * @param  JS event  event   Using event.data.buttonText Button text in media uploader window. 
          */
         function uploadMedia(event) {
             event.preventDefault();
@@ -51,6 +58,11 @@
             fileFrame.open();
         }
 
+        /**
+         * Attach click event to our document upload button.
+         *
+         * @since  1.1.0
+         */
         function activateMediaUploadButtons() {
             $('.fw-sermons-document-upload-button').on(
                 'click',
@@ -63,6 +75,8 @@
 
         /**
          * Adds another link row to the bottom of our current rows of links.
+         *
+         * @since  1.1.0
          *
          * @param  object  event  jQuery event.
          */
@@ -100,6 +114,8 @@
         /**
          * Deletes a link when the user clicks the associated 'Delete' link.
          *
+         * @since  1.1.0
+         *
          * @param  object  event  jQuery event.
          */
         function deleteLink(event) {
@@ -125,9 +141,11 @@
         }
 
         /**
-         * Initializes our links. Only one link is created to begin with.
-         * The user is not allowed to delete a link if it the only one
-         * remaining.
+         * Initializes our links. Only one link is created to begin with. The user is not 
+         * allowed to delete a link if it the only one remaining.
+         *
+         * @since  1.1.0
+         *
          */
         function activateAddDeleteLinks() {
             // Fetch our list of current links.
@@ -150,7 +168,9 @@
             }
         }
 
+        // Initialize.
         activateMediaUploadButtons();
+        
         activateAddDeleteLinks();
 
     });

@@ -1,15 +1,32 @@
-<?php 
-/**
+<?php
+ /** 
  * This class provides date utilities.
  *
+ * @package    FreshWeb_Church_Sermons
+ * @subpackage Functions
+ * @copyright  Copyright (c) 2017, freshwebstudio.com
+ * @link       https://freshwebstudio.com
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @since      1.1.0
  */
 class FW_Sermons_Date {
     
-    const FRONTEND_FORMAT = 'F j, Y'; // e.g. September 3, 2016
-    const BACKEND_FORMAT  = 'Y-m-d';  // e.g. 2016-09-03
+    /**
+     * Default frontend date format. e.g. September 3, 2016
+     *
+     * @since 1.1.0
+     */
+    const FRONTEND_FORMAT = 'F j, Y';
+
+    /**
+     * Default backend date format. e.g. 2016-09-03
+     *
+     * @since 1.1.0
+     */
+    const BACKEND_FORMAT  = 'Y-m-d';
+
 
     function __construct()  {
-        
     }
 
     /**
@@ -17,6 +34,8 @@ class FW_Sermons_Date {
      * useful for converting the date string received from the frontend and
      * converting it to the format we desire on the backend before saving.
      * Or, vice-versa.
+     *
+     * @since   1.1.0
      *
      * @param   string  $date_string  Date string to convert.
      * @param   string  $in_format    Date format string expected by PHP DateTime::createFromFormat().
@@ -53,6 +72,8 @@ class FW_Sermons_Date {
      * used on the backend. This is just a wrapper around the createFromFormat()
      * class method above.
      *
+     * @since   1.1.0
+     *
      * @param   string  $date_string  Date string to convert.
      * @return  string                Formatted date string on success; empty string on error.
      */
@@ -72,6 +93,8 @@ class FW_Sermons_Date {
      * Converts a date string format used on the backend to the format
      * used on the frontend. This is just a wrapper around the createFromFormat()
      * class method above.
+     *
+     * @since   1.1.0
      *
      * @param   string  $date_string  Date string to convert.
      * @return  string                Formatted date string on success; empty string on error.

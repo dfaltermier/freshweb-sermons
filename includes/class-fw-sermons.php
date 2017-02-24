@@ -1,15 +1,25 @@
-<?php 
-/**
- * This class initializes the environment in which we'll run.
+<?php
+ /** 
+ * Bootstrapping class.
+ *
+ * All of our plubin dependencies are initalized here.
+ *
+ * @package    FreshWeb_Church_Sermons
+ * @subpackage Functions
+ * @copyright  Copyright (c) 2017, freshwebstudio.com
+ * @link       https://freshwebstudio.com
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @since      1.1.0
  */
 class FW_Sermons {
     
-    function __construct()  {
-        
+    function __construct()  { 
     }
 
     /**
-     * Kick it off
+     * Run our initialization.
+     *
+     * @since 1.1.0
      */
     public function run() {
 
@@ -23,6 +33,8 @@ class FW_Sermons {
     /**
      * Determines if we're on one of our plugin's admin pages.
      *
+     * @since 1.1.0
+     *
      * @return  bool  Returns true if this is so.
      */
     public function is_plugin_admin_page() {
@@ -35,6 +47,9 @@ class FW_Sermons {
 
     /**
      * Enqueue our scripts and stylesheets.
+     *
+     * @since 1.1.0
+     *
      */
     public function load_admin_scripts() {
 
@@ -75,6 +90,9 @@ class FW_Sermons {
 
     /**
      * Setup plugin constants.
+     *
+     * @since  1.1.0
+     * @access private
      */
     private function setup_constants() {
 
@@ -97,6 +115,9 @@ class FW_Sermons {
 
     /**
      * Include required files.
+     *
+     * @since  1.1.0
+     * @access private
      */
     private function includes() {
 

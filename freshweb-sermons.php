@@ -9,28 +9,20 @@
  *
  * Plugin Name:    Freshweb Studio Sermons
  * Plugin URI:     https://github.com/dfaltermier/freshweb-sermons
- * Description:    Create sermon series containing video, audio, and other associated materials.
- * Version:        1.0.0
+ * Description:    Create and manage sermons containing video, audio, sermon notes, and other details.
+ * Version:        1.1.0
  * Author:         Freshweb Studio
  * Author URI:     https://github.com/dfaltermier
  * Text Domain:    fw-sermons
- * License:        GNU General Public License v3 or later
- * License URI:    http://www.gnu.org/licenses/gpl-3.0.html
+ * License:        GNU General Public License v2 or later
+ * License URI:    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * 
- * Copyright 2016  David Faltermier <david@freshwebstudio.com>
- * 
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 3 as published by
- * the Free Software Foundation.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * @package    FreshWeb_Church_Sermons
+ * @subpackage Functions
+ * @copyright  Copyright (c) 2017, freshwebstudio.com
+ * @link       https://freshwebstudio.com
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @since      1.1.0
  */
 
 // If this file is called directly, abort.
@@ -49,9 +41,9 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-fw-sermons.php';
  * rewrite rules or else the user may see a "Page Not Found" error.
  * Be sure to register the CPT and taxonomies before flushing!
  * Why do this? See https://codex.wordpress.org/Function_Reference/flush_rewrite_rules
+ *
+ * @since 1.1.0
  */
-register_activation_hook( __FILE__, 'fw_sermons_flush_rewrites' );
-
 function fw_sermons_flush_rewrites() {
     
     require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-post-types.php';
@@ -60,13 +52,15 @@ function fw_sermons_flush_rewrites() {
     flush_rewrite_rules();
 
 }
+register_activation_hook( __FILE__, 'fw_sermons_flush_rewrites' );
 
 /**
  * Begin execution of the plugin.
  *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
+ * Since everything within the plugin is registered via hooks, then kicking off the
+ * plugin from this point in the file does not affect the page life cycle.
+ *
+ * @since 1.1.0
  */
 function run_freshweb_sermons() {
 

@@ -1,5 +1,5 @@
-<?php 
-/**
+<?php
+ /** 
  * This class provides the interface for retrieving small thumbnail images
  * for use on the taxonomy and sermon pages.
  *
@@ -7,15 +7,23 @@
  * WordPress plugin at https://github.com/benhuson/Taxonomy-Images.
  * Copyright 2010-2011, Michael Fields <michael@mfields.org>
  * Taxonomy Images is distributed under the terms of the GNU GPL v2.
+ *
+ * @package    FreshWeb_Church_Sermons
+ * @subpackage Functions
+ * @copyright  Copyright (c) 2017, freshwebstudio.com
+ * @link       https://freshwebstudio.com
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @since      1.1.0
  */
 class FW_Sermons_Images {
     
     function __construct()  {
-        
     }
 
     /**
      * Initialize ourselves.
+     *
+     * @since  1.1.0
      */
     public function init() {
         
@@ -28,7 +36,9 @@ class FW_Sermons_Images {
      * This image size is intended to generate thumbnail images for our
      * taxonomy tables.
      *
-     * @return   array  Configuration for 'small-thumbnail' image size.
+     * @since   1.1.0
+     *
+     * @return  array  Configuration for 'small-thumbnail' image size.
      */
     private static function get_image_size() {
 
@@ -43,6 +53,8 @@ class FW_Sermons_Images {
 
     /**
      * Register custom image size with WordPress.
+     *
+     * @since  1.1.0
      */
     public static function add_image_size() {
 
@@ -65,8 +77,10 @@ class FW_Sermons_Images {
      * If size doesn't exist, attempt to create a resized version.
      * The output of this function should be escaped before printing to the browser.
      *
-     * @param     int      $image_id   Image id.
-     * @return    string               Url of custom image on success; empty string otherwise.   
+     * @since   1.1.0
+     *
+     * @param   int     $image_id   Image id.
+     * @return  string              Url of custom image on success; empty string otherwise.   
      */
     public static function get_image_url( $image_id ) {
         $image_attrs = self::get_image_size();
@@ -143,16 +157,18 @@ class FW_Sermons_Images {
      * Return the html for an image given the url and optional class names.
      * If the html cannot be constructed, the an empty string is returned.
      *
-     * @param     int       Image id.
-     * @param     string    String of class names.
-     * @return    string    Image html on success; empty string otherwise.   
+     * @since   1.1.0
+     *
+     * @param   int       Image id.
+     * @param   string    Optional. String of class names. Default: none.
+     * @return  string    Image html on success; empty string otherwise.   
      */
     public static function get_image_html( $image_id, $classes = "" ) {
  
         $img = '';
         $image_url = self::get_image_url( $image_id );
-        $alt_text = get_post_meta( $image_id , '_wp_attachment_image_alt', true );
-        $classes  = 'fw-sermons-thumbnail ' . $classes;
+        $alt_text  = get_post_meta( $image_id , '_wp_attachment_image_alt', true );
+        $classes   = 'fw-sermons-thumbnail ' . $classes;
 
         if ( !empty( $image_url ) ) {
             $img = '<img src="' . esc_attr( $image_url ) . '" ' .

@@ -25,6 +25,13 @@
  *         class="button fw-sermons-video-upload-button"
  *         value="Upload Video" />
  *  <p class="description">Url to downloadable sermon video file</p>
+ *
+ * @package    FreshWeb_Church_Sermons
+ * @subpackage JavaScript
+ * @copyright  Copyright (c) 2017, freshwebstudio.com
+ * @link       https://freshwebstudio.com
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @since      1.1.0
  */
 (function($) {
 
@@ -35,11 +42,12 @@
         /**
          * Callback function for the 'click' event on a upload media button.
          *
+         * @since   1.1.0
          * @todo    We should be caching the handle to the wp.media object so we're
-         *          not recreating it before every open().
+         *          not recreating it before every open(). How?
          *
-         * @param   event.data.mediaType   'image', 'audio', or 'video' media type.
-         * @param   event.data.buttonText  Button text in media uploader window. 
+         * @param   Event object  event   Use: event.data.mediaType  ('image', 'audio', or 'video' media type).
+         *                                     event.data.buttonText (Button text in media uploader window).
          */
         function uploadMedia(event) {
             event.preventDefault();
@@ -117,7 +125,9 @@
         /**
          * Callback function for the 'click' event on a remove media button.
          *
-         * @param   event.data.mediaType   'image', 'audio', or 'video' media type.
+         * @since   1.1.0
+         *
+         * @param   Event object  event  Use: event.data.mediaType ('image', 'audio', or 'video' media type).
          */
         function removeMedia(event) {
             event.preventDefault();
@@ -154,6 +164,8 @@
          * There is no limit to the number of media buttons you may have per page.
          * Just attach the class names shown below to input[type="button"] fields.
          * See the Speaker taxonomy and Add Sermon page for html layout.
+         *
+         * @since 1.1.0
          */
         function activateMediaUploadButtons() {
             $('.fw-sermons-audio-upload-button').on(
@@ -189,6 +201,8 @@
          * There is no limit to the number of media buttons you may have per page.
          * Just attach the class names shown below to input[type="button"] fields.
          * See the Speaker taxonomy and Add Sermon page for html layout.
+         *
+         * @since 1.1.0
          */
         function activateMediaRemoveButtons() {
             $('.fw-sermons-audio-remove-button').on(
@@ -225,6 +239,8 @@
          * area form fields. Our image and hidden form fields are not cleared as
          * a result. We must do this ourselves. Again, this only applies to the 
          * 'Add New Taxonomy' page.
+         *
+         * @since 1.1.0
          */
         function activateClearMediaFormFieldsAfterSubmission() {
             var $form = $('form#addtag', 'body.post-type-sermon');
@@ -247,6 +263,7 @@
             }
         }
 
+        // Initialize.
         activateMediaUploadButtons();
         activateMediaRemoveButtons();
         activateClearMediaFormFieldsAfterSubmission();

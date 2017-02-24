@@ -1,7 +1,13 @@
-<?php 
-/**
+<?php
+ /** 
  * This class provides methods for manipulating the sermon speaker taxonomy.
  *
+ * @package    FreshWeb_Church_Sermons
+ * @subpackage Functions
+ * @copyright  Copyright (c) 2017, freshwebstudio.com
+ * @link       https://freshwebstudio.com
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @since      1.1.0
  */
 class FW_Sermons_Speakers {
     
@@ -25,6 +31,8 @@ class FW_Sermons_Speakers {
 
     /**
      * Register the terms meta.
+     *
+     * @since  1.1.0
      */
     public function register_meta() {
 
@@ -35,6 +43,8 @@ class FW_Sermons_Speakers {
 
     /**
      * Sanitize callback for our register_meta() method.
+     *
+     * @since  1.1.0
      *
      * @param   string  $input  Unclean string.
      * @return  string          Cleaned string.
@@ -51,7 +61,8 @@ class FW_Sermons_Speakers {
      * appear on the Sermons -> Add Speakers taxonomy page. Be carefull with class names:
      * JavaScript event handlers are attached to some!
      *
-     * @see /js/media-uploader.js
+     * @since  1.1.0
+     * @see    /js/media-uploader.js
      */
     public function add_speaker_fields() {
 
@@ -84,7 +95,8 @@ class FW_Sermons_Speakers {
      * appear on the Sermons -> Edit Speakers taxonomy page. Be carefull with class names:
      * JavaScript event handlers are attached to some!
      *
-     * @see /js/media-uploader.js 
+     * @since  1.1.0
+     * @see    /js/media-uploader.js 
      * @param  object  $term   Taxonomy term object.  
      */
     public function edit_speaker_fields( $term ) {
@@ -141,6 +153,8 @@ class FW_Sermons_Speakers {
     /**
      * Save the taxonomy term field values from both of the forms above.
      *
+     * @since  1.1.0
+     *
      * @param  int  $term_id  Taxonomy term id.
      */
     public function save_speaker_fields( $term_id ) {
@@ -167,6 +181,8 @@ class FW_Sermons_Speakers {
     /**
      * Configure the given list of table columns with our own.
      *
+     * @since   1.1.0
+     *
      * @param   array  $columns  List of column ids and labels.
      * @return  array            Same list.
      */
@@ -188,6 +204,8 @@ class FW_Sermons_Speakers {
     /**
      * Switch on the given column id and return the string to be displayed
      * in our speakers table. 
+     *
+     * @since    1.1.0
      *
      * @param    null     $out      Deprecated field.
      * @param    string   $column   Column id for the value to fetch. See add_speaker_columns().
@@ -215,8 +233,10 @@ class FW_Sermons_Speakers {
     /**
      * Builds and returns an html string representing an image DOM element.
      *
+     * @since  1.1.0
+     *
      * @param    int      $term_id   Term id.
-     * @param    string   $classes   Space separated list of classes to attach to image html.
+     * @param    string   $classes   Optional. Space separated list of classes to attach to image html.
      * @return   string              Image html associated with the given term id or empty string.
      */
     public function get_thumbnail_image_html( $term_id, $classes = "" ) {

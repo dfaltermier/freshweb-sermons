@@ -67,15 +67,9 @@ class FW_Sermons_Series {
      */
     public function add_series_fields() {
 
-        wp_nonce_field( basename( __FILE__ ), 'fw_sermons_series_meta_nonce' ); ?>
+        wp_nonce_field( basename( __FILE__ ), 'fw_sermons_series_meta_nonce' ); 
+        ?>
 
-        <div class="form-field ">
-            <label for="fw_sermons_series_date">Sermon Series Date</label>
-            <input type="text" name="fw_sermons_series_date" 
-                   id="fw_sermons_series_date"
-                   class="fw-sermons-datepicker" value="" />
-            <p class="description">Sermon series start date</p>
-        </div>
         <div class="form-field">
             <label for="fw_sermons_series_image_id">Sermon Series Image</label>
             <input type="hidden" name="fw_sermons_series_image_id"
@@ -104,13 +98,6 @@ class FW_Sermons_Series {
      */
     public function edit_series_fields( $term ) {
 
-        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
-
-        // Convert the date string from the format that we save on the backend to
-        // the format expected on the frontend.
-        $series_date = get_term_meta( $term->term_id, 'fw_sermons_series_date', true );
-        $series_date = FW_Sermons_Date::format_backend_to_frontend( $series_date );
-
         $series_image_id  = get_term_meta( $term->term_id, 'fw_sermons_series_image_id', true );
         $series_image_url = empty( $series_image_id ) ? '' : wp_get_attachment_url( $series_image_id );
 
@@ -124,22 +111,12 @@ class FW_Sermons_Series {
             $remove_button_style = 'display:inline-block;';
             $image_style = 'display:inline;';
         }
-
         ?>
 
         <tr class="form-field">
-            <th scope="row"><label for="fw_sermons_series_date">Sermon Series Date</label></th>
-            <td>
-                <?php wp_nonce_field( basename( __FILE__ ), 'fw_sermons_series_meta_nonce' ); ?>
-                <input type="text" name="fw_sermons_series_date" id="fw_sermons_series_date" 
-                       class="fw-sermons-datepicker"
-                       value="<?php echo esc_attr( $series_date ); ?>" />
-                <p class="description">Sermon series start date</p>
-            </td>
-        </tr>
-        <tr class="form-field">
             <th scope="row"><label for="fw_sermons_series_image">Sermon Series Image</label></th>
             <td>
+                <?php wp_nonce_field( basename( __FILE__ ), 'fw_sermons_series_meta_nonce' ); ?>
                 <input type="hidden" name="fw_sermons_series_image_id" 
                        id="fw_sermons_series_image_id"
                        value="<?php echo esc_attr( $series_image_id ); ?>" />
@@ -168,21 +145,9 @@ class FW_Sermons_Series {
      */
     public function save_series_fields( $term_id ) {
 
-        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
-
         if ( ! isset( $_POST['fw_sermons_series_meta_nonce'] ) ||
              ! wp_verify_nonce( $_POST['fw_sermons_series_meta_nonce'], basename( __FILE__ ) ) ) {
             return;
-        }
-
-        // For the date field, convert the string format collected on the frontend
-        // to the format we save on the backend.
-        $series_date = '';
-        if ( isset( $_POST['fw_sermons_series_date'] ) ) {
-
-            $series_date = $this->sanitize_input( trim( $_POST['fw_sermons_series_date'] ) );
-            $series_date = $series_date ? FW_Sermons_Date::format_frontend_to_backend( $series_date ) : '';
-
         }
 
         $series_image_id = isset( $_POST['fw_sermons_series_image_id'] )
@@ -190,7 +155,6 @@ class FW_Sermons_Series {
             : '';
 
         // Allow the values to be empty.
-        update_term_meta( $term_id, 'fw_sermons_series_date', $series_date );
         update_term_meta( $term_id, 'fw_sermons_series_image_id', $series_image_id );
     
     }
@@ -208,7 +172,6 @@ class FW_Sermons_Series {
         $columns = array(
             'cb'                      => '<input type="checkbox" />',
             'name'                    => 'Name',
-            'sermon_series_date'      => 'Start Date',
             'sermon_series_thumbnail' => 'Image',
             'slug'                    => 'Slug',
             'posts'                   => 'Sermon Count'
@@ -233,10 +196,6 @@ class FW_Sermons_Series {
     public function populate_series_columns( $out = null, $column, $term_id  ) {
 
         switch ( $column ) {
-        
-           case 'sermon_series_date' :
-               $out = $this->get_start_date( $term_id );
-               break;
 
            case 'sermon_series_thumbnail' :
                $out = $this->get_thumbnail_image_html( $term_id );
@@ -273,28 +232,6 @@ class FW_Sermons_Series {
         }
 
         return '';
-
-    }
-
-    /**
-     * Returns a date string suitable for display in our series table.
-     *
-     * @since    1.1.0
-     *
-     * @param    int      $term_id  Taxonomy term id.
-     * @return   string             Date string or empty string.
-     */
-    public function get_start_date( $term_id ) {
-
-        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
-
-        $date = get_term_meta( $term_id, 'fw_sermons_series_date', true );
-
-        // For the date field, convert the string format saved on the backend
-        // to the format we display on the frontend.
-        $date = $date ? FW_Sermons_Date::format_backend_to_frontend( $date ) : '';
-
-        return $date;
 
     }
 

@@ -21,16 +21,13 @@ class FW_Sermons_Post_Types {
         add_filter( 'manage_sermon_posts_columns' , array( $this, 'add_sermon_columns' ) );
         add_action( 'manage_sermon_posts_custom_column' , array( $this, 'populate_sermon_columns' ), 10, 2 );
 
-        // Make some columns sortable.
-        add_filter( 'manage_edit-sermon_sortable_columns' , array( $this, 'configure_sortable_columns' ) );
-        add_filter( 'request', array( $this, 'configure_sortable_columns_orderby_keys' ) );
-
         // Add a select menu at the top of the CPT table so posts can be filtered by taxonomies.
         add_action( 'restrict_manage_posts', array( $this, 'add_taxonomy_filters' ) );
 
         // Remove the [publish] date select menu from the 'All Sermons' page. Not needed
         // since we don't display the publish date.
-        add_filter( 'months_dropdown_results', array( $this, 'remove_date_filter' ), 10, 2 );
+        // TODO: remove this? Uneeded?
+        //add_filter( 'months_dropdown_results', array( $this, 'remove_date_filter' ), 10, 2 );
 
     }
 
@@ -201,7 +198,6 @@ class FW_Sermons_Post_Types {
             $columns,
             array(
                 'date'           => 'Publish Date',
-                'sermon_date'    => 'Date',
                 'sermon_series'  => 'Series',
                 'sermon_speaker' => 'Speaker',
                 'featured_image' => 'Image'
@@ -225,10 +221,6 @@ class FW_Sermons_Post_Types {
 
         switch ( $column ) {
 
-            case 'sermon_date' :
-                echo $this->get_sermon_date( $post_id );
-                break;
-
             case 'sermon_series' :
                 echo $this->get_sermon_series( $post_id );
                 break;
@@ -246,27 +238,6 @@ class FW_Sermons_Post_Types {
                 break;
 
         }
-    }
-
-    /**
-     * Returns the date associated with the given Sermon post id. 
-     *
-     * @since   1.1.0
-     *
-     * @param   int      $post_id   Post id.
-     * @return  string              Date string.
-     */
-    public function get_sermon_date( $post_id ) {
-
-        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
-
-        // Convert the date string from the format that we save on the backend to
-        // the format expected on the frontend.
-        $date = get_post_meta( $post_id, '_fw_sermons_date', true );
-        $date = FW_Sermons_Date::format_backend_to_frontend( $date );
-
-        return $date;
-
     }
 
     /**
@@ -340,76 +311,6 @@ class FW_Sermons_Post_Types {
     }
 
     /**
-     * Filter for sorting the date column. Add our column id and the associated 
-     * meta key name to the given list of columns. The method that will actually
-     * sort these columns is configure_sortable_columns_orderby_keys() and will be called
-     * later by WordPress.
-     *
-     * @since  1.1.0
-     *
-     * @param   array  $columns  List of column ids and the query 'orderby' value.
-     * @return  array            Same list.
-     */
-    public function configure_sortable_columns( $columns ) {
-
-        $columns['sermon_date'] = '_fw_sermons_date';
-        return $columns;
-
-    }
-
-    /**
-     * Filter for making some columns sortable. Here we receive query parameters
-     * and we'll manipulate them so our columns will sort.
-     *
-     * Using the date column as an example, we'll modify this incoming $vars structure:
-     *
-     * Array (
-     *     'order' => 'asc',
-     *     'orderby' => '_fw_sermons_date',
-     *     'post_type' => 'sermon',
-     *     'posts_per_page' => 20
-     * )
-     *
-     * to this:
-     *
-     * Array (
-     *     'order' => 'asc',
-     *     'orderby' => 'meta_value',
-     *     'post_type' => 'sermon',
-     *     'posts_per_page' => 20,
-     *     'meta_key' => '_fw_sermons_date'
-     * )
-     *
-     * @since   1.1.0
-     *
-     * @param   array  $vars  WordPress query parameters
-     * @return  array         Modified query parameters.
-     */
-    public function configure_sortable_columns_orderby_keys( $vars ) {
-
-        if ( isset( $vars['orderby'] ) ) {
-
-            switch( $vars['orderby'] ) {
-
-                case '_fw_sermons_date':
-                    $vars = array_merge( $vars, array(
-                        'meta_key' => '_fw_sermons_date',
-                        'orderby'  => 'meta_value' // Sort alphanumerically!
-                    ) );
-                    break;
-
-                default:
-                    break;
-
-            }
-
-        }
-
-        return $vars;
-
-    }
-
-    /**
      * Action for displaying one or more select menus on our 'All Sermons' page.
      * Each menu contains the list of terms for one taxonomy. The selected term
      * will act as a filter when the [WordPress] Filter button is clicked.
@@ -448,6 +349,7 @@ class FW_Sermons_Post_Types {
         };
     }
 
+    // TODO: remove this? Uneeded?
     /**
      * Action for removing the date select menu from the 'All Sermons' page.
      * It's not useful to us since we are not displaying the publishing dates.
@@ -458,11 +360,13 @@ class FW_Sermons_Post_Types {
      * @param  string  $post_type   Post type of which we expect 'sermon'.
      * @return array                $months array.
      */
+    /* 
     public function remove_date_filter( $months, $post_type ) {
 
         // Returning an empty array will remove the select menu.
         return ( $post_type === 'sermon' ) ? array() : $months;
 
     }
+    */
 
 }

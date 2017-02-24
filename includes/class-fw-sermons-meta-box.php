@@ -58,13 +58,6 @@ class FW_Sermons_Meta_Box {
      */
     private function meta_box_detail_fields( $post_id ) {
 
-        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
-
-        // Convert the date string from the format that we save on the backend to
-        // the format expected on the frontend.
-        $date = get_post_meta( $post_id, '_fw_sermons_date', true );
-        $date = FW_Sermons_Date::format_backend_to_frontend( $date );
-
         $audio_player_url   = get_post_meta( $post_id, '_fw_sermons_audio_player_url', true );
         $audio_download_url = get_post_meta( $post_id, '_fw_sermons_audio_download_url', true );
         $video_player_url   = get_post_meta( $post_id, '_fw_sermons_video_player_url', true );
@@ -86,13 +79,6 @@ class FW_Sermons_Meta_Box {
         <?php wp_nonce_field( 'fw_sermons_save', 'fw_sermons_meta_box_nonce' ); ?>
 
         <table class="form-table">
-            <tr>
-                <th><label>Sermon Date</label></th>
-                <td><input type="text" class="widefat fw-sermons-datepicker" 
-                           id="fw_sermons_date" name="fw_sermons_date"
-                           value="<?php echo esc_attr( $date ); ?>" />
-                    <p class="description">Date when sermon was given</p></td>
-            </tr>
             <tr>
                 <th><label>Audio Player Url</label></th>
                 <td><input type="text" class="widefat" id="fw_sermons_audio_player_url"
@@ -191,8 +177,6 @@ class FW_Sermons_Meta_Box {
      */
     public function save_sermon_meta_box( $post_id, $post ) {
         
-        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-date.php';
-
         if ( ! isset( $_POST['fw_sermons_meta_box_nonce'] ) ||
              ! wp_verify_nonce( $_POST['fw_sermons_meta_box_nonce'], 'fw_sermons_save' ) ) {
             return;
@@ -213,7 +197,6 @@ class FW_Sermons_Meta_Box {
         }
 
         $fields = array(
-            'fw_sermons_date',
             'fw_sermons_audio_player_url',
             'fw_sermons_audio_download_url',
             'fw_sermons_video_player_url',
@@ -225,13 +208,6 @@ class FW_Sermons_Meta_Box {
 
             if ( isset( $_POST[ $field ] ) ) {
                 $value = sanitize_text_field( trim( $_POST[ $field ] ) ); 
-
-                // For the date field, convert the string format collected on
-                // the frontend to the format we save on the backend.
-                if ( $field === 'fw_sermons_date' ) {
-                    $value = FW_Sermons_Date::format_frontend_to_backend( $value );
-                }
-
                 update_post_meta( $post_id, '_'.$field, $value );
             }
 

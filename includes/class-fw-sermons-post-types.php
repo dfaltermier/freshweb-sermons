@@ -91,7 +91,7 @@ class FW_Sermons_Post_Types {
             'labels'       => $series_labels,
             'show_ui'      => true,
             'query_var'    => 'sermon_series',
-            'rewrite'      => array( 'slug' => 'series', 'with_front' => false, 'hierarchical' => true )
+            'rewrite'      => array( 'slug' => 'sermons/series', 'with_front' => true, 'hierarchical' => true )
         );
 
         register_taxonomy( 'sermon_series', array( 'sermon' ), $series_args );
@@ -116,7 +116,7 @@ class FW_Sermons_Post_Types {
             'labels'       => $speaker_labels,
             'show_ui'      => true,
             'query_var'    => 'sermon_speaker',
-            'rewrite'      => array( 'slug' => 'speaker', 'with_front' => false, 'hierarchical' => true )
+            'rewrite'      => array( 'slug' => 'sermons/speaker', 'with_front' => true, 'hierarchical' => true )
         );
 
         register_taxonomy( 'sermon_speaker', array( 'sermon' ), $speaker_args );
@@ -141,7 +141,7 @@ class FW_Sermons_Post_Types {
             'labels'       => $topic_labels,
             'show_ui'      => true,
             'query_var'    => 'sermon_topic',
-            'rewrite'      => array( 'slug' => 'topic', 'with_front' => false, 'hierarchical' => false )
+            'rewrite'      => array( 'slug' => 'sermons/topic', 'with_front' => true, 'hierarchical' => false )
         );
 
         register_taxonomy( 'sermon_topic', array( 'sermon' ), $topic_args );
@@ -166,7 +166,7 @@ class FW_Sermons_Post_Types {
             'labels'       => $book_labels,
             'show_ui'      => true,
             'query_var'    => 'sermon_book',
-            'rewrite'      => array( 'slug' => 'book', 'with_front' => false, 'hierarchical' => false )
+            'rewrite'      => array( 'slug' => 'sermons/book', 'with_front' => true, 'hierarchical' => false )
         );
 
         register_taxonomy( 'sermon_book', array( 'sermon' ), $book_args );
@@ -187,6 +187,7 @@ class FW_Sermons_Post_Types {
         $columns = array_merge(
             $columns,
             array(
+                'date'           => 'Publish Date',
                 'sermon_date'    => 'Date',
                 'sermon_series'  => 'Series',
                 'sermon_speaker' => 'Speaker',

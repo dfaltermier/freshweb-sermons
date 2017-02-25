@@ -197,10 +197,12 @@ class FW_Sermons_Post_Types {
         $columns = array_merge(
             $columns,
             array(
-                'sermon_series'  => 'Series',
-                'sermon_speaker' => 'Speaker',
-                'featured_image' => 'Image',
-                'date'           => 'Publish Date'
+                'sermon_formats'   => 'Formats',
+                'sermon_downloads' => 'Downloads',
+                'sermon_series'    => 'Series',
+                'sermon_speaker'   => 'Speaker',
+                'featured_image'   => 'Image',
+                'date'             => 'Publish Date'
             )
         );
 
@@ -221,6 +223,14 @@ class FW_Sermons_Post_Types {
 
         switch ( $column ) {
 
+            case 'sermon_formats' :
+                echo $this->get_sermon_formats( $post_id );
+                break;
+
+            case 'sermon_downloads' :
+                echo $this->get_sermon_downloads( $post_id );
+                break;
+
             case 'sermon_series' :
                 echo $this->get_sermon_series( $post_id );
                 break;
@@ -238,6 +248,65 @@ class FW_Sermons_Post_Types {
                 break;
 
         }
+    }
+
+    /**
+     * Returns the media formats that are available for viewing/listening with the given Sermon post id. 
+     *
+     * @since   1.1.0
+     *
+     * @param   int     $post_id   Post id.
+     * @return  string             Formats (e.g.: 'Audio, Video')
+     */
+    public function get_sermon_formats( $post_id ) {
+
+        $format = array();
+
+        $audio_player_url = get_post_meta( $post_id, '_fw_sermons_audio_player_url', true );
+        $video_player_url = get_post_meta( $post_id, '_fw_sermons_video_player_url', true );
+
+        if ( ! empty( $audio_player_url ) ) {
+            $format[] = 'Audio';
+        }
+
+        if ( ! empty( $video_player_url ) ) {
+            $format[] = 'Video';
+        }
+
+        return join( ', ', $format );
+
+    }
+
+    /**
+     * Returns the media formats that are available for download for the given Sermon post id. 
+     *
+     * @since   1.1.0
+     *
+     * @param   int     $post_id   Post id.
+     * @return  string             Formats (e.g.: 'Audio, Video')
+     */
+    public function get_sermon_downloads( $post_id ) {
+
+        $format = array();
+
+        $audio_download_url = get_post_meta( $post_id, '_fw_sermons_audio_download_url', true );
+        $video_download_url = get_post_meta( $post_id, '_fw_sermons_video_download_url', true );
+        $document_links     = get_post_meta( $post_id, '_fw_sermons_document_links', true );
+        
+        if ( ! empty( $audio_download_url ) ) {
+            $format[] = 'Audio';
+        }
+
+        if ( ! empty( $video_download_url ) ) {
+            $format[] = 'Video';
+        }
+
+        if ( ! empty( $document_links ) ) {
+            $format[] = 'Sermon Notes';
+        }
+
+        return join( ', ', $format );
+
     }
 
     /**

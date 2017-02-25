@@ -59,13 +59,6 @@ class FW_Sermons {
         }
 
         wp_enqueue_script(
-            'fw_sermons_datepicker',
-            FW_SERMONS_PLUGIN_URL . 'admin/js/datepicker.js',
-            array( 'jquery', 'jquery-ui-datepicker' ),
-            FW_SERMONS_VERSION
-        );
-
-        wp_enqueue_script(
             'fw_sermons_media_uploader',
             FW_SERMONS_PLUGIN_URL . 'admin/js/media-uploader.js',
             array( 'jquery' ),

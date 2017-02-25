@@ -197,7 +197,7 @@ class FW_Sermons_Post_Types {
         $columns = array_merge(
             $columns,
             array(
-                'sermon_formats'   => 'Formats',
+                'sermon_players'   => 'Players',
                 'sermon_downloads' => 'Downloads',
                 'sermon_series'    => 'Series',
                 'sermon_speaker'   => 'Speaker',
@@ -223,8 +223,8 @@ class FW_Sermons_Post_Types {
 
         switch ( $column ) {
 
-            case 'sermon_formats' :
-                echo $this->get_sermon_formats( $post_id );
+            case 'sermon_players' :
+                echo $this->get_sermon_players( $post_id );
                 break;
 
             case 'sermon_downloads' :
@@ -251,14 +251,14 @@ class FW_Sermons_Post_Types {
     }
 
     /**
-     * Returns the media formats that are available for viewing/listening with the given Sermon post id. 
+     * Returns the media players that are available for viewing/listening with the given Sermon post id. 
      *
      * @since   1.1.0
      *
      * @param   int     $post_id   Post id.
      * @return  string             Formats (e.g.: 'Audio, Video')
      */
-    public function get_sermon_formats( $post_id ) {
+    public function get_sermon_players( $post_id ) {
 
         $format = array();
 

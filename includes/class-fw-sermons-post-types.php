@@ -39,6 +39,30 @@ class FW_Sermons_Post_Types {
      */
     public function register_post_types() {
 
+        global $menu;
+
+        /*
+         * We would like to place our Sermons menu option as close to 'Posts' as possible since
+         * we are similar as a 'custom' post type. All menu options are registered with a
+         * menu_position in a pecking order where 'Posts' has a menu_position of '5' and the
+         * other menu options are listed in increasing menu_position order (e.g.: 10, 15, ...)
+         * down the vertical menu. The lower the menu_position number, the higher you stay in 
+         * the vertical menu.
+         *
+         * We will attempt to position ourselves as close to the 'Posts' menu option ('5')
+         * as possible without choosing a number that is already taken by another menu option.
+         * If, for some reason, our Sermons menu option fails to display, it may be the rare
+         * case that another plugin is conflicting their menu_position with ours. WordPress
+         * will only choose one plugin to occupy that spot, so if we lose out, look for this
+         * to be the problem. 
+         *
+         * See https://codex.wordpress.org/Function_Reference/register_post_type#menu_position
+         */
+        $menu_position = 6; // Start under the 'Posts' menu option of '5'.
+        while ( isset( $menu[$menu_position] ) ) {
+            $menu_position++;
+        }
+
         $sermon_labels =  array(
             'name'               => 'Sermons',
             'singular_name'      => 'Sermon',
@@ -61,6 +85,7 @@ class FW_Sermons_Post_Types {
             'show_ui'            => true,
             'show_in_menu'       => true,
             'query_var'          => true,
+            'menu_position'      => $menu_position,
             'menu_icon'          => 'dashicons-book',
             'rewrite'            => 'sermons',
             'has_archive'        => 'true',

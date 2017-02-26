@@ -73,3 +73,12 @@
     max-width: 75px;
     height: auto;
 }
+
+/*************************************
+ * Sermons Clean Up Settings Page
+ *************************************/
+/* Too much vertical padding above submit button. */
+p.submit {
+    padding: 0;
+}
+

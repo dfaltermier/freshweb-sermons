@@ -37,6 +37,8 @@ if ( ! defined( 'WPINC' ) ) {
 require plugin_dir_path( __FILE__ ) . 'includes/class-fw-sermons.php';
 
 /* 
+ * Activate Sermon plugin.
+ *
  * When adding custom post types and taxonomies, we must flush the 
  * rewrite rules or else the user may see a "Page Not Found" error.
  * Be sure to register the CPT and taxonomies before flushing!
@@ -44,15 +46,30 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-fw-sermons.php';
  *
  * @since 1.1.0
  */
-function fw_sermons_flush_rewrites() {
+function fw_sermons_activation() {
     
+    // Register the Sermon post type.
     require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-post-types.php';
     $post_types = new FW_Sermons_Post_Types;
 
+    // Clear the permalinks after the Sermon post type has been registered.
     flush_rewrite_rules();
 
 }
-register_activation_hook( __FILE__, 'fw_sermons_flush_rewrites' );
+register_activation_hook( __FILE__, 'fw_sermons_activation' );
+
+/* 
+ * Deactivate Sermon plugin.
+ *
+ * @since 1.1.0
+ */
+function fw_sermons_deactivation() {
+    
+    // Clear the permalinks to remove our Sermon post type's rules.
+    flush_rewrite_rules();
+
+}
+register_deactivation_hook( __FILE__, 'fw_sermons_deactivation' );
 
 /**
  * Begin execution of the plugin.

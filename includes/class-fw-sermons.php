@@ -73,8 +73,8 @@ class FW_Sermons {
         );
 
         wp_enqueue_script(
-            'fw_sermons_cleanup',
-            FW_SERMONS_PLUGIN_URL . 'admin/js/sermons-cleanup.js',
+            'fw_sermons_admin_page',
+            FW_SERMONS_PLUGIN_URL . 'admin/js/admin-page.js',
             array( 'jquery' ),
             FW_SERMONS_VERSION
         );
@@ -139,8 +139,8 @@ class FW_Sermons {
         require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-books.php';
         $sermon_books = new FW_Sermons_Books;
 
-        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-cleanup.php';
-        $sermons_cleanup = new FW_Sermons_Cleanup;
+        require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-admin-page.php';
+        $sermons_admin_page = new FW_Sermons_Admin_Page;
 
     }
 

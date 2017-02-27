@@ -75,12 +75,17 @@
 }
 
 /*************************************
- * Sermons Clean Up Settings Page
+ * Sermons 'Prepare to Uninstall' Page
  *************************************/
+/* Give ourselves some vertical breathing room below each submit button. */
+.wp-admin.sermon_page_sermons-cleanup input[type="submit"] {
+    margin-bottom: 1em;
+}
+
 /* General Admin messages. We rolled our own because the WP version float to the top
    of the page. These don't. */
 .fw-sermons-notice {
-    margin: 5px 0 15px;
+    margin: 15px 0;
     background: #fff;
     border-left: 4px solid #fff;
     -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);

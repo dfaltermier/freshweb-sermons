@@ -77,8 +77,32 @@
 /*************************************
  * Sermons Clean Up Settings Page
  *************************************/
+/* General Admin messages. We rolled our own because the WP version float to the top
+   of the page. These don't. */
+.fw-sermons-notice {
+    margin: 5px 0 15px;
+    background: #fff;
+    border-left: 4px solid #fff;
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+    padding: 1px 12px;
+}
+.fw-sermons-notice p {
+    margin: .5em 0;
+    padding: 2px;
+}
+.fw-sermons-notice.fw-sermons-notice-success {
+    border-left-color: #46b450;
+}
+.fw-sermons-notice.fw-sermons-notice-warning {
+    border-left-color: #ffb900;
+}
+.fw-sermons-notice.fw-sermons-notice-error {
+    border-left-color: #dc3232;
+}
+]
 /* Too much vertical padding above submit button. */
-p.submit {
+.fw-sermons-cleanup .fw-sermons-cleanup-sermons-form p.submit {
     padding: 0;
 }
 

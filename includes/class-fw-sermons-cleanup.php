@@ -67,123 +67,152 @@ class FW_Sermons_Cleanup {
     const SERMON_NONCE_NAME = 'sermon_cleanup_nonce';
 
 
-	public function __construct() {
+    public function __construct() {
 
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
-	}
+    }
 
-	/**
-	 * Add a settings page.
-	 *
+    /**
+     * Add a settings page.
+     *
      * @since 1.1.0
-	 */
-	public function admin_menu() {
+     */
+    public function admin_menu() {
 
-		$page_hook = add_submenu_page(
-			'edit.php?post_type=' . self::SERMON_POST_TYPE,
-			'Sermons Clean Up',
-			'Sermons Clean Up',
+        add_submenu_page(
+            'edit.php?post_type=' . self::SERMON_POST_TYPE,
+            'Sermons Clean Up',
+            'Sermons Clean Up',
             'delete_plugins',
-			'sermons-cleanup',
-			array( $this, 'admin_page' )
+            'sermons-cleanup',
+            array( $this, 'show_settings_page' )
         );
 
-		//add_action( 'admin_print_scripts-' . $page_hook, array( $this, 'enqueue_script' ) );
+    }
 
-	}
+    /**
+     * Callback to render the settings page.
+     *
+     * @since 1.1.0
+     */
+    public function show_settings_page() {
 
-	/**
-	 * Displays the admin settings page for this plugin.
-	 *
-	 * @since 1.1.0
-	 * @return void
-	 */
-	public function admin_page() {
+        // Start admin settings page.
+        echo '<div class="wrap fw-sermons-cleanup">' .
+             '<h1>Sermons Clean Up</h1>' .
+             '<p>Before permanently uninstalling this plugin, it would be wise to delete all of the Sermons that were ' .
+             'created. By doing so, you\'ll leave the WordPress database nice and clean!</p>';
 
-        $number_of_sermons_deleted = -1; // Start with less than zero.
+        $this->show_sermons_section();
+
+        $this->show_taxonomy_section();
+
+        echo '</div>';
+
+    }
+
+    /**
+     * Displays the 'Sermons' form section.
+     *
+     * @since  1.1.0
+     */
+    public function show_sermons_section() {
+
+        $num_of_deleted_sermons   = -1;
+        $num_of_remaining_sermons = $this->get_number_of_remaining_sermons(); // Careful, could be -1.
 
         // If the user clicked our button to delete Sermons, then do so.
-        if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
+        if ( ( 'POST' === $_SERVER['REQUEST_METHOD'] ) &&
+             ( 'true' === $_POST['fw-sermons-cleanup-sermons'] ) ) {
 
             check_admin_referer( self::SERMON_NONCE_NAME );
-            $number_of_sermons_deleted = $this->delete_sermons();
+            $num_of_deleted_sermons = $this->delete_sermons();
 
         }
 
-        // Okay, how many are now left?
-        $number_of_remaining_sermons = $this->get_number_of_remaining_sermons();
-
-        // Start admin settings page.
-        echo '<div class="wrap rpbt_cache">';
-        echo '<h1>Sermons Clean Up</h1>';
-        echo '<p>Before permanently uninstalling this plugin, it would be wise to delete all of the Sermons that were ' .
-             'created. By doing so, you\'ll leave the WordPress database nice and clean!</p>' .
+        echo '<h2>Step 1. Delete Sermons</h2>' .
              '<p>Because it is time consuming and process intensive to delete hundreds or more Sermons at once, ' .
              'we\'ll need to manually delete them in batches of no more than ' . self::MAX_SERMONS_TO_DELETE_AT_ONCE . 
              ' Sermons at a time. Delete Sermons until zero remain.</p>';
 
-        if ( $number_of_sermons_deleted >= 0 ) {
-
-            echo '<div class="notice notice-success"><p>Deleted ' . $number_of_sermons_deleted . ' Sermons.</p></div>';
-
+        // This [green] success message will float to the top of the page below our <h1> header.
+        if ( $num_of_deleted_sermons >= 0 ) {
+            echo '<div class="fw-sermons-notice fw-sermons-notice-success"><p>' .
+                 'Deleted ' . $num_of_deleted_sermons . ' Sermons.' .
+                 '</p></div>';
         }
 
-        if ( $number_of_remaining_sermons > 1 ) {
-
-            echo '<div class="notice notice-warning"><p>There are a total of ' . $number_of_remaining_sermons . ' Sermons in our database.</p></div>';
-
+        // Display an inline message with the number of remaining sermons.
+        if ( $num_of_remaining_sermons > 1 ) {
+            echo '<div class="fw-sermons-notice fw-sermons-notice-warning"><p>' .
+                 'There are a total of ' . $num_of_remaining_sermons . ' Sermons in our database.' .
+                 '</p></div>';
         }
-        else if ( $number_of_remaining_sermons === 1 ) {
-
-            echo '<div class="notice notice-warning"><p>There is a total of ' . $number_of_remaining_sermons . ' Sermon in our database.</p></div>';
-
+        else if ( $num_of_remaining_sermons === 1 ) {
+            echo '<div class="fw-sermons-notice fw-sermons-notice-warning"><p>' .
+                 'There is a total of ' . $num_of_remaining_sermons . ' Sermon in our database.' .
+                 '</p></div>';
         }
-        else if ( $number_of_remaining_sermons === 0 ) { // zero
-
-            echo '<div class="notice notice-success"><p>There are ' . $number_of_remaining_sermons . ' Sermons remaining. You may safely ' .
-                 '<a href="' . admin_url( 'plugins.php' ) . '">deactivate and uninstall this plugin</a>.</p></div>';
-
+        else if ( $num_of_remaining_sermons === 0 ) { // zero
+            echo '<div class="fw-sermons-notice fw-sermons-notice-success"><p>' .
+                 'There are ' . $num_of_remaining_sermons . ' Sermons in our database.' .
+                 '</p></div>';
         }
-        else {
-
+        else { // -1, which is db query error.
             echo '<div class="notice notice-error"><p>An error occured while deleting Sermons. ' .
                  'Please try again. Contact the plugin author if the problem persists.</p></div>';
-
         }
 
         /*
-         * Display our [form] button to delete Sermons as long as the number of remaining sermons 
-         * is greater than zero or -1 (which indicates a query failure).
+         * Display our [form] submit button to delete Sermons as long as the number of remaining sermons 
+         * is greater than zero or -1 (which indicates a query failure and for which we'll try again).
+         * Disable the button if we don't have any remaining sermons to delete.
          */
-        if ( $number_of_remaining_sermons !== 0 ) {
+        $button_attr_disabled = ( $num_of_remaining_sermons > 0 ) ? '' : 'disabled';
+        $button_label         = 'Delete Sermons';
 
-            $number_of_sermons_to_delete = min( $number_of_remaining_sermons, self::MAX_SERMONS_TO_DELETE_AT_ONCE );
+        if ( $num_of_remaining_sermons > 0 ) {
 
-            $button_label = ( $number_of_remaining_sermons > 0 ) 
-                ? 'Delete ' . sprintf( _n( '%d Sermon', '%d Sermons', $number_of_sermons_to_delete ), $number_of_sermons_to_delete )
-                : 'Delete Sermons';
-
-            echo '<form method="post" action="">';
-            wp_nonce_field( self::SERMON_NONCE_NAME );
-            submit_button( 
-                $button_label, 
-                'primary', 
-                'submit_sermons_cleanup' // If you change this, update the corresponding JS file.
-            );
-            echo '</form>';
+            $number_of_sermons_to_delete = min( $num_of_remaining_sermons, self::MAX_SERMONS_TO_DELETE_AT_ONCE );
+            $button_label = 'Delete ' . sprintf( _n( '%d Sermon', '%d Sermons', $number_of_sermons_to_delete ), $number_of_sermons_to_delete );
 
         }
 
-        echo '</div>';
+        echo '<form name="fw-sermons-cleanup-sermons-form" class="fw-sermons-cleanup-sermons-form" method="post" action="">'; // See JS/CSS.
+        wp_nonce_field( self::SERMON_NONCE_NAME );
+        echo '<input type="hidden" name="fw-sermons-cleanup-sermons" value="true" />';
+        submit_button( 
+            $button_label, 
+            'primary', 
+            'fw-sermons-cleanup-sermons-form-submit', // See JS/CSS.
+            false,                                    // Don't wrap button in <p> tags.
+            $button_attr_disabled
+        );
+        echo '</form>';
 
-	}
+    }
+
+    /**
+     * Displays the 'Taxonomy' form section.
+     *
+     * @since  1.1.0
+     */
+    public function show_taxonomy_section() {
+
+        /*
+              echo '<div class="fw-sermons-notice fw-sermons-notice-success"><p>' .
+                 'There are ' . $num_of_remaining_sermons . ' Sermons in our database. You may safely ' .
+                 '<a href="' . admin_url( 'plugins.php' ) . '">deactivate and uninstall this plugin</a>.</p></div>';
+         */
+    }
 
     /**
      * Delete Sermon posts from the database.
      *
      * @since  1.1.0
      * @access private
+     *
      * @return int     Number of posts deleted.
      */
     private function delete_sermons() {
@@ -224,6 +253,7 @@ class FW_Sermons_Cleanup {
      * Returns sermon ids.
      *
      * @since  1.1.0
+     * @access private
      *
      * @param  int   $limit  Optional. Limit how many ids are returned.
      * @return array         Array with post ids.
@@ -244,6 +274,7 @@ class FW_Sermons_Cleanup {
      * Returns number of sermons remaining in database.
      *
      * @since  1.1.0
+     * @access private
      *
      * @return int     Number of sermons. -1 returned on error.
      */

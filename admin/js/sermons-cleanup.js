@@ -25,7 +25,7 @@
          */
         function activateSermonSubmitButton() {
 
-            $("input[name='submit_sermons_cleanup']").on('click', function(e) {
+            $('#fw-sermons-cleanup-sermons-form-submit', '.fw-sermons-cleanup-sermons-form').on('click', function(e) {
                 var msg = 'You are about to permanently delete Sermons. Only do this if you are preparing to uninstall this plugin.' +
                            '\n\nDo you wish to continue?';
                 var reply = confirm(msg);

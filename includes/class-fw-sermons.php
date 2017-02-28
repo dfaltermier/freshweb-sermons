@@ -96,6 +96,16 @@ class FW_Sermons {
      */
     private function setup_constants() {
 
+        /*
+         * Set true if plugin is to be detected by theme writers as activated.
+         *
+         * Theme writers: Use this defined variable to determine if plugin is installed
+         * and activated. False means No, True means yes.
+         */
+        if ( ! defined( 'FW_SERMONS_IS_ACTIVATED' ) ) {
+            define( 'FW_SERMONS_IS_ACTIVATED', true );
+        }     
+
         // Plugin version.
         if ( ! defined( 'FW_SERMONS_VERSION' ) ) {
             define( 'FW_SERMONS_VERSION', '1.1.0' );

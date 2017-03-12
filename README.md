@@ -17,24 +17,25 @@ This plugin is a product of [FreshWeb Studio](https://freshwebstudio.com).
 
 ### Listing of all sermons
 
-![listing-sermons](https://cloud.githubusercontent.com/assets/3323104/23833820/eb296382-0710-11e7-9bbb-b78a3a0e8643.png)
+![listing-sermons-min](https://cloud.githubusercontent.com/assets/3323104/23836991/af6dcaa0-0746-11e7-8840-837a56aff5bf.jpg)
 
 ### Editing a sermon
 
-![editing-sermon](https://cloud.githubusercontent.com/assets/3323104/23833826/1cf50e8e-0711-11e7-8aa2-7427c2902c5e.png)
+![editing-sermon-min](https://cloud.githubusercontent.com/assets/3323104/23836998/c7ed6d38-0746-11e7-9852-5342903a20f0.jpg)
 
 ### Adding a new sermon series
 
-![creating-sermon-series](https://cloud.githubusercontent.com/assets/3323104/23833831/2ce937c0-0711-11e7-8773-25bacb61193a.png)
+![creating-sermon-series-min](https://cloud.githubusercontent.com/assets/3323104/23837002/d6ca9286-0746-11e7-8ca5-e14518f11e9e.jpg)
 
 ### Adding a new sermon speaker
 
-![creating-sermon-speaker](https://cloud.githubusercontent.com/assets/3323104/23833835/3ab4ad80-0711-11e7-9ae5-167a1156b889.png)
+![creating-sermon-speaker-min](https://cloud.githubusercontent.com/assets/3323104/23837007/de892ffa-0746-11e7-8162-cf61586a92d9.jpg)
 
 ### Adding a new sermon topic
 
-![creating-sermon-topic](https://cloud.githubusercontent.com/assets/3323104/23833836/439fc56a-0711-11e7-875e-cf83088293b7.png)
+![creating-sermon-topic-min](https://cloud.githubusercontent.com/assets/3323104/23837009/e64d2ab6-0746-11e7-8406-2e4845467e99.jpg)
 
 ### Adding a new sermon book
 
-![creating-sermon-book](https://cloud.githubusercontent.com/assets/3323104/23833838/4a594b1a-0711-11e7-89d2-e641536b64ad.png)
+![creating-sermon-book-min](https://cloud.githubusercontent.com/assets/3323104/23837012/eec0e30e-0746-11e7-87eb-e33878a0d459.jpg)
+

@@ -51,8 +51,9 @@ function fw_sermons_activation() {
     // Register the Sermon post type.
     require_once FW_SERMONS_PLUGIN_DIR . '/includes/class-fw-sermons-post-types.php';
     $post_types = new FW_Sermons_Post_Types;
+    $post_types->register_post_types();
+    $post_types->register_taxonomies(); // Necessary? Does this add rewrite rules?
 
-    // Clear the permalinks after the Sermon post type has been registered.
     flush_rewrite_rules();
 
 }
@@ -64,8 +65,7 @@ register_activation_hook( __FILE__, 'fw_sermons_activation' );
  * @since 1.1.0
  */
 function fw_sermons_deactivation() {
-    
-    // Clear the permalinks to remove our Sermon post type's rules.
+
     flush_rewrite_rules();
 
 }

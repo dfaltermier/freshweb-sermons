@@ -87,7 +87,7 @@ class FW_Sermons_Post_Types {
             'query_var'          => true,
             'menu_position'      => $menu_position,
             'menu_icon'          => 'dashicons-book',
-            'rewrite'            => 'sermons',
+            'rewrite'            => true,
             'has_archive'        => 'true',
             'hierarchical'       => true,
             'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions', 'author' )

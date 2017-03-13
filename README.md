@@ -18,8 +18,10 @@ This plugin is a product of [FreshWeb Studio](https://freshwebstudio.com).
 
 When installing this child theme in the WordPress /themes folder, name the child theme root folder 'freshweb-sermons'. Using Git, it should look something like this:
 
+```
 $ cd <WordPress plugins folder>
 $ git clone https://github.com/dfaltermier/freshweb-sermons.git freshweb-sermons
+```
 
 Once installed and activated, re-save your permalinks setting from the WordPress Settings -> Permalinks menu.
 

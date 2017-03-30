@@ -7,7 +7,7 @@ This plugin allows you to create and manage church sermons. Church sermons may b
 This plugin is specifically for theme developers who wish to incorporate sermons into their theme. They can do so by relying on this plugin to create, organize, and manage sermons from within the WordPress back-end. This offloads the theme developer from duplicating this laborious effort and complies with the WordPress practice of separating functionality (plugin) from presentation (theme). Again, this plugin does not provide any front-end user interface. This is left to the theme developer to implement. 
 
 A demonstration theme implementing sermons based on this plugin can be visited at our 
-[church demo website](http://church.freshwebstudio.com/sermons).
+[church demo website](https://freshwebchurch.com/sermons).
 
 A developer user guide is under development and will be referenced here when completed. In the meantime, please contact the author with questions or consult the code base for example usage.
 

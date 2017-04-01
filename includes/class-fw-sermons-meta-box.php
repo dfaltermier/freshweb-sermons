@@ -78,49 +78,69 @@ class FW_Sermons_Meta_Box {
         ?>
         <?php wp_nonce_field( 'fw_sermons_save', 'fw_sermons_meta_box_nonce' ); ?>
 
+        <!--
+            Be carefull with class names below. JavaScript event handlers are attached to some!
+            See media-uploader.js.
+        -->
         <table class="form-table">
             <tr>
                 <th><label>Audio Player Url</label></th>
-                <td><input type="text" class="widefat" id="fw_sermons_audio_player_url"
-                           name="fw_sermons_audio_player_url" 
-                           value="<?php echo esc_attr( $audio_player_url ); ?>"
-                           placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
-                    <input type="button" class="button fw-sermons-audio-upload-button"
-                           value="Upload Audio" />
-                    <p class="description">Url to playable sermon mp3 audio file</p></td>
+                <td>
+                    <div class="fw-sermons-media-upload-container">
+                        <input type="text" class="widefat" id="fw_sermons_audio_player_url"
+                               name="fw_sermons_audio_player_url" 
+                               value="<?php echo esc_attr( $audio_player_url ); ?>"
+                               placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
+                        <input type="button" class="button fw-sermons-audio-upload-button"
+                               value="Upload Audio" />
+                        <p class="description">Url to playable sermon mp3 audio file</p>
+                    </div>
+                </td>
             </tr> 
             <tr>
                 <th><label>Audio Download Url</label></th>
-                <td><input type="text" class="widefat" id="fw_sermons_audio_download_url"
-                           name="fw_sermons_audio_download_url" 
-                           value="<?php echo esc_attr( $audio_download_url ); ?>"
-                           placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
-                    <input type="button" class="button fw-sermons-audio-upload-button"
-                           value="Upload Audio" />
-                    <p class="description">Url to downloadable sermon mp3 audio file (may be same url as above)</p></td>
+                <td>
+                    <div class="fw-sermons-media-upload-container">
+                        <input type="text" class="widefat" id="fw_sermons_audio_download_url"
+                               name="fw_sermons_audio_download_url" 
+                               value="<?php echo esc_attr( $audio_download_url ); ?>"
+                               placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
+                        <input type="button" class="button fw-sermons-audio-upload-button"
+                               value="Upload Audio" />
+                        <p class="description">Url to downloadable sermon mp3 audio file (may be same url as above)</p>
+                    </div>
+                </td>
             </tr>   
             <tr>
                 <th><label>Video Player URL</label></th>
-                <td><input type="text" id="fw_sermons_video_player_url" class="widefat" 
-                           name="fw_sermons_video_player_url"
-                           value="<?php echo esc_attr( $video_player_url ); ?>"
-                           placeholder="<?php echo esc_attr('e.g. https://vimeo.com/123456789'); ?>" />
-                    <input type="button" class="button fw-sermons-video-upload-button"
-                           value="Upload Video" />
-                    <p class="description">Url to playable sermon video file. <br />Ideally, you'll want to 
-                           host your video files on Vimeo, YouTube, or equivalent video hosting service.
-                           Your web hosting provider may not approve streaming videos from their web server
-                           and may disrupt your service if this becomes abused.</p></td>
+                <td>
+                    <div class="fw-sermons-media-upload-container">
+                        <input type="text" id="fw_sermons_video_player_url" class="widefat" 
+                               name="fw_sermons_video_player_url"
+                               value="<?php echo esc_attr( $video_player_url ); ?>"
+                               placeholder="<?php echo esc_attr('e.g. https://vimeo.com/123456789'); ?>" />
+                        <input type="button" class="button fw-sermons-video-upload-button"
+                               value="Upload Video" />
+                        <p class="description">Url to playable sermon video file. <br />Ideally, you'll want to 
+                               host your video files on Vimeo, YouTube, or equivalent video hosting service.
+                               Your web hosting provider may not approve streaming videos from their web server
+                               and may disrupt your service if this becomes abused.</p>
+                    </div>
+                </td>
              </tr>
             <tr>
                 <th><label>Video Download URL</label></th>
-                <td><input type="text" id="fw_sermons_video_download_url" class="widefat" 
-                           name="fw_sermons_video_download_url"
-                           value="<?php echo esc_attr( $video_download_url ); ?>" 
-                           placeholder="<?php echo esc_attr('e.g. https://player.vimeo.com/external/123456789.hd.mp4?download=1'); ?>" />
-                    <input type="button" class="button fw-sermons-video-upload-button"
-                           value="Upload Video" />
-                    <p class="description">Url to downloadable sermon video file (may be same url as above)</p></td>
+                <td>
+                    <div class="fw-sermons-media-upload-container">
+                        <input type="text" id="fw_sermons_video_download_url" class="widefat" 
+                               name="fw_sermons_video_download_url"
+                               value="<?php echo esc_attr( $video_download_url ); ?>" 
+                               placeholder="<?php echo esc_attr('e.g. https://player.vimeo.com/external/123456789.hd.mp4?download=1'); ?>" />
+                        <input type="button" class="button fw-sermons-video-upload-button"
+                               value="Upload Video" />
+                        <p class="description">Url to downloadable sermon video file (may be same url as above)</p>
+                    </div>
+                </td>
              </tr>
             <tr>
                 <th><label>Sermon Documents</label></th>

@@ -76,16 +76,19 @@ class FW_Sermons_Speakers {
             <p class="description">Sermon speaker's biography page url</p>
         </div>
         <div class="form-field">
-            <label for="fw_sermons_speaker_image_id">Sermon Speaker Image</label>
-            <input type="hidden" name="fw_sermons_speaker_image_id"
-                   id="fw_sermons_speaker_image_id" value="" />
-            <input type="button"
-                   class="button fw-sermons-image-upload-button"
-                   value="Upload Image" />
-            <input type="button" class="button fw-sermons-image-remove-button"
-                   value="Remove Image" style="display:none;" />
-            <div class="fw-sermons-image-upload-wrapper"><img 
-                 class="fw-sermons-image-upload" src="" style="display:none;" /></div>
+            <div class="fw-sermons-image-upload-container">
+                <label for="fw_sermons_speaker_image_id">Sermon Speaker Image</label>
+                <input type="hidden" name="fw_sermons_speaker_image_id"
+                       id="fw_sermons_speaker_image_id" value="" />
+                <input type="button"
+                       class="button fw-sermons-image-upload-button"
+                       value="Upload Image" />
+                <input type="button" class="button fw-sermons-image-remove-button"
+                       value="Remove Image" style="display:none;" />
+                <div class="fw-sermons-image-upload-wrapper"><img 
+                     class="fw-sermons-image-upload" src="" style="display:none;" 
+                     alt="Sermon speaker" /></div>
+            </div>
         </div>
 
         <?php 
@@ -133,19 +136,22 @@ class FW_Sermons_Speakers {
         <tr class="form-field">
             <th scope="row"><label for="fw_sermons_speaker_image_id">Sermon Speaker Image</label></th>
             <td>
-                <input type="hidden" name="fw_sermons_speaker_image_id" 
-                       id="fw_sermons_speaker_image_id"
-                       value="<?php echo esc_attr( $speaker_image_id ); ?>" />
-                <input type="button" class="button fw-sermons-image-upload-button" 
-                       value="Upload Image" 
-                       style="<?php echo $upload_button_style; ?>" />
-                <input type="button" class="button fw-sermons-image-remove-button"
-                       value="Remove Image"
-                       style="<?php echo $remove_button_style; ?>" />
-                <div class="fw-sermons-image-upload-wrapper"><img
-                     class="fw-sermons-image-upload" 
-                     src="<?php echo esc_attr($speaker_image_url); ?>"
-                     style="<?php echo $image_style; ?>" /></div>
+                <div class="fw-sermons-image-upload-container">
+                    <input type="hidden" name="fw_sermons_speaker_image_id" 
+                           id="fw_sermons_speaker_image_id"
+                           value="<?php echo esc_attr( $speaker_image_id ); ?>" />
+                    <input type="button" class="button fw-sermons-image-upload-button" 
+                           value="Upload Image" 
+                           style="<?php echo $upload_button_style; ?>" />
+                    <input type="button" class="button fw-sermons-image-remove-button"
+                           value="Remove Image"
+                           style="<?php echo $remove_button_style; ?>" />
+                    <div class="fw-sermons-image-upload-wrapper"><img
+                         class="fw-sermons-image-upload" 
+                         src="<?php echo esc_attr($speaker_image_url); ?>"
+                         style="<?php echo $image_style; ?>"
+                         alt="Sermon speaker" /></div>
+                </div>
             </td>
         </tr>
         <?php 

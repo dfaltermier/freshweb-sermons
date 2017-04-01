@@ -108,7 +108,7 @@ class FW_Sermons {
 
         // Plugin version.
         if ( ! defined( 'FW_SERMONS_VERSION' ) ) {
-            define( 'FW_SERMONS_VERSION', '1.1.0' );
+            define( 'FW_SERMONS_VERSION', '1.1.1' );
         }
 
         // Plugin Folder Path (without trailing slash)

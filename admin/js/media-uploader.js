@@ -3,28 +3,39 @@
  * where we are using media upload buttons to add audio, video,
  * and image files to the form.
  *
- * We assume the html for image uploading looks something like this:
+ * USE
  *
- *  <label for="fw_sermons_speaker_image">Sermon Speaker Image</label>
- *  <input type="hidden" name="fw_sermons_speaker_image"
- *         id="fw_sermons_speaker_image" value="" />
- *  <input type="button"
- *         class="button fw-sermons-image-upload-button"
- *         value="Upload Image" />
- *  <input type="button" class="button fw-sermons-image-remove-button"
- *         value="Remove Image" style="display:none;" />
- *  <div class="fw-sermons-image-upload-wrapper"><img 
- *       class="fw-sermons-image-upload" src="" style="display:none;" /></div>
+ * The html for image uploading must be wrapped in the shown parent <div> and
+ * contain only the following elements:
  *
- * We assume the html for video (and audio) uploading looks something like this:
+ * <div class="fw-sermons-image-upload-container">
+ *    <label for="fw_sermons_speaker_image_id">Sermon Speaker Image</label>
+ *    <input type="hidden" 
+ *           name="fw_sermons_speaker_image_id"
+ *           id="fw_sermons_speaker_image_id" value="" />
+ *    <input type="button"
+ *           class="button fw-sermons-image-upload-button"
+ *           value="Upload Image" />
+ *    <input type="button" 
+ *           class="button fw-sermons-image-remove-button"
+ *           value="Remove Image" style="display:none;" />
+ *    <div class="fw-sermons-image-upload-wrapper"><img 
+ *         class="fw-sermons-image-upload" src="" style="display:none;" alt="" /></div>
+ * </div>
  *
- *  <label for="fw_sermons_video_download_url">Video Download Url</label>
- *  <input type="text" name="fw_sermons_video_download_url"
- *         id="fw_sermons_video_download_url" value="" />
- *  <input type="button"
- *         class="button fw-sermons-video-upload-button"
- *         value="Upload Video" />
- *  <p class="description">Url to downloadable sermon video file</p>
+ * The html for video (and audio) uploading must be wrapped in the shown parent <div> and
+ * contain only the following elements:
+ *
+ * <div class="fw-sermons-media-upload-container">
+ *    <label for="fw_sermons_video_download_url">Video Download Url</label>
+ *    <input type="text"
+ *           name="fw_sermons_video_download_url"
+ *           id="fw_sermons_video_download_url" value="" />
+ *    <input type="button"
+ *           class="button fw-sermons-video-upload-button"
+ *           value="Upload Video" />
+ *    <p class="description">Url to downloadable sermon video file</p>
+ * </div>
  *
  * @package    FreshWeb_Church_Sermons
  * @subpackage JavaScript
@@ -54,7 +65,7 @@
 
             var $uploadButton = $(this).show();
 
-            // Get the element containing the upload/remove buttons and the
+            // Get the parent element containing the upload/remove buttons and the
             // associatedd media form fields.
             var $container = $uploadButton.parent();
 

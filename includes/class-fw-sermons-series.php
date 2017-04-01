@@ -60,7 +60,7 @@ class FW_Sermons_Series {
     /**
      * Add additional meta fields to our default sermon series fields. These fields only
      * appear on the Sermons -> Add Series taxomony page. Be carefull with class names;
-     * JavaScript event handlers are attached to some!
+     * JavaScript event handlers are attached to some! See media-uploader.js.
      *
      * @since  1.1.0
      * @see    /js/media-uploader.js
@@ -71,17 +71,20 @@ class FW_Sermons_Series {
         ?>
 
         <div class="form-field">
-            <label for="fw_sermons_series_image_id">Sermon Series Image</label>
-            <input type="hidden" name="fw_sermons_series_image_id"
-                   id="fw_sermons_series_image_id" value="" />
-            <input type="button"
-                   class="button fw-sermons-image-upload-button"
-                   value="Upload Image" />
-            <input type="button" class="button fw-sermons-image-remove-button"
-                   value="Remove Image" style="display:none;" />
-            <div class="fw-sermons-image-upload-wrapper"><img 
-                 class="fw-sermons-image-upload" src="" style="display:none;" /></div>
-        </div>        
+            <div class="fw-sermons-image-upload-container">
+                <label for="fw_sermons_series_image_id">Sermon Series Image</label>
+                <input type="hidden" name="fw_sermons_series_image_id"
+                       id="fw_sermons_series_image_id" value="" />
+                <input type="button"
+                       class="button fw-sermons-image-upload-button"
+                       value="Upload Image" />
+                <input type="button" class="button fw-sermons-image-remove-button"
+                       value="Remove Image" style="display:none;" />
+                <div class="fw-sermons-image-upload-wrapper"><img 
+                     class="fw-sermons-image-upload" src="" 
+                     alt="Sermon series" style="display:none;" /></div>
+            </div>
+        </div>
         <?php 
 
     }
@@ -89,7 +92,7 @@ class FW_Sermons_Series {
     /**
      * Add additional meta fields to our default sermon series fields. These fields only
      * appear on the Sermons -> Edit Series taxonomy page. Be carefull with class names;
-     * JavaScript event handlers are attached to some!
+     * JavaScript event handlers are attached to some! See media-uploader.js.
      *
      * @since  1.1.0
      * @see    /js/media-uploader.js 
@@ -114,22 +117,25 @@ class FW_Sermons_Series {
         ?>
 
         <tr class="form-field">
-            <th scope="row"><label for="fw_sermons_series_image">Sermon Series Image</label></th>
+            <th scope="row"><label for="fw_sermons_series_image_id">Sermon Series Image</label></th>
             <td>
                 <?php wp_nonce_field( basename( __FILE__ ), 'fw_sermons_series_meta_nonce' ); ?>
-                <input type="hidden" name="fw_sermons_series_image_id" 
-                       id="fw_sermons_series_image_id"
-                       value="<?php echo esc_attr( $series_image_id ); ?>" />
-                <input type="button" class="button fw-sermons-image-upload-button" 
-                       value="Upload Image" 
-                       style="<?php echo $upload_button_style; ?>" />
-                <input type="button" class="button fw-sermons-image-remove-button"
-                       value="Remove Image"
-                       style="<?php echo $remove_button_style; ?>" />
-                <div class="fw-sermons-image-upload-wrapper"><img
-                     class="fw-sermons-image-upload" 
-                     src="<?php echo esc_attr($series_image_url); ?>"
-                     style="<?php echo $image_style; ?>" /></div>
+                <div class="fw-sermons-image-upload-container">
+                    <input type="hidden" name="fw_sermons_series_image_id" 
+                           id="fw_sermons_series_image_id"
+                           value="<?php echo esc_attr( $series_image_id ); ?>" />
+                    <input type="button" class="button fw-sermons-image-upload-button" 
+                           value="Upload Image" 
+                           style="<?php echo $upload_button_style; ?>" />
+                    <input type="button" class="button fw-sermons-image-remove-button"
+                           value="Remove Image"
+                           style="<?php echo $remove_button_style; ?>" />
+                    <div class="fw-sermons-image-upload-wrapper"><img
+                         class="fw-sermons-image-upload" 
+                         src="<?php echo esc_attr($series_image_url); ?>"
+                         alt="Sermon series"
+                         style="<?php echo $image_style; ?>" /></div>
+                </div>
             </td>
         </tr>
         <?php 
@@ -144,9 +150,11 @@ class FW_Sermons_Series {
      * @param  int  $term_id  Taxonomy term id.
      */
     public function save_series_fields( $term_id ) {
+        // echo '<pre>';  print_r( $_POST ); echo '</pre>'; 
 
         if ( ! isset( $_POST['fw_sermons_series_meta_nonce'] ) ||
              ! wp_verify_nonce( $_POST['fw_sermons_series_meta_nonce'], basename( __FILE__ ) ) ) {
+            echo '<pre>';  print_r( $_POST ); echo '</pre>'; exit;
             return;
         }
 

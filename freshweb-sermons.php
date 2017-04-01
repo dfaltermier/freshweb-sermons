@@ -10,7 +10,7 @@
  * Plugin Name:    Freshweb Studio Sermons
  * Plugin URI:     https://github.com/dfaltermier/freshweb-sermons
  * Description:    Create and manage sermons containing video, audio, sermon notes, and other details.
- * Version:        1.1.0
+ * Version:        1.1.1
  * Author:         Freshweb Studio
  * Author URI:     https://github.com/dfaltermier
  * Text Domain:    fw-sermons

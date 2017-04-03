@@ -24,7 +24,8 @@
  * </div>
  *
  * The html for video (and audio) uploading must be wrapped in the shown parent <div> and
- * contain only the following elements:
+ * contain only the following elements. Note, however, that a textarea OR
+ * input[type="text"] field may be used:
  *
  * <div class="fw-sermons-media-upload-container">
  *    <label for="fw_sermons_video_download_url">Video Download Url</label>
@@ -99,7 +100,7 @@
                         // We expect an input text form field for these media types
                         // since the audio and video urls can be to external sites.
                         // Set the text field value with the attachment url.
-                        var $input = $('input[type="text"]', $container);
+                        var $input = $('input[type="text"], textarea', $container);
                         if ($input.length) {
                             $input.val(attachment.url);
                         }
@@ -150,8 +151,8 @@
                 $container
             );
 
-            // Clear any input text and hidden form field values
-            var $input = $('input[type="text"], input[type="hidden"]', $container);
+            // Clear any input text, hidden, or textarea form field values.
+            var $input = $('input[type="text"], input[type="hidden"], textarea', $container);
             if ($input.length) {
                 $input.val('');
             }

@@ -84,16 +84,24 @@ class FW_Sermons_Meta_Box {
         -->
         <table class="form-table">
             <tr>
-                <th><label>Audio Player Url</label></th>
+                <th><label>Audio Player Url or Embed Code</label></th>
                 <td>
                     <div class="fw-sermons-media-upload-container">
-                        <input type="text" class="widefat" id="fw_sermons_audio_player_url"
-                               name="fw_sermons_audio_player_url" 
-                               value="<?php echo esc_attr( $audio_player_url ); ?>"
-                               placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
+                        <textarea id="fw_sermons_audio_player_url" class="widefat" 
+                               name="fw_sermons_audio_player_url"
+                               placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>"
+                               ><?php echo esc_attr( $audio_player_url ); ?></textarea>
                         <input type="button" class="button fw-sermons-audio-upload-button"
                                value="Upload Audio" />
-                        <p class="description">Url to playable sermon mp3 audio file</p>
+                        <p class="description">
+                            (1) Upload an audio file, or (2) paste the url or <a href="https://codex.wordpress.org/Embeds" target="_blank">embed code</a> from a
+                            <a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">supported music hosting site</a> (e.g. 
+                            <a href="https://soundcloud.com/" target="_blank">SoundCloud</a>,
+                            <a href="https://www.spotify.com/us/" target="_blank">Spotify</a>, etc.).
+                            Ideally, you'll want to host your audio files on a music hosting service.
+                            Your web hosting provider may not approve streaming audio from their web server
+                            and may disrupt your service if this becomes abused.
+                        </p>
                     </div>
                 </td>
             </tr> 
@@ -107,24 +115,31 @@ class FW_Sermons_Meta_Box {
                                placeholder="<?php echo esc_attr('e.g. https://mydomain.com/sermon.mp3'); ?>" />
                         <input type="button" class="button fw-sermons-audio-upload-button"
                                value="Upload Audio" />
-                        <p class="description">Url to downloadable sermon mp3 audio file (may be same url as above)</p>
+                        <p class="description">
+                            (1) Upload an audio file, or (2) paste the url to a downloadable audio file from an external site.
+                        </p>
                     </div>
                 </td>
             </tr>   
             <tr>
-                <th><label>Video Player URL</label></th>
+                <th><label>Video Player URL or Embed Code</label></th>
                 <td>
                     <div class="fw-sermons-media-upload-container">
-                        <input type="text" id="fw_sermons_video_player_url" class="widefat" 
+                        <textarea id="fw_sermons_video_player_url" class="widefat" 
                                name="fw_sermons_video_player_url"
-                               value="<?php echo esc_attr( $video_player_url ); ?>"
-                               placeholder="<?php echo esc_attr('e.g. https://vimeo.com/123456789'); ?>" />
+                               placeholder="<?php echo esc_attr('e.g. https://vimeo.com/123456789'); ?>"
+                               ><?php echo esc_attr( $video_player_url ); ?></textarea>
                         <input type="button" class="button fw-sermons-video-upload-button"
                                value="Upload Video" />
-                        <p class="description">Url to playable sermon video file. <br />Ideally, you'll want to 
-                               host your video files on Vimeo, YouTube, or equivalent video hosting service.
-                               Your web hosting provider may not approve streaming videos from their web server
-                               and may disrupt your service if this becomes abused.</p>
+                        <p class="description">
+                            (1) Upload a video file, or (2) paste the url or <a href="https://codex.wordpress.org/Embeds" target="_blank">embed code</a> from a
+                            <a href="https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F" target="_blank">supported video hosting site</a> (e.g. 
+                            <a href="https://vimeo.com" target="_blank">Vimeo</a>,
+                            <a href="https://youtube.com" target="_blank">YouTube</a>, etc.).
+                            Ideally, you'll want to host your video files on a video hosting service.
+                            Your web hosting provider may not approve streaming video from their web server
+                            and may disrupt your service if this becomes abused.
+                        </p>
                     </div>
                 </td>
              </tr>
@@ -138,7 +153,9 @@ class FW_Sermons_Meta_Box {
                                placeholder="<?php echo esc_attr('e.g. https://player.vimeo.com/external/123456789.hd.mp4?download=1'); ?>" />
                         <input type="button" class="button fw-sermons-video-upload-button"
                                value="Upload Video" />
-                        <p class="description">Url to downloadable sermon video file (may be same url as above)</p>
+                        <p class="description">
+                            (1) Upload a video file, or (2) paste the url to a downloadable video file from an external site.
+                        </p>
                     </div>
                 </td>
              </tr>
@@ -216,26 +233,62 @@ class FW_Sermons_Meta_Box {
             return;
         }
 
-        $fields = array(
-            'fw_sermons_audio_player_url',
-            'fw_sermons_audio_download_url',
-            'fw_sermons_video_player_url',
-            'fw_sermons_video_download_url'
-        );
+        /*
+         * Save Audio Player URL or Embed.
+         * Since iframes are allowed, we're not sanitizing the html for administrators. We're giving
+         * the administrator some dangerous power here.
+         */
+        if ( isset( $_POST['fw_sermons_audio_player_url'] ) ) {
 
-        // Update each field. 
-        foreach( $fields as $field ) {
+            $value = current_user_can( 'unfiltered_html' )
+                ? $_POST['fw_sermons_audio_player_url']
+                : sanitize_text_field( trim( $_POST['fw_sermons_audio_player_url'] ) );
 
-            if ( isset( $_POST[ $field ] ) ) {
-                $value = sanitize_text_field( trim( $_POST[ $field ] ) ); 
-                update_post_meta( $post_id, '_'.$field, $value );
-            }
+            update_post_meta( $post_id, '_fw_sermons_audio_player_url', $value );
 
         }
 
-        // Update the document links.
+        /*
+         * Save Audio Download URL.
+         * Sanitize, since only a url is allowed here.
+         */
+        if ( isset( $_POST['fw_sermons_audio_download_url'] ) ) {
+
+            $value = sanitize_text_field( trim( $_POST['fw_sermons_audio_download_url'] ) ); 
+            update_post_meta( $post_id, '_fw_sermons_audio_download_url', $value );
+
+        }
+
+        /*
+         * Save Video Player URL or Embed.
+         * Since iframes are allowed, we're not sanitizing the html for administrators. We're giving
+         * the administrator some dangerous power here.
+         */
+        if ( isset( $_POST['fw_sermons_video_player_url'] ) ) {
+
+            $value = current_user_can( 'unfiltered_html' )
+                ? $_POST['fw_sermons_video_player_url']
+                : sanitize_text_field( trim( $_POST['fw_sermons_video_player_url'] ) );
+
+            update_post_meta( $post_id, '_fw_sermons_video_player_url', $value );
+
+        }
+
+        /*
+         * Save Video Download URL.
+         * Sanitize, since only a url is allowed here.
+         */
+        if ( isset( $_POST['fw_sermons_video_download_url'] ) ) {
+
+            $value = sanitize_text_field( trim( $_POST['fw_sermons_video_download_url'] ) ); 
+            update_post_meta( $post_id, '_fw_sermons_video_download_url', $value );
+
+        }
+
+        // Save the document links.
         if ( isset( $_POST[ 'fw_sermons_document_link_label' ] ) &&
              isset( $_POST[ 'fw_sermons_document_link_url' ] ) ) {
+
             $document_link_labels = array_map( 'sanitize_text_field', $_POST['fw_sermons_document_link_label'] );
             $document_link_urls   = array_map( 'sanitize_text_field', $_POST['fw_sermons_document_link_url'] );
 

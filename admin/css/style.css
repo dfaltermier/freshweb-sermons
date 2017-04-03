@@ -5,6 +5,9 @@
 /*************************************
  * Edit Sermon Page: Sermon Details meta box.
  *************************************/
+#fw-sermons-details textarea {
+    height: 56px;
+}
 #fw-sermons-details input[type="button"] {
     margin: 5px 2px 0;
 }

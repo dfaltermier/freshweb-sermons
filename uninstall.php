@@ -23,7 +23,7 @@
  * @copyright  Copyright (c) 2017, freshwebstudio.com
  * @link       https://freshwebstudio.com
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.1.0
+ * @since      0.9.1
  */
 
 // If uninstall not called from WordPress, then exit.

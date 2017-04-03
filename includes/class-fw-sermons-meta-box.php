@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2017, freshwebstudio.com
  * @link       https://freshwebstudio.com
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.1.0
+ * @since      0.9.1
  */
 class FW_Sermons_Meta_Box {
     
@@ -21,7 +21,7 @@ class FW_Sermons_Meta_Box {
     /**
      * Load meta box.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      */
     public function add_sermon_meta_box() {
 
@@ -39,7 +39,7 @@ class FW_Sermons_Meta_Box {
     /**
      * Callback from add_meta_box() to render our meta box.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      */
     public function render_sermon_meta_box() {
 
@@ -52,7 +52,7 @@ class FW_Sermons_Meta_Box {
     /**
      * Display our meta box fields.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      *
      * @param  int  $post_id   Post id.
      */
@@ -207,7 +207,7 @@ class FW_Sermons_Meta_Box {
     /**
      * Save our meta box fields.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      *
      * @param  int       $post_id   Post id.
      * @param  WP_Post   $post      Post object (https://developer.wordpress.org/reference/classes/wp_post/)

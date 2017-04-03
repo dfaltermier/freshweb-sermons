@@ -9,7 +9,7 @@
  * @copyright  Copyright (c) 2017, freshwebstudio.com
  * @link       https://freshwebstudio.com
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.1.0
+ * @since      0.9.1
  */
 class FW_Sermons {
     
@@ -19,7 +19,7 @@ class FW_Sermons {
     /**
      * Run our initialization.
      *
-     * @since 1.1.0
+     * @since 0.9.1
      */
     public function run() {
 
@@ -33,7 +33,7 @@ class FW_Sermons {
     /**
      * Determines if we're on one of our plugin's admin pages.
      *
-     * @since 1.1.0
+     * @since 0.9.1
      *
      * @return  bool  Returns true if this is so.
      */
@@ -48,7 +48,7 @@ class FW_Sermons {
     /**
      * Enqueue our scripts and stylesheets.
      *
-     * @since 1.1.0
+     * @since 0.9.1
      *
      */
     public function load_admin_scripts() {
@@ -91,7 +91,7 @@ class FW_Sermons {
     /**
      * Setup plugin constants.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      * @access private
      */
     private function setup_constants() {
@@ -108,7 +108,7 @@ class FW_Sermons {
 
         // Plugin version.
         if ( ! defined( 'FW_SERMONS_VERSION' ) ) {
-            define( 'FW_SERMONS_VERSION', '1.1.1' );
+            define( 'FW_SERMONS_VERSION', '0.9.1' );
         }
 
         // Plugin Folder Path (without trailing slash)
@@ -126,7 +126,7 @@ class FW_Sermons {
     /**
      * Include required files.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      * @access private
      */
     private function includes() {

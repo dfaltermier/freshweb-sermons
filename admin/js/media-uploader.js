@@ -43,7 +43,7 @@
  * @copyright  Copyright (c) 2017, freshwebstudio.com
  * @link       https://freshwebstudio.com
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.1.0
+ * @since      0.9.1
  */
 (function($) {
 
@@ -54,7 +54,7 @@
         /**
          * Callback function for the 'click' event on a upload media button.
          *
-         * @since   1.1.0
+         * @since   0.9.1
          * @todo    We should be caching the handle to the wp.media object so we're
          *          not recreating it before every open(). How?
          *
@@ -137,7 +137,7 @@
         /**
          * Callback function for the 'click' event on a remove media button.
          *
-         * @since   1.1.0
+         * @since   0.9.1
          *
          * @param   Event object  event  Use: event.data.mediaType ('image', 'audio', or 'video' media type).
          */
@@ -177,7 +177,7 @@
          * Just attach the class names shown below to input[type="button"] fields.
          * See the Speaker taxonomy and Add Sermon page for html layout.
          *
-         * @since 1.1.0
+         * @since 0.9.1
          */
         function activateMediaUploadButtons() {
             $('.fw-sermons-audio-upload-button').on(
@@ -214,7 +214,7 @@
          * Just attach the class names shown below to input[type="button"] fields.
          * See the Speaker taxonomy and Add Sermon page for html layout.
          *
-         * @since 1.1.0
+         * @since 0.9.1
          */
         function activateMediaRemoveButtons() {
             $('.fw-sermons-audio-remove-button').on(
@@ -252,7 +252,7 @@
          * a result. We must do this ourselves. Again, this only applies to the 
          * 'Add New Taxonomy' page.
          *
-         * @since 1.1.0
+         * @since 0.9.1
          */
         function activateClearMediaFormFieldsAfterSubmission() {
             var $form = $('form#addtag', 'body.post-type-sermon');

@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2017, freshwebstudio.com
  * @link       https://freshwebstudio.com
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.1.0
+ * @since      0.9.1
  */
 class FW_Sermons_Books {
     
@@ -21,7 +21,7 @@ class FW_Sermons_Books {
     /**
      * Configure the given list of table columns with our own.
      *
-     * @since   1.1.0
+     * @since   0.9.1
      *
      * @param   array  $columns  List of column ids and labels.
      * @return  array            Same list.

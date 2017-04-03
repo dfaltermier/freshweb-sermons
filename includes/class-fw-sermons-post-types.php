@@ -8,7 +8,7 @@
  * @copyright  Copyright (c) 2017, freshwebstudio.com
  * @link       https://freshwebstudio.com
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.1.0
+ * @since      0.9.1
  */
 class FW_Sermons_Post_Types {
     
@@ -34,7 +34,7 @@ class FW_Sermons_Post_Types {
     /**
      * Register our Sermon post type.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      *
      */
     public function register_post_types() {
@@ -100,7 +100,7 @@ class FW_Sermons_Post_Types {
     /**
      * Register taxonomies
      *
-     * @since  1.1.0
+     * @since  0.9.1
      */
     public function register_taxonomies() {
 
@@ -209,7 +209,7 @@ class FW_Sermons_Post_Types {
     /**
      * Configure the given list of table columns with our own.
      *
-     * @since   1.1.0
+     * @since   0.9.1
      *
      * @param   array  $columns  List of column ids and labels.
      * @return  array            Same list.
@@ -239,7 +239,7 @@ class FW_Sermons_Post_Types {
      * Switch on the given column id and display an appropriate string
      * in our Sermon table.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      *
      * @param  string  $column    Column id for the value to fetch. See add_sermon_columns().
      * @param  int     $post_id   Post id.
@@ -278,7 +278,7 @@ class FW_Sermons_Post_Types {
     /**
      * Returns the media players that are available for viewing/listening with the given Sermon post id. 
      *
-     * @since   1.1.0
+     * @since   0.9.1
      *
      * @param   int     $post_id   Post id.
      * @return  string             Formats (e.g.: 'Audio, Video')
@@ -305,7 +305,7 @@ class FW_Sermons_Post_Types {
     /**
      * Returns the media formats that are available for download for the given Sermon post id. 
      *
-     * @since   1.1.0
+     * @since   0.9.1
      *
      * @param   int     $post_id   Post id.
      * @return  string             Formats (e.g.: 'Audio, Video')
@@ -337,7 +337,7 @@ class FW_Sermons_Post_Types {
     /**
      * Returns the series name associated with the given Sermon post id. 
      *
-     * @since   1.1.0
+     * @since   0.9.1
      *
      * @param   int     $post_id   Post id.
      * @return  string             Series name.
@@ -359,7 +359,7 @@ class FW_Sermons_Post_Types {
     /**
      * Returns the speaker name associated with the given Sermon post id. 
      *
-     * @since   1.1.0
+     * @since   0.9.1
      *
      * @param   int      $post_id   Post id.
      * @return  string              Speaker name.
@@ -382,7 +382,7 @@ class FW_Sermons_Post_Types {
      * Builds and returns an image html string with a thumbnail view of the post's
      * featured image. 
      *
-     * @since   1.1.0
+     * @since   0.9.1
      *
      * @param   int      $post_id  Post id.
      * @param   string   $classes  Optional. Space separated list of classes to attach to image html.
@@ -414,7 +414,7 @@ class FW_Sermons_Post_Types {
      * Portions of code taken from Mike Hemberger's example at:
      * http://thestizmedia.com/custom-post-type-filter-admin-custom-taxonomy/
      *
-     * @since  1.1.0
+     * @since  0.9.1
      */
     public function add_taxonomy_filters() {
         global $typenow;
@@ -450,7 +450,7 @@ class FW_Sermons_Post_Types {
      * Action for removing the date select menu from the 'All Sermons' page.
      * It's not useful to us since we are not displaying the publishing dates.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      *
      * @param  array   $months      Array of month objects.
      * @param  string  $post_type   Post type of which we expect 'sermon'.

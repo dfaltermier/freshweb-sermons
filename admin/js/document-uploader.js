@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2017, freshwebstudio.com
  * @link       https://freshwebstudio.com
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.1.0
+ * @since      0.9.1
  */
 (function($) {
 
@@ -18,7 +18,7 @@
         /**
          * Callback function for the 'click' event on a [document] media upload button.
          *
-         * @since  1.1.0
+         * @since  0.9.1
          * @todo   We should be caching the handle to the wp.media object so we're
          *         not recreating it before every open(). How?
          *
@@ -61,7 +61,7 @@
         /**
          * Attach click event to our document upload button.
          *
-         * @since  1.1.0
+         * @since  0.9.1
          */
         function activateMediaUploadButtons() {
             $('.fw-sermons-document-upload-button').on(
@@ -76,7 +76,7 @@
         /**
          * Adds another link row to the bottom of our current rows of links.
          *
-         * @since  1.1.0
+         * @since  0.9.1
          *
          * @param  object  event  jQuery event.
          */
@@ -114,7 +114,7 @@
         /**
          * Deletes a link when the user clicks the associated 'Delete' link.
          *
-         * @since  1.1.0
+         * @since  0.9.1
          *
          * @param  object  event  jQuery event.
          */
@@ -144,7 +144,7 @@
          * Initializes our links. Only one link is created to begin with. The user is not 
          * allowed to delete a link if it the only one remaining.
          *
-         * @since  1.1.0
+         * @since  0.9.1
          *
          */
         function activateAddDeleteLinks() {

@@ -6,7 +6,7 @@
  * @copyright  Copyright (c) 2017, freshwebstudio.com
  * @link       https://freshwebstudio.com
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.1.0
+ * @since      0.9.1
  */
 
 (function($) {
@@ -21,7 +21,7 @@
          * When the user clicks the form submission buttons, prompt the user with a popup dialog
          * confirming whether they wish to continue with deleting Sermons and the taxonomies.
          *
-         * @since 1.1.0
+         * @since 0.9.1
          */
         function activateSermonSubmitButton() {
 

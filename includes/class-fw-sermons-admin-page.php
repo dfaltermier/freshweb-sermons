@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2017, freshwebstudio.com
  * @link       https://freshwebstudio.com
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * @since      1.1.0
+ * @since      0.9.1
  *
  * This file incorporates portions of code from Kees Meijer's 
  * 'Custom Post Type Cleanup' and 'Custom Taxonomy Cleanup' plugins
@@ -46,14 +46,14 @@ class FW_Sermons_Admin_Page {
     /**
      * We are only concerned about the Sermon post type.
      *
-     * @since 1.1.0
+     * @since 0.9.1
      */
     const SERMON_POST_TYPE = 'sermon';
 
     /**
      * Because we don't want to timeout our UI, limit our deletion of Sermons to this maximum count.
      *
-     * @since 1.1.0
+     * @since 0.9.1
      */
     const MAX_SERMONS_TO_DELETE_AT_ONCE = 50;
 
@@ -62,21 +62,21 @@ class FW_Sermons_Admin_Page {
      *   False: Move them to trash
      *   True:  Delete permanently
      *
-     * @since 1.1.0
+     * @since 0.9.1
      */
     const IS_SERMONS_DELETED_PERMANENTLY = false;
 
     /**
      * Define our sermon nonce name.
      *
-     * @since 1.1.0
+     * @since 0.9.1
      */
     const SERMON_NONCE_NAME = 'sermon_cleanup_nonce';
 
     /**
      * Kick things off.
      *
-     * @since 1.1.0
+     * @since 0.9.1
      */
     public function __construct() {
 
@@ -87,7 +87,7 @@ class FW_Sermons_Admin_Page {
     /**
      * Add an administrative page.
      *
-     * @since 1.1.0
+     * @since 0.9.1
      */
     public function admin_menu() {
 
@@ -105,7 +105,7 @@ class FW_Sermons_Admin_Page {
     /**
      * Callback to render the administrative page.
      *
-     * @since 1.1.0
+     * @since 0.9.1
      */
     public function show_settings_page() {
 
@@ -130,7 +130,7 @@ class FW_Sermons_Admin_Page {
     /**
      * Displays the 'Sermons' form section.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      * @access private
      *
      * @return bool  True if all sermons are deleted. False if some still remain.
@@ -226,7 +226,7 @@ class FW_Sermons_Admin_Page {
     /**
      * Delete Sermon posts from the database.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      * @access private
      *
      * @return int     Number of posts deleted.
@@ -263,7 +263,7 @@ class FW_Sermons_Admin_Page {
     /**
      * Returns sermon ids.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      * @access private
      *
      * @param  int   $limit  Optional. Limit how many ids are returned.
@@ -284,7 +284,7 @@ class FW_Sermons_Admin_Page {
     /**
      * Returns number of sermons remaining in database.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      * @access private
      *
      * @return int     Number of sermons. -1 returned on error.
@@ -303,7 +303,7 @@ class FW_Sermons_Admin_Page {
     /**
      * Displays the 'Taxonomies' section.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      * @access private
      *
      * @param  bool   $enable_taxonomies  If true, enable the forms in all taxonomy sections. This
@@ -345,7 +345,7 @@ class FW_Sermons_Admin_Page {
     /**
      * Display the form for the given taxonomy.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      * @access private
      *
      * @param  string  $taxonomy       Taxonomy object returned by get_object_taxonomies().
@@ -439,7 +439,7 @@ class FW_Sermons_Admin_Page {
     /**
      * Delete Sermon taxonomy terms from the database.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      * @access private
      *
      * @param  string  $taxonomy   Taxonomy object returned by get_object_taxonomies().
@@ -473,7 +473,7 @@ class FW_Sermons_Admin_Page {
     /**
      * Display final user instructions for uninstalling the plugin.
      *
-     * @since  1.1.0
+     * @since  0.9.1
      * @access private
      *
      * @param  bool  $is_enabled     Optional. Should this section's submit button be enabled.

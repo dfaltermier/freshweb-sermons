@@ -31,7 +31,7 @@ Once installed and activated, re-save your permalinks setting from the WordPress
 
 ![listing-sermons-min](https://cloud.githubusercontent.com/assets/3323104/23836991/af6dcaa0-0746-11e7-8840-837a56aff5bf.jpg)
 
-### Editing a sermon
+### Creating and Editing a sermon
 
 ![sermon-plugin-screenshot-create-page-min](https://cloud.githubusercontent.com/assets/3323104/24708576/7cc99a34-19d4-11e7-9b10-9c8d900f96de.jpg)
 
